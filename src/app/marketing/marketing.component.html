@@ -1,0 +1,45 @@
+<nz-layout class="common-layout">
+  <nz-sider style="height: 100%" nzWidth="240px" nzTheme="light">
+    <ul nz-menu nzMode="inline" style="border: none">
+      <li nz-menu-group nzTitle="会员" i18n-nzTitle>
+        <ul>
+          <li nz-menu-item>
+            <span i18n>会员概览</span>
+          </li>
+          <li nz-menu-item>
+            <span i18n>分级与权益</span>
+          </li>
+          <li nz-menu-item>
+            <span i18n>如何升级</span>
+          </li>
+        </ul>
+      </li>
+      <li nz-menu-group nzTitle="活动" i18n-nzTitle>
+        <ul>
+          <li nz-menu-item>
+            <span i18n>充值促销</span>
+          </li>
+          <li nz-menu-item>
+            <span i18n>折扣方案</span>
+          </li>
+          <li nz-menu-item>
+            <span i18n>优惠券</span>
+          </li>
+        </ul>
+      </li>
+      <li nz-menu-group nzTitle="设置" i18n-nzTitle>
+        <ul>
+          <li nz-menu-item>
+            <span i18n>理由预设</span>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </nz-sider>
+
+  <nz-layout class="inner-layout">
+    <nz-content class="content">
+      <router-outlet></router-outlet>
+    </nz-content>
+  </nz-layout>
+</nz-layout>

@@ -1,0 +1,69 @@
+<form *ngIf="form" nz-form nzLayout="vertical" id="form" [formGroup]="form" (wpxSubmit)="submit($event)">
+  <nz-row [nzGutter]="24">
+    <nz-col [nzSpan]="14">
+      <nz-form-item>
+        <nz-form-label nzRequired i18n>名称</nz-form-label>
+        <nz-form-control nzHasFeedback [nzAutoTips]="tips.name">
+          <input nz-input formControlName="name" placeholder="请输入餐厅名称" i18n-placeholder />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzRequired i18n>编码</nz-form-label>
+        <nz-form-control nzHasFeedback [nzAutoTips]="tips.code">
+          <input nz-input formControlName="code" placeholder="请输入餐厅编码" i18n-placeholder />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label nzRequired i18n>服务电话</nz-form-label>
+        <nz-form-control nzHasFeedback [nzAutoTips]="tips.tel">
+          <input nz-input formControlName="tel" placeholder="请输入餐厅服务电话" i18n-placeholder />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label i18n>位置信息</nz-form-label>
+        <nz-form-control>
+          <input nz-input formControlName="location" placeholder="请输入餐厅位置信息" i18n-placeholder />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label i18n>描述信息</nz-form-label>
+        <nz-form-control>
+          <textarea rows="3" nz-input formControlName="description"></textarea>
+        </nz-form-control>
+      </nz-form-item>
+    </nz-col>
+    <nz-col [nzSpan]="10">
+      <nz-form-item>
+        <nz-form-label nzRequired i18n>状态</nz-form-label>
+        <nz-form-control>
+          <nz-switch formControlName="status"></nz-switch>
+        </nz-form-control>
+      </nz-form-item>
+      <ng-container formGroupName="enabled">
+        <nz-form-item>
+          <nz-form-label nzRequired i18n>最低限额消费</nz-form-label>
+          <nz-form-control>
+            <nz-switch formControlName="minimum_spending"></nz-switch>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label nzRequired i18n>小程序端微信支付</nz-form-label>
+          <nz-form-control>
+            <nz-switch formControlName="mini_wechatpay"></nz-switch>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label i18n>茶位费</nz-form-label>
+          <nz-form-control>
+            <nz-switch formControlName="tea"></nz-switch>
+          </nz-form-control>
+        </nz-form-item>
+      </ng-container>
+    </nz-col>
+  </nz-row>
+</form>
+
+<div *nzModalFooter>
+  <button nz-button type="button" nzType="default" (click)="close()" i18n>取消</button>
+  <button nz-button nzType="primary" form="form" [disabled]="!form.valid" i18n>提交</button>
+</div>

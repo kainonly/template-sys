@@ -1,0 +1,20 @@
+<nz-layout class="background">
+  <nz-content>
+    <ng-content></ng-content>
+  </nz-content>
+
+  <nz-footer>
+    <nz-space [nzSplit]="split">
+      <ng-template #split>
+        <nz-divider nzType="vertical"></nz-divider>
+      </ng-template>
+      <a *nzSpaceItem>BSD-3-Clause License</a>
+    </nz-space>
+    <p>
+      <span> {{ year }} 研发于 </span>
+      <a href="https://github.com/vn-catering" target="_blank">
+        <b>VN-Catering </b> <span nz-icon nzType="github"></span
+      ></a>
+    </p>
+  </nz-footer>
+</nz-layout>

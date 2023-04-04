@@ -1,0 +1,90 @@
+<div style="padding: 8px">
+  <nz-input-group [nzPrefix]="searchTpl" style="width: 100%">
+    <ng-template #searchTpl>
+      <span nz-icon nzType="search"></span>
+    </ng-template>
+    <input type="text" nz-input placeholder="搜索" [(ngModel)]="searchText" />
+    <button nzSize="small" nz-button nzType="text" nz-dropdown [nzDropdownMenu]="actionsMenu">
+      <span nz-icon nzType="ellipsis"></span>
+    </button>
+  </nz-input-group>
+  <nz-dropdown-menu #actionsMenu="nzDropdownMenu">
+    <ul nz-menu nzSelectable>
+      <li nz-menu-item (click)="form()">新增餐厅</li>
+      <li nz-menu-item>全部展开</li>
+      <li nz-menu-item>全部收起</li>
+    </ul>
+  </nz-dropdown-menu>
+
+  <nz-divider style="margin: 8px 0"></nz-divider>
+
+  <nz-tree
+    #tree
+    nzAsyncData
+    nzBlockNode
+    nzDraggable
+    nzShowLine
+    [nzShowExpand]="false"
+    [(nzSelectedKeys)]="keys"
+    [nzSearchValue]="searchText"
+    [nzData]="nodes"
+    (nzClick)="select($event)"
+    (nzContextMenu)="actions($event, treeActionsMenu)"
+    [nzTreeTemplate]="nzTreeTemplate"
+  ></nz-tree>
+  <ng-template #nzTreeTemplate let-node let-origin="origin">
+    <nz-row class="node" nzJustify="space-between">
+      <nz-col>
+        <ng-container [ngSwitch]="origin.type">
+          <ng-container *ngSwitchCase="'restaurant'">
+            <span
+              nz-icon
+              nzType="shop"
+              [nzTheme]="node.isExpanded ? 'outline' : 'fill'"
+              (click)="expanded($event, node)"
+            ></span>
+          </ng-container>
+          <ng-container *ngSwitchCase="'area'">
+            <span nz-icon nzType="partition"></span>
+          </ng-container>
+        </ng-container>
+
+        <span class="node-name"> {{ node.title }} </span>
+      </nz-col>
+      <nz-col></nz-col>
+      <nz-col>
+        <ng-container [ngSwitch]="origin.type">
+          <ng-container *ngSwitchCase="'restaurant'">
+            <ng-container *ngIf="!restaurantDict[node.key].status">
+              <span nz-icon nzType="stop" nzTheme="twotone" [nzTwotoneColor]="'#eb2f96'"></span>
+            </ng-container>
+          </ng-container>
+          <ng-container *ngSwitchCase="'area'">
+            <ng-container *ngIf="!areaDict[node.key].status">
+              <span nz-icon nzType="stop" nzTheme="twotone" [nzTwotoneColor]="'#eb2f96'"></span>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+      </nz-col>
+    </nz-row>
+  </ng-template>
+  <nz-dropdown-menu #treeActionsMenu="nzDropdownMenu">
+    <ul nz-menu *ngIf="activated">
+      <li nz-menu-item [nzSelected]="false">
+        <span>{{ activated.title }}</span>
+      </li>
+      <li nz-menu-divider></li>
+      <ng-container [ngSwitch]="activated.origin['type']">
+        <ng-container *ngSwitchCase="'restaurant'">
+          <li nz-menu-item (click)="areaForm(activated.key)">新增区位</li>
+          <li nz-menu-item (click)="form(restaurantDict[activated.key])">编辑</li>
+          <li nz-menu-item nzDanger (click)="delete(restaurantDict[activated.key])">删除</li>
+        </ng-container>
+        <ng-container *ngSwitchCase="'area'">
+          <li nz-menu-item (click)="areaForm(areaDict[activated.key].restaurant_id, areaDict[activated.key])">编辑</li>
+          <li nz-menu-item nzDanger (click)="deleteArea(areaDict[activated.key])">删除</li>
+        </ng-container>
+      </ng-container>
+    </ul>
+  </nz-dropdown-menu>
+</div>

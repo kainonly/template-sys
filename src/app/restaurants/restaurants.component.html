@@ -1,0 +1,9 @@
+<nz-layout class="common-layout">
+  <nz-sider class="nav" nzWidth="240px" nzTheme="light">
+    <app-restaurants-outline [id]="id" [areaId]="areaId" (status)="navigated($event)"></app-restaurants-outline>
+  </nz-sider>
+
+  <nz-layout>
+    <router-outlet></router-outlet>
+  </nz-layout>
+</nz-layout>

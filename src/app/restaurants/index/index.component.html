@@ -1,0 +1,122 @@
+<nz-page-header [nzGhost]="false">
+  <nz-page-header-title> 餐厅概况 </nz-page-header-title>
+  <nz-page-header-subtitle>
+    <nz-space>
+      <p style="margin: 0" nz-typography *nzSpaceItem> <span nz-icon nzType="shop"></span> 餐厅 </p>
+      <p style="margin: 0" nz-typography *nzSpaceItem> <span nz-icon nzType="partition"></span> 区位 </p>
+      <p style="margin: 0" nz-typography *nzSpaceItem> <span nz-icon nzType="stop"></span> 停用 </p>
+    </nz-space>
+  </nz-page-header-subtitle>
+  <nz-page-header-extra>
+    <button nz-button nzType="primary" nzShape="circle" (click)="form()" nz-tooltip="新增餐厅" i18n-nz-tooltip>
+      <span nz-icon nzType="plus"></span>
+    </button>
+  </nz-page-header-extra>
+  <nz-page-header-content>
+    <nz-row nzJustify="space-between">
+      <nz-col>
+        <p nz-typography>
+          👈 在大纲中『选中 <span nz-icon nzType="shop" nzTheme="fill"></span>』
+          列出所属区位，『点击』每行获得详情『右键』获取操作，支持『拖拽』重组
+        </p>
+        <nz-space>
+          <nz-segmented
+            *nzSpaceItem
+            [(ngModel)]="segmentIndex"
+            [nzOptions]="segments"
+            (nzValueChange)="getRestaurants()"
+          ></nz-segmented>
+          <nz-input-group *nzSpaceItem style="width: 180px" nzSuffixIcon="search">
+            <input
+              (keyup.enter)="getRestaurants()"
+              [(ngModel)]="searchText"
+              type="text"
+              nz-input
+              placeholder="搜索"
+              i18n-placeholder
+            />
+          </nz-input-group>
+          <nz-button-group *nzSpaceItem>
+            <button nz-button nzType="text" nz-tooltip="刷新" i18n-nz-tooltip (click)="refresh()">
+              <i nz-icon nzType="reload"></i>
+            </button>
+            <button nz-button nzType="text" nz-tooltip="重置" i18n-nz-tooltip (click)="clearSearch()">
+              <i nz-icon nzType="clear"></i>
+            </button>
+          </nz-button-group>
+        </nz-space>
+      </nz-col>
+      <nz-col> </nz-col>
+      <nz-col>
+        <nz-statistic [nzValue]="items.length" [nzTitle]="'餐厅数量'"></nz-statistic>
+      </nz-col>
+    </nz-row>
+  </nz-page-header-content>
+</nz-page-header>
+
+<nz-alert
+  *ngIf="bannerVisible"
+  nzBanner
+  nzType="info"
+  nzMessage="『双击』餐厅卡片快速查看详情『右键』获取操作"
+  (nzOnClose)="hideBanner()"
+  nzCloseable
+></nz-alert>
+
+<nz-content style="padding: 8px">
+  <ng-template #emptyTpl>
+    <nz-list-empty></nz-list-empty>
+  </ng-template>
+  <nz-list *ngIf="items.length !== 0; else emptyTpl" nzGrid>
+    <nz-row [nzGutter]="[16, 4]">
+      <nz-col [nzXXl]="8" [nzXl]="12" *ngFor="let item of items">
+        <nz-list-item>
+          <nz-ribbon [nzText]="item.status ? '启用' : '禁用'" [nzColor]="item.status ? 'blue' : 'grey'">
+            <nz-card nzHoverable (dblclick)="navigate(item._id)" (contextmenu)="actions($event, actionsMenu, item)">
+              <nz-space nzSize="middle">
+                <ng-container *nzSpaceItem>
+                  <nz-avatar nzShape="square" [nzSize]="100" [nzText]="item.name" style="font-size: 24px"></nz-avatar>
+                </ng-container>
+                <div *nzSpaceItem>
+                  <nz-descriptions [nzColumn]="2">
+                    <nz-descriptions-item nzTitle="餐厅编码" i18n-nzTitle [nzSpan]="2">
+                      {{ item.code }}
+                    </nz-descriptions-item>
+                    <nz-descriptions-item *ngIf="item.enabled as e" nzTitle="启用功能" i18n-nzTitle [nzSpan]="2">
+                      <nz-space *ngIf="e.mini_wechatpay || e.minimum_spending || e.tea; else nothingTpl">
+                        <ng-container *ngIf="e.mini_wechatpay">
+                          <span *nzSpaceItem><span nz-icon nzType="check-circle"></span> 小程序支付</span>
+                        </ng-container>
+                        <ng-container *ngIf="e.minimum_spending">
+                          <span *nzSpaceItem><span nz-icon nzType="check-circle"></span> 最低限额消费</span>
+                        </ng-container>
+                        <ng-container *ngIf="e.tea">
+                          <span *nzSpaceItem><span nz-icon nzType="check-circle"></span> 茶位费</span>
+                        </ng-container>
+                      </nz-space>
+                    </nz-descriptions-item>
+                    <nz-descriptions-item nzTitle="服务电话" i18n-nzTitle> {{ item.tel }}</nz-descriptions-item>
+                    <nz-descriptions-item nzTitle="位置信息" i18n-nzTitle> {{ item.location }}</nz-descriptions-item>
+                  </nz-descriptions>
+                </div>
+              </nz-space>
+            </nz-card>
+          </nz-ribbon>
+        </nz-list-item>
+      </nz-col>
+    </nz-row>
+  </nz-list>
+</nz-content>
+
+<nz-dropdown-menu #actionsMenu="nzDropdownMenu">
+  <ul *ngIf="activated" nz-menu>
+    <li nz-menu-item (click)="navigate(activated._id)">
+      <span>{{ activated.name }}</span>
+    </li>
+    <li nz-menu-divider></li>
+    <li nz-menu-item (click)="form(activated)">编辑</li>
+    <li nz-menu-item nzDanger (click)="delete(activated)">删除</li>
+  </ul>
+</nz-dropdown-menu>
+
+<ng-template #nothingTpl>暂无</ng-template>

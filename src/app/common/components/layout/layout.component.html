@@ -1,0 +1,64 @@
+<div style="height: 100%">
+  <div class="header">
+    <nz-row nzJustify="space-between">
+      <nz-col>
+        <nz-space [nzSplit]="split">
+          <ng-template #split>
+            <nz-divider nzType="vertical"></nz-divider>
+          </ng-template>
+          <ng-container *nzSpaceItem>
+            <ng-container *ngIf="!app.inAdmin; else backTpl">
+              <button nz-button nzType="text" routerLink="/admin">
+                <span nz-icon nzType="appstore"></span> <span i18n>管理后台</span>
+              </button>
+            </ng-container>
+            <ng-template #backTpl>
+              <button nz-button nzType="text" routerLink="/">
+                <span nz-icon nzType="arrow-left"></span> <span i18n>返回首页</span>
+              </button>
+            </ng-template>
+          </ng-container>
+          <nz-breadcrumb *nzSpaceItem class="breadcrumb" nzAutoGenerate>
+            <nz-breadcrumb-item>
+              <a i18n routerLink="/"> <span nz-icon nzType="home"></span> 首页 </a>
+            </nz-breadcrumb-item>
+          </nz-breadcrumb>
+        </nz-space>
+      </nz-col>
+      <nz-col> </nz-col>
+      <nz-col>
+        <div class="center" (click)="profile()">
+          <ng-container *ngIf="app.user as u">
+            <nz-badge nzDot>
+              <ng-container *ngIf="!!u.avatar; else defaultAvatar">
+                <nz-avatar nzShape="square" [nzSize]="25" [nzSrc]="[u.avatar] | wpxAssets"></nz-avatar>
+              </ng-container>
+              <ng-template #defaultAvatar>
+                <nz-avatar nzShape="square" [nzSize]="25" nzIcon="user"></nz-avatar>
+              </ng-template>
+            </nz-badge>
+            <span class="username">
+              <ng-container *ngIf="!u.name; else name">
+                {{ u.email | uppercase }}
+              </ng-container>
+              <ng-template #name>
+                {{ u.name | uppercase }}
+              </ng-template>
+            </span>
+          </ng-container>
+        </div>
+      </nz-col>
+    </nz-row>
+  </div>
+  <router-outlet></router-outlet>
+</div>
+
+<ng-template #profileTitleTpl>
+  <nz-row nzJustify="space-between">
+    <nz-col><span i18n>个人中心</span></nz-col>
+    <nz-col></nz-col>
+    <nz-col>
+      <button nz-button nzType="text" (click)="logout()" i18n> 退出系统 </button>
+    </nz-col>
+  </nz-row>
+</ng-template>
