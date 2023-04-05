@@ -7,15 +7,20 @@
     </nz-select>
   </nz-page-header-subtitle>
   <nz-page-header-tags>
-    <nz-select style="min-width: 180px" nzMode="multiple" nzPlaceHolder="筛选标签" nzAllowClear nzBorderless>
-      <nz-option nzLabel="烧卤系列" nzValue="烧卤系列"></nz-option>
-      <nz-option nzLabel="海南风味" nzValue="海南风味"></nz-option>
-      <nz-option nzLabel="烧卤系列1" nzValue="烧卤系列1"></nz-option>
-      <nz-option nzLabel="海南风味1" nzValue="海南风味1"></nz-option>
-      <nz-option nzLabel="烧卤系列2" nzValue="烧卤系列2"></nz-option>
-      <nz-option nzLabel="海南风味2" nzValue="海南风味2"></nz-option>
-      <nz-option nzLabel="烧卤系列3" nzValue="烧卤系列3"></nz-option>
-      <nz-option nzLabel="海南风味3" nzValue="海南风味3"></nz-option>
+    <nz-select
+      style="min-width: 180px"
+      nzMode="multiple"
+      nzPlaceHolder="筛选标签"
+      nzAllowClear
+      nzBorderless
+      [(ngModel)]="ref.tagIds"
+      [nzServerSearch]="true"
+      (nzOnSearch)="ref.getTags($event)"
+      (ngModelChange)="ref.getData(true)"
+    >
+      <ng-container *ngFor="let item of ref.tagOptions">
+        <nz-option [nzLabel]="item.name" [nzValue]="item._id"></nz-option>
+      </ng-container>
     </nz-select>
   </nz-page-header-tags>
   <nz-page-header-extra>
@@ -23,9 +28,18 @@
       <ng-container *nzSpaceItem>
         <ng-container *ngTemplateOutlet="ref.uploadRef"></ng-container>
       </ng-container>
-      <button *nzSpaceItem nz-button nzType="primary" nzShape="circle" nz-tooltip="设置分类" i18n-nz-tooltip>
-        <i nz-icon nzType="setting"></i>
-      </button>
+      <ng-container *nzSpaceItem>
+        <button
+          nz-button
+          nzType="primary"
+          nzShape="circle"
+          nz-tooltip="设置标签"
+          i18n-nz-tooltip
+          (click)="ref.openTags()"
+        >
+          <i nz-icon nzType="tags"></i>
+        </button>
+      </ng-container>
     </nz-space>
   </nz-page-header-extra>
   <nz-page-header-content>
@@ -33,7 +47,7 @@
       <nz-col>
         <p nz-typography>
           <span nz-icon nzType="check-circle"></span>
-          上传不限大小，支持 jpeg、png、bmp、gif、webp、avif 等格式
+          上传不超出 {{ (wpx.upload | async)?.limit | nzBytes : 0 : 'KB' }}，支持 jpeg、png、bmp、gif、webp、avif 等格式
         </p>
         <nz-space>
           <nz-input-group *nzSpaceItem style="width: 180px" nzSuffixIcon="search">
@@ -58,13 +72,13 @@
       </nz-col>
       <nz-col></nz-col>
       <nz-col>
-        <nz-statistic [nzValue]="'-'" [nzTitle]="'元素数量'"></nz-statistic>
+        <nz-statistic *ngIf="ref" [nzValue]="ref.ds!.total" [nzTitle]="'元素数量'"></nz-statistic>
       </nz-col>
     </nz-row>
   </nz-page-header-content>
 </nz-page-header>
 
-<div class="list">
+<div class="view">
   <wpx-media-view #ref wpxType="pictures" [wpxFallback]="['assets', 'photon.svg'] | wpxAssets"></wpx-media-view>
 </div>
 
