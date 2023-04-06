@@ -86,12 +86,12 @@
   </nz-page-header-content>
 </nz-page-header>
 
-<nz-content style="padding: 8px">
+<nz-content style="padding: 6px">
   <ng-template #emptyTpl>
     <nz-list-empty></nz-list-empty>
   </ng-template>
   <nz-list *ngIf="items.length !== 0; else emptyTpl" nzGrid>
-    <nz-row [nzGutter]="[16, 4]">
+    <nz-row [nzGutter]="16">
       <nz-col [nzXXl]="8" [nzXl]="12" *ngFor="let item of items">
         <nz-list-item cdkDrag>
           <nz-ribbon [nzText]="runtimeText | wpxMap : item.runtime" [nzColor]="runtimeColor | wpxMap : item.runtime">

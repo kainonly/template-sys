@@ -63,12 +63,12 @@
   nzCloseable
 ></nz-alert>
 
-<nz-content style="padding: 8px">
+<nz-content style="padding: 6px">
   <ng-template #emptyTpl>
     <nz-list-empty></nz-list-empty>
   </ng-template>
   <nz-list *ngIf="items.length !== 0; else emptyTpl" nzGrid>
-    <nz-row [nzGutter]="[16, 4]">
+    <nz-row [nzGutter]="16">
       <nz-col [nzXXl]="8" [nzXl]="12" *ngFor="let item of items">
         <nz-list-item>
           <nz-ribbon [nzText]="item.status ? '启用' : '禁用'" [nzColor]="item.status ? 'blue' : 'grey'">

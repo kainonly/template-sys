@@ -5,8 +5,7 @@ import { OutlineStatus } from './types';
 
 @Component({
   selector: 'app-restaurants',
-  templateUrl: './restaurants.component.html',
-  styleUrls: ['./restaurants.component.scss']
+  templateUrl: './restaurants.component.html'
 })
 export class RestaurantsComponent implements OnInit {
   id?: string;
