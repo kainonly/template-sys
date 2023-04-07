@@ -5,6 +5,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 
 import { FormComponent } from './form/form.component';
+import { KeyValue } from './types';
 
 @Component({
   selector: 'app-admin-system-values',
@@ -32,7 +33,7 @@ export class ValuesComponent implements OnInit {
           .map(v => {
             let [key, value] = v;
             switch (key) {
-              case 'dsl':
+              case 'resources':
               case 'ip_blacklist':
               case 'ip_whitelist':
                 value = JSON.stringify(value);
@@ -81,13 +82,11 @@ export class ValuesComponent implements OnInit {
   }
 
   form(data?: any): void {
-    this.modal.create({
+    this.modal.create<FormComponent, KeyValue>({
       nzTitle: $localize`动态配置表单`,
       nzWidth: '732px',
       nzContent: FormComponent,
-      nzComponentParams: {
-        data
-      },
+      nzData: data,
       nzOnOk: () => {
         this.getData();
       }

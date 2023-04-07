@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Area } from '@common/interfaces/area';
@@ -7,21 +7,24 @@ import { Table } from '@common/interfaces/table';
 import { RestaurantsService } from '@common/services/restaurants.service';
 import { AnyDto, WpxService } from '@weplanx/ng';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzModalRef } from 'ng-zorro-antd/modal';
+import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 
 import { AreasService } from '../areas.service';
 import { TableService } from '../table.service';
+
+export interface TableFormData {
+  restaurantId?: string;
+  areaId?: string;
+  doc?: AnyDto<Table>;
+}
 
 @Component({
   selector: 'app-restaurants-table-form',
   templateUrl: './table-form.component.html'
 })
 export class TableFormComponent implements OnInit {
-  @Input() restaurantId?: string;
-  @Input() areaId?: string;
-  @Input() doc?: AnyDto<Table>;
-
-  tips = {
+  form!: FormGroup;
+  tips: any = {
     restaurant: {
       default: {
         required: $localize`所属餐厅不能为空`
@@ -43,11 +46,11 @@ export class TableFormComponent implements OnInit {
       }
     }
   };
-  form!: FormGroup;
   restaurantItems: Array<AnyDto<Restaurant>> = [];
   areaItems: Array<AnyDto<Area>> = [];
 
   constructor(
+    @Inject(NZ_MODAL_DATA) public data: TableFormData,
     public wpx: WpxService,
     private modalRef: NzModalRef,
     private message: NzMessageService,
@@ -61,18 +64,18 @@ export class TableFormComponent implements OnInit {
     this.restaurants.values().subscribe(data => {
       this.restaurantItems = [...data];
     });
-    this.getAreaItems(this.restaurantId!);
+    this.getAreaItems(this.data.restaurantId!);
     this.form = this.fb.group({
-      restaurant_id: [this.restaurantId, [Validators.required]],
-      area_id: [this.areaId, [Validators.required]],
+      restaurant_id: [this.data.restaurantId, [Validators.required]],
+      area_id: [this.data.areaId, [Validators.required]],
       sn: ['', [Validators.required]],
       alias: [''],
       seats: [0, [Validators.required]],
       minimum_spending: [0],
       runtime: [-1, [Validators.required]]
     });
-    if (this.doc) {
-      this.form.patchValue(this.doc);
+    if (this.data.doc) {
+      this.form.patchValue(this.data.doc);
     }
   }
 
@@ -92,8 +95,8 @@ export class TableFormComponent implements OnInit {
   }
 
   submit(data: any): void {
-    if (!this.doc) {
-      data.restaurant_id = this.restaurantId;
+    if (!this.data.doc) {
+      data.restaurant_id = this.data.restaurantId;
       this.tables
         .create(data, {
           xdata: {
@@ -108,7 +111,7 @@ export class TableFormComponent implements OnInit {
     } else {
       this.tables
         .updateById(
-          this.doc._id,
+          this.data.doc._id,
           { $set: data },
           {
             xdata: {

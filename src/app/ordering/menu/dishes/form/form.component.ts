@@ -1,18 +1,23 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { Dish } from '@common/interfaces/dish';
 import { DishesService } from '@common/services/dishes.service';
 import { AnyDto, WpxService } from '@weplanx/ng';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzModalRef } from 'ng-zorro-antd/modal';
+import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
+
+export interface DishesFormData {
+  doc?: AnyDto<Dish>;
+}
 
 @Component({
   selector: 'app-ordering-menu-dishes-form',
   templateUrl: './form.component.html'
 })
 export class FormComponent implements OnInit {
-  tips = {
+  form!: FormGroup;
+  tips: any = {
     sn: {
       default: {
         required: $localize`菜品编码不能为空`
@@ -24,8 +29,7 @@ export class FormComponent implements OnInit {
       }
     }
   };
-  form!: FormGroup;
-  @Input() doc?: AnyDto<Dish>;
+
   formatterPercent = (value: number): string => `${value} %`;
   tags: Array<{ label: string; value: number }> = [
     { label: '折', value: 1 },
@@ -34,6 +38,7 @@ export class FormComponent implements OnInit {
   ];
 
   constructor(
+    @Inject(NZ_MODAL_DATA) public data: DishesFormData,
     public wpx: WpxService,
     private modalRef: NzModalRef,
     private message: NzMessageService,
@@ -79,8 +84,8 @@ export class FormComponent implements OnInit {
       introduction: [],
       status: [true, [Validators.required]]
     });
-    if (this.doc) {
-      this.form.patchValue(this.doc);
+    if (this.data.doc) {
+      this.form.patchValue(this.data.doc);
     }
   }
 
@@ -109,13 +114,13 @@ export class FormComponent implements OnInit {
   }
 
   submit(data: any): void {
-    if (!this.doc) {
+    if (!this.data.doc) {
       this.dishes.create(data).subscribe(() => {
         this.message.success($localize`数据更新成功`);
         this.modalRef.triggerOk();
       });
     } else {
-      this.dishes.updateById(this.doc._id, { $set: data }).subscribe(() => {
+      this.dishes.updateById(this.data.doc._id, { $set: data }).subscribe(() => {
         this.message.success($localize`数据更新成功`);
         this.modalRef.triggerOk();
       });

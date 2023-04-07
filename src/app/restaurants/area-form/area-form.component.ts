@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Area } from '@common/interfaces/area';
@@ -6,19 +6,22 @@ import { Restaurant } from '@common/interfaces/restaurant';
 import { RestaurantsService } from '@common/services/restaurants.service';
 import { AnyDto, WpxService } from '@weplanx/ng';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzModalRef } from 'ng-zorro-antd/modal';
+import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 
 import { AreasService } from '../areas.service';
+
+export interface AreaFormData {
+  restaurantId?: string;
+  doc?: AnyDto<Area>;
+}
 
 @Component({
   selector: 'app-restaurants-area-form',
   templateUrl: './area-form.component.html'
 })
 export class AreaFormComponent implements OnInit {
-  @Input() restaurantId?: string;
-  @Input() doc?: AnyDto<Area>;
-
-  tips = {
+  form!: FormGroup;
+  tips: any = {
     restaurant: {
       default: {
         required: $localize`所属餐厅不能为空`
@@ -30,10 +33,10 @@ export class AreaFormComponent implements OnInit {
       }
     }
   };
-  form!: FormGroup;
   restaurantItems: Array<AnyDto<Restaurant>> = [];
 
   constructor(
+    @Inject(NZ_MODAL_DATA) public data: AreaFormData,
     public wpx: WpxService,
     private modalRef: NzModalRef,
     private message: NzMessageService,
@@ -47,7 +50,7 @@ export class AreaFormComponent implements OnInit {
       this.restaurantItems = [...data];
     });
     this.form = this.fb.group({
-      restaurant_id: [this.restaurantId, [Validators.required]],
+      restaurant_id: [this.data.restaurantId, [Validators.required]],
       name: ['', [Validators.required]],
       tea: this.fb.group({
         fee: [0.0],
@@ -56,8 +59,8 @@ export class AreaFormComponent implements OnInit {
       }),
       status: [true, [Validators.required]]
     });
-    if (this.doc) {
-      this.form.patchValue(this.doc);
+    if (this.data.doc) {
+      this.form.patchValue(this.data.doc);
     }
   }
 
@@ -66,8 +69,8 @@ export class AreaFormComponent implements OnInit {
   }
 
   submit(data: any): void {
-    if (!this.doc) {
-      data.restaurant_id = this.restaurantId;
+    if (!this.data.doc) {
+      data.restaurant_id = this.data.restaurantId;
       this.areas
         .create(data, {
           xdata: {
@@ -81,7 +84,7 @@ export class AreaFormComponent implements OnInit {
     } else {
       this.areas
         .updateById(
-          this.doc._id,
+          this.data.doc._id,
           { $set: data },
           {
             xdata: {

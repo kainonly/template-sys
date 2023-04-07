@@ -1,31 +1,33 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { WpxService } from '@weplanx/ng';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzModalRef } from 'ng-zorro-antd/modal';
+import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
+import { KeyValue } from '../types';
 
 @Component({
   selector: 'app-admin-system-values-form',
   templateUrl: './form.component.html'
 })
 export class FormComponent implements OnInit {
-  tips = {
+  form!: FormGroup;
+  tips: any = {
     key: {
       default: {
-        required: $localize`The key cannot be empty`
+        required: $localize`键名不能为空`
       }
     },
     value: {
       default: {
-        required: $localize`The key cannot be empty`
+        required: $localize`键值不能为空`
       }
     }
   };
-  @Input() data?: Record<string, any>;
-  form!: FormGroup;
 
   constructor(
+    @Inject(NZ_MODAL_DATA)
+    public data: KeyValue,
     public wpx: WpxService,
     private modalRef: NzModalRef,
     private message: NzMessageService,
@@ -52,7 +54,7 @@ export class FormComponent implements OnInit {
 
   submit(data: any): void {
     switch (this.key) {
-      case 'dsl':
+      case 'resources':
         data.value = JSON.parse(data.value);
         break;
     }

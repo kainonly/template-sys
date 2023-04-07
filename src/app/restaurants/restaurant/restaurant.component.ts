@@ -7,7 +7,7 @@ import { RestaurantsService } from '@common/services/restaurants.service';
 import { AnyDto, WpxService } from '@weplanx/ng';
 import { NzModalService } from 'ng-zorro-antd/modal';
 
-import { FormComponent } from '../form/form.component';
+import { FormComponent, FormData } from '../form/form.component';
 import { OutlineService } from '../outline.service';
 
 @Component({
@@ -42,11 +42,11 @@ export class RestaurantComponent implements OnInit {
   }
 
   form(): void {
-    this.modal.create({
+    this.modal.create<FormComponent, FormData>({
       nzTitle: `编辑【${this.restaurant!.name}】`,
       nzContent: FormComponent,
       nzWidth: 640,
-      nzComponentParams: {
+      nzData: {
         doc: this.restaurant
       },
       nzOnOk: () => {

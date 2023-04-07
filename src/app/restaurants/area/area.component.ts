@@ -13,10 +13,10 @@ import { NzContextMenuService, NzDropdownMenuComponent } from 'ng-zorro-antd/dro
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 
-import { AreaFormComponent } from '../area-form/area-form.component';
+import { AreaFormComponent, AreaFormData } from '../area-form/area-form.component';
 import { AreasService } from '../areas.service';
 import { OutlineService } from '../outline.service';
-import { TableFormComponent } from '../table-form/table-form.component';
+import { TableFormComponent, TableFormData } from '../table-form/table-form.component';
 import { TableService } from '../table.service';
 
 @Component({
@@ -113,10 +113,10 @@ export class AreaComponent implements OnInit {
   }
 
   form(): void {
-    this.modal.create({
+    this.modal.create<AreaFormComponent, AreaFormData>({
       nzTitle: `编辑【${this.area!.name}】`,
       nzContent: AreaFormComponent,
-      nzComponentParams: {
+      nzData: {
         restaurantId: this.restaurant!._id,
         doc: this.area
       },
@@ -127,10 +127,10 @@ export class AreaComponent implements OnInit {
   }
 
   tableForm(doc?: AnyDto<Table>): void {
-    this.modal.create({
+    this.modal.create<TableFormComponent, TableFormData>({
       nzTitle: !doc ? `创建` : `编辑【${doc.sn}】`,
       nzContent: TableFormComponent,
-      nzComponentParams: {
+      nzData: {
         restaurantId: this.restaurant!._id,
         areaId: this.area!._id,
         doc

@@ -9,7 +9,7 @@ import { NzContextMenuService, NzDropdownMenuComponent } from 'ng-zorro-antd/dro
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 
-import { FormComponent } from '../form/form.component';
+import { FormComponent, FormData } from '../form/form.component';
 import { OutlineService } from '../outline.service';
 
 @Component({
@@ -85,11 +85,11 @@ export class IndexComponent implements OnInit {
   }
 
   form(doc?: AnyDto<Restaurant>): void {
-    this.modal.create({
+    this.modal.create<FormComponent, FormData>({
       nzTitle: !doc ? `创建` : `编辑【${doc.name}】`,
       nzContent: FormComponent,
       nzWidth: 640,
-      nzComponentParams: {
+      nzData: {
         doc
       },
       nzOnOk: () => {

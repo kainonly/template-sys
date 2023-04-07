@@ -7,7 +7,7 @@ import { AnyDto, WpxData } from '@weplanx/ng';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 
-import { AreaFormComponent } from '../../area-form/area-form.component';
+import { AreaFormComponent, AreaFormData } from '../../area-form/area-form.component';
 import { AreasService } from '../../areas.service';
 import { OutlineService } from '../../outline.service';
 
@@ -72,10 +72,10 @@ export class AreasComponent implements OnInit, OnDestroy {
   }
 
   form(doc?: AnyDto<Area>): void {
-    this.modal.create({
+    this.modal.create<AreaFormComponent, AreaFormData>({
       nzTitle: !doc ? `创建` : `编辑【${doc.name}】`,
       nzContent: AreaFormComponent,
-      nzComponentParams: {
+      nzData: {
         restaurantId: this.restaurantId,
         doc
       },

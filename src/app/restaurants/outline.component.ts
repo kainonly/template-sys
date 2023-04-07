@@ -10,9 +10,9 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzFormatEmitEvent, NzTreeComponent, NzTreeNode, NzTreeNodeOptions } from 'ng-zorro-antd/tree';
 
-import { AreaFormComponent } from './area-form/area-form.component';
+import { AreaFormComponent, AreaFormData } from './area-form/area-form.component';
 import { AreasService } from './areas.service';
-import { FormComponent } from './form/form.component';
+import { FormComponent, FormData } from './form/form.component';
 import { OutlineService } from './outline.service';
 import { OutlineStatus } from './types';
 
@@ -169,11 +169,11 @@ export class OutlineComponent implements OnInit, OnDestroy {
   }
 
   form(doc?: AnyDto<Restaurant>): void {
-    this.modal.create({
+    this.modal.create<FormComponent, FormData>({
       nzTitle: !doc ? `创建` : `编辑【${doc.name}】`,
       nzContent: FormComponent,
       nzWidth: 640,
-      nzComponentParams: {
+      nzData: {
         doc
       },
       nzOnOk: () => {
@@ -201,10 +201,10 @@ export class OutlineComponent implements OnInit, OnDestroy {
   }
 
   areaForm(restaurantId: string, doc?: AnyDto<Area>): void {
-    this.modal.create({
+    this.modal.create<AreaFormComponent, AreaFormData>({
       nzTitle: !doc ? `创建` : `编辑【${doc.name}】`,
       nzContent: AreaFormComponent,
-      nzComponentParams: {
+      nzData: {
         restaurantId,
         doc
       },
