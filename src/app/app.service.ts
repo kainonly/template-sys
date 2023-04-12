@@ -46,7 +46,6 @@ export class AppService {
       })
       .pipe(
         map(v => {
-          console.log(v);
           this.wpx.upload.next(v);
           this.wpx.upload.complete();
           return v;

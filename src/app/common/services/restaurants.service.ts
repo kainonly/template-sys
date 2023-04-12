@@ -3,7 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { Restaurant, RestaurantDict } from '@common/interfaces/restaurant';
-import { AnyDto, WpxApi } from '@weplanx/ng';
+import { AnyDto, Filter, WpxApi } from '@weplanx/ng';
 
 @Injectable({ providedIn: 'root' })
 export class RestaurantsService extends WpxApi<Restaurant> {

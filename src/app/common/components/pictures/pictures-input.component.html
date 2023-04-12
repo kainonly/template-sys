@@ -1,11 +1,15 @@
-<wpx-richtext
-  [wpxPlaceholder]="placeholder"
+<wpx-media-input
+  [wpxType]="'pictures'"
   [wpxFallback]="['assets', 'photon.svg'] | wpxAssets"
-  [wpxPictures]="openPictures"
-  [wpxVideos]="openVideos"
-  [(ngModel)]="value"
+  [wpxLimit]="limit"
+  [wpxMax]="max"
+  [wpxHeader]="header"
+  [wpxFooter]="footer"
+  [wpxComponent]="component"
+  [(ngModel)]="values"
   (ngModelChange)="onChanged($event)"
-></wpx-richtext>
+>
+</wpx-media-input>
 
 <ng-template #header>
   <ng-container *ngTemplateOutlet="instance.searchRef"></ng-container>
