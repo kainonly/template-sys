@@ -2,8 +2,15 @@
   <nz-page-header-title> 菜品管理 </nz-page-header-title>
   <nz-page-header-subtitle>
     <span nz-icon nzType="shop"></span>
-    <nz-select ngModel="中餐厅" nzBorderless>
-      <nz-option nzValue="中餐厅" nzLabel="中餐厅"></nz-option>
+    <nz-select
+      nzBorderless
+      [nzDropdownMatchSelectWidth]="false"
+      [(ngModel)]="restaurantId"
+      (ngModelChange)="restaurantChange()"
+    >
+      <ng-container *ngFor="let item of restaurantItems">
+        <nz-option [nzValue]="item._id" [nzLabel]="item.name"></nz-option>
+      </ng-container>
     </nz-select>
   </nz-page-header-subtitle>
   <nz-page-header-tags>
@@ -75,10 +82,10 @@
       [nzShowSizeChanger]="true"
       [nzHideOnSinglePage]="true"
       [nzLoading]="false"
-      [nzData]="dataset.values"
-      [nzTotal]="dataset.total"
-      [(nzPageSize)]="dataset.pagesize"
-      [(nzPageIndex)]="dataset.page"
+      [nzData]="ds.values"
+      [nzTotal]="ds.total"
+      [(nzPageSize)]="ds.pagesize"
+      [(nzPageIndex)]="ds.page"
       (nzPageIndexChange)="getData(false)"
       (nzPageSizeChange)="getData(true)"
     >
@@ -88,9 +95,9 @@
             nzWidth="60px"
             nzLeft
             nzAlign="center"
-            [nzChecked]="dataset.checked"
-            [nzIndeterminate]="dataset.indeterminate"
-            (nzCheckedChange)="dataset.setNChecked($event)"
+            [nzChecked]="ds.checked"
+            [nzIndeterminate]="ds.indeterminate"
+            (nzCheckedChange)="ds.setNChecked($event)"
           ></th>
           <th nzWidth="300px"><b>菜品名称【编号】</b></th>
           <th nzWidth="150px"><b>菜品分类</b></th>
@@ -111,8 +118,8 @@
             nzLeft
             nzAlign="center"
             [nzDisabled]="data['disabled']"
-            [nzChecked]="dataset.checkedIds.has(data['_id'])"
-            (nzCheckedChange)="dataset.setChecked(data['_id'], $event)"
+            [nzChecked]="ds.checkedIds.has(data['_id'])"
+            (nzCheckedChange)="ds.setChecked(data['_id'], $event)"
           ></td>
           <td>{{ data.name }}</td>
           <td></td>

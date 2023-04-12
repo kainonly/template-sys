@@ -10,12 +10,13 @@ import { LoginLog } from './login-log';
 import { LoginLogsService } from './login-logs.service';
 
 @Component({
-  selector: 'app-settings-audit-login-logs',
+  selector: 'app-admin-audit-login-logs',
   templateUrl: './login-logs.component.html'
 })
 export class LoginLogsComponent implements OnInit {
   disabledDate = (current: Date): boolean => differenceInCalendarDays(current, new Date()) > 0;
   date: Date[] = [];
+  expands = new Set<string>();
   dataset: WpxData<AnyDto<LoginLog>> = new WpxData<AnyDto<LoginLog>>();
   userKV: Record<string, AnyDto<User>> = {};
   userDetailVisible = false;
@@ -70,6 +71,14 @@ export class LoginLogsComponent implements OnInit {
   clearSearch(): void {
     this.date = [];
     this.getData(true);
+  }
+
+  expandsChange(id: string, checked: boolean): void {
+    if (checked) {
+      this.expands.add(id);
+    } else {
+      this.expands.delete(id);
+    }
   }
 
   openUserDetail(data: AnyDto<User>): void {

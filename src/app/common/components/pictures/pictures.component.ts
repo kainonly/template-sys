@@ -32,8 +32,8 @@ export class PicturesComponent implements OnInit {
   ds?: WpxMediaDataSource;
   searchText = '';
 
-  restaurantId = '';
   restaurantItems: Array<AnyDto<Restaurant>> = [];
+  restaurantId = '';
 
   tagItems: Array<AnyDto<Tag>> = [];
   tagIds: string[] = [];
@@ -46,7 +46,7 @@ export class PicturesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.restaurants.find({ status: true }, { pagesize: 1000 }).subscribe(data => {
+    this.restaurants.getItems().subscribe(data => {
       this.restaurantItems = [...data];
       if (!this.restaurantId) {
         this.restaurantId = this.restaurantItems[0]._id;

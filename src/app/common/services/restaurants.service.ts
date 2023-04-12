@@ -21,4 +21,8 @@ export class RestaurantsService extends WpxApi<Restaurant> {
   values(): Observable<Array<AnyDto<Restaurant>>> {
     return this.dict.pipe(map(v => Object.values(v)));
   }
+
+  getItems(): Observable<Array<AnyDto<Restaurant>>> {
+    return this.find({ status: true }, { pagesize: 1000 });
+  }
 }

@@ -21,7 +21,7 @@
 
 <ng-template #actions>
   <nz-space>
-    <button *nzSpaceItem nz-button i18n> 导出 </button>
+    <button *nzSpaceItem nz-button i18n disabled> 导出 </button>
   </nz-space>
 </ng-template>
 
@@ -50,7 +50,7 @@
           (nzCheckedChange)="dataset.setNChecked($event)"
         >
         </th>
-        <th nzWidth="150px"><b i18n>时间戳</b></th>
+        <th nzWidth="240px"><b i18n>时间戳</b></th>
         <th><b i18n>操作人</b></th>
         <th><b i18n>资源</b></th>
         <th nzWidth="60px" nzRight nzAlign="center">
@@ -71,8 +71,8 @@
             (nzCheckedChange)="dataset.setChecked(data['_id'], $event)"
           >
           </td>
-          <td>
-            {{ data['timestamp'] | date: 'yyyy-MM-dd HH:mm:ss' }}
+          <td [nzExpand]="expands.has(data._id)" (nzExpandChange)="expandsChange(data._id, $event)">
+            {{ data['timestamp'] | date : 'yyyy-MM-dd HH:mm:ss' }}
           </td>
           <td>
             <a *ngIf="userKV[data.metadata.user_id] as user; else isSystem" (click)="openUserDetail(user)">
@@ -86,11 +86,11 @@
             </ng-template>
           </td>
           <td>
-            <a (click)="openResourceDetail(data)">
-              <code>{{ data._id }}</code>
-              <nz-divider nzType="vertical"></nz-divider>
-              <code>{{ data.metadata.method }} {{ data.metadata.path }}</code>
-            </a>
+            <nz-space>
+              <code *nzSpaceItem>{{ data.status }}</code>
+              <code *nzSpaceItem>{{ data.metadata.method }}</code>
+              <code *nzSpaceItem>{{ data.metadata.path }}</code>
+            </nz-space>
           </td>
           <td nzRight nzAlign="center">
             <button nz-button nzType="text" nz-dropdown [nzDropdownMenu]="menu">
@@ -98,10 +98,15 @@
             </button>
             <nz-dropdown-menu #menu="nzDropdownMenu">
               <ul nz-menu>
-                <li nz-menu-item i18n>定义</li>
+                <li nz-menu-item i18n>标记</li>
               </ul>
             </nz-dropdown-menu>
           </td>
+        </tr>
+        <tr [nzExpand]="expands.has(data._id)">
+          <div style="padding: 3.5px 4px">
+            <code>{{ data.user_agent }}</code>
+          </div>
         </tr>
       </ng-container>
     </tbody>
@@ -139,61 +144,30 @@
           已登录 <b> {{ u.sessions }} </b> 次
         </span>
       </nz-descriptions-item>
-      <nz-descriptions-item *ngIf="u.last as l" nzTitle="最近登录时间" i18n-nzTitle [nzSpan]="2">
-        {{ l.timestamp | date: 'yyyy/MM/dd HH:mm:ss' }}
+      <nz-descriptions-item *ngIf="u.history as history" nzTitle="最近登录时间" i18n-nzTitle [nzSpan]="2">
+        {{ history.timestamp | date : 'yyyy/MM/dd HH:mm:ss' }}
       </nz-descriptions-item>
-      <nz-descriptions-item *ngIf="u.last as l" nzTitle="IP" [nzSpan]="2"> {{ l.ip }} </nz-descriptions-item>
+      <nz-descriptions-item *ngIf="u.history as history" nzTitle="IP" [nzSpan]="2">
+        {{ history.client_ip }}
+      </nz-descriptions-item>
       <nz-descriptions-item nzTitle="地区 ISP" i18n-nzTitle [nzSpan]="2">
-        <nz-space *ngIf="u.last as l" [nzSplit]="spaceSplit">
-          <ng-template #spaceSplit>
-            <nz-divider nzType="vertical"></nz-divider>
-          </ng-template>
-          <span *nzSpaceItem i18n>{{ !l.country ? '未知' : l.country }}</span>
-          <span *nzSpaceItem i18n>{{ !l.province ? '未知' : l.province }}</span>
-          <span *nzSpaceItem i18n>{{ !l.city ? '未知' : l.city }}</span>
-          <span *nzSpaceItem i18n>{{ !l.isp ? '未知' : l.isp }}</span>
+        <nz-space *ngIf="u.history as history" [nzSplit]="spaceSplit">
+          <span *nzSpaceItem i18n>{{ !history.country ? '未知' : history.country }}</span>
+          <span *nzSpaceItem i18n>{{ !history.province ? '未知' : history.province }}</span>
+          <span *nzSpaceItem i18n>{{ !history.city ? '未知' : history.city }}</span>
+          <span *nzSpaceItem i18n>{{ !history.isp ? '未知' : history.isp }}</span>
         </nz-space>
       </nz-descriptions-item>
       <nz-descriptions-item nzTitle="创建时间" i18n-nzTitle [nzSpan]="2">
-        {{ u.create_time | date: 'yyyy/MM/dd HH:mm:ss' }}
+        {{ u.create_time | date : 'yyyy/MM/dd HH:mm:ss' }}
       </nz-descriptions-item>
       <nz-descriptions-item nzTitle="更新时间" i18n-nzTitle [nzSpan]="2">
-        {{ u.update_time | date: 'yyyy/MM/dd HH:mm:ss' }}
+        {{ u.update_time | date : 'yyyy/MM/dd HH:mm:ss' }}
       </nz-descriptions-item>
     </nz-descriptions>
   </ng-container>
 </nz-drawer>
 
-<nz-drawer
-  [nzClosable]="false"
-  [nzVisible]="resourceDetailVisible"
-  [nzWidth]="640"
-  nzPlacement="right"
-  nzTitle="资源详情"
-  i18n-nzTitle
-  (nzOnClose)="closeResourceDetail()"
->
-  <ng-container *nzDrawerContent>
-    <nz-descriptions *ngIf="resourceDetail as r" nzBordered [nzColumn]="2">
-      <nz-descriptions-item nzTitle="ID" [nzSpan]="2">
-        <code>{{ r._id }}</code>
-      </nz-descriptions-item>
-      <nz-descriptions-item nzTitle="Url" [nzSpan]="2">
-        <code>{{ r.metadata.method }} {{ r.metadata.path }}</code>
-      </nz-descriptions-item>
-      <nz-descriptions-item nzTitle="Host">{{ r.metadata.host }}</nz-descriptions-item>
-      <nz-descriptions-item nzTitle="Cost">{{ r.data.cost }}ms</nz-descriptions-item>
-      <nz-descriptions-item nzTitle="IP">{{ r.metadata.ip }}</nz-descriptions-item>
-      <nz-descriptions-item nzTitle="Status">{{ r.data.status }}</nz-descriptions-item>
-      <nz-descriptions-item nzTitle="Query" [nzSpan]="2">
-        <code>{{ r.data.query }}</code>
-      </nz-descriptions-item>
-      <nz-descriptions-item nzTitle="Body" [nzSpan]="2">
-        <code>{{ r.data.body }}</code>
-      </nz-descriptions-item>
-      <nz-descriptions-item nzTitle="Agent" [nzSpan]="2">
-        <code>{{ r.data.user_agent }}</code>
-      </nz-descriptions-item>
-    </nz-descriptions>
-  </ng-container>
-</nz-drawer>
+<ng-template #spaceSplit>
+  <nz-divider nzType="vertical"></nz-divider>
+</ng-template>

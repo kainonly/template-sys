@@ -30,16 +30,16 @@ export interface User {
   /**
    * 最近一次登录
    */
-  last?: UserLast;
+  history?: UserHistory;
   /**
    * 状态
    */
   status: boolean;
 }
 
-export interface UserLast {
+export interface UserHistory {
   timestamp: Date;
-  ip: string;
+  client_ip: string;
   country: string;
   province: string;
   city: string;
