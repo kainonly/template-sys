@@ -1,19 +1,17 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { Video } from '@common/interfaces/video';
+import { Picture, PictureTag } from '@common/interfaces/picture';
 import { PictureTagsService } from '@common/services/picture-tags.service';
-import { VideoTagsService } from '@common/services/video-tags.service';
 import { AnyDto } from '@weplanx/ng';
-import { PicturesService, VideosService } from '@weplanx/ng/media';
-import { Tag } from '@weplanx/ng/tags';
+import { PicturesService } from '@weplanx/ng/media';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 export interface FormData {
   restaurant_id: string;
-  doc: AnyDto<Video>;
+  doc: AnyDto<Picture>;
 }
 
 @Component({
@@ -29,7 +27,7 @@ export class FormComponent implements OnInit {
       }
     }
   };
-  tagItems: Array<AnyDto<Tag>> = [];
+  tagItems: Array<AnyDto<PictureTag>> = [];
 
   constructor(
     @Inject(NZ_MODAL_DATA) public data: FormData,

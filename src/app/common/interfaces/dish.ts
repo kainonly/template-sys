@@ -4,6 +4,10 @@ export interface Dish {
    */
   restaurant_id: string;
   /**
+   * 所属分类
+   */
+  type_id: string;
+  /**
    * 编号
    */
   sn: string;

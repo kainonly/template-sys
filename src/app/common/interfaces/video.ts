@@ -1,5 +1,5 @@
 import { WpxVideo } from '@weplanx/ng/media';
-import { Tag } from '@weplanx/ng/tags';
+import { WpxQuick } from '@weplanx/ng/quick';
 
 export interface Video extends WpxVideo {
   /**
@@ -12,7 +12,7 @@ export interface Video extends WpxVideo {
   tags?: string[];
 }
 
-export interface VideoTag extends Tag {
+export interface VideoTag extends WpxQuick {
   /**
    * 所属餐厅
    */

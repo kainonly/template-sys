@@ -2,14 +2,14 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 
 import { FormComponent, FormData } from '@common/components/pictures/form/form.component';
 import { TagFormComponent, TagFormData } from '@common/components/pictures/tag-form/tag-form.component';
-import { Picture } from '@common/interfaces/picture';
+import { Picture, PictureTag } from '@common/interfaces/picture';
 import { Restaurant } from '@common/interfaces/restaurant';
 import { Video, VideoTag } from '@common/interfaces/video';
 import { PictureTagsService } from '@common/services/picture-tags.service';
 import { RestaurantsService } from '@common/services/restaurants.service';
 import { AnyDto, WpxData, XFilter } from '@weplanx/ng';
 import { PicturesService, WpxMediaComponent, WpxMediaDataSource } from '@weplanx/ng/media';
-import { Tag, WpxTagsComponent } from '@weplanx/ng/tags';
+import { WpxQuickComponent } from '@weplanx/ng/quick';
 import { Transport } from '@weplanx/ng/upload';
 import { NzModalService } from 'ng-zorro-antd/modal';
 
@@ -27,7 +27,7 @@ export class PicturesComponent implements OnInit {
   @ViewChild('tagSearchRef', { static: true }) tagSearchRef!: TemplateRef<any>;
   @ViewChild('searchRef', { static: true }) searchRef!: TemplateRef<any>;
   @ViewChild(WpxMediaComponent, { static: true }) mediaRef!: WpxMediaComponent;
-  @ViewChild(WpxTagsComponent, { static: true }) tagsRef!: WpxTagsComponent;
+  @ViewChild(WpxQuickComponent, { static: true }) tagsRef!: WpxQuickComponent;
 
   ds?: WpxMediaDataSource;
   searchText = '';
@@ -35,7 +35,7 @@ export class PicturesComponent implements OnInit {
   restaurantItems: Array<AnyDto<Restaurant>> = [];
   restaurantId = '';
 
-  tagItems: Array<AnyDto<Tag>> = [];
+  tagItems: Array<AnyDto<PictureTag>> = [];
   tagIds: string[] = [];
 
   constructor(
@@ -113,7 +113,7 @@ export class PicturesComponent implements OnInit {
     ds.filter.restaurant_id = this.restaurantId;
   };
 
-  tagForm = (doc?: AnyDto<VideoTag>): void => {
+  tagForm = (doc?: AnyDto<Picture>): void => {
     this.modal.create<TagFormComponent, TagFormData>({
       nzTitle: !doc ? $localize`新增` : $localize`编辑`,
       nzContent: TagFormComponent,

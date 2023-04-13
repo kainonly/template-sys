@@ -6,7 +6,7 @@ import { RestaurantsService } from '@common/services/restaurants.service';
 import { VideoTagsService } from '@common/services/video-tags.service';
 import { AnyDto, WpxData, XFilter } from '@weplanx/ng';
 import { VideosService, WpxMediaComponent, WpxMediaDataSource } from '@weplanx/ng/media';
-import { Tag, WpxTagsComponent } from '@weplanx/ng/tags';
+import { WpxQuickComponent } from '@weplanx/ng/quick';
 import { Transport } from '@weplanx/ng/upload';
 import { NzModalService } from 'ng-zorro-antd/modal';
 
@@ -23,7 +23,7 @@ export class VideosComponent implements OnInit {
   @ViewChild('tagSearchRef', { static: true }) tagSearchRef!: TemplateRef<any>;
   @ViewChild('searchRef', { static: true }) searchRef!: TemplateRef<any>;
   @ViewChild(WpxMediaComponent, { static: true }) mediaRef!: WpxMediaComponent;
-  @ViewChild(WpxTagsComponent, { static: true }) tagsRef!: WpxTagsComponent;
+  @ViewChild(WpxQuickComponent, { static: true }) tagsRef!: WpxQuickComponent;
 
   ds?: WpxMediaDataSource;
   searchText = '';
@@ -31,7 +31,7 @@ export class VideosComponent implements OnInit {
   restaurantItems: Array<AnyDto<Restaurant>> = [];
   restaurantId = '';
 
-  tagItems: Array<AnyDto<Tag>> = [];
+  tagItems: Array<AnyDto<VideoTag>> = [];
   tagIds: string[] = [];
 
   constructor(

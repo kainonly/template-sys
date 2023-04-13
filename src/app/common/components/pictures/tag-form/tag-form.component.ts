@@ -1,12 +1,12 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { TagFormData as WpxTagFormData } from '@weplanx/ng/tags';
+import { WpxQuickFormData } from '@weplanx/ng/quick';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 
-export interface TagFormData extends WpxTagFormData {
+export interface TagFormData extends WpxQuickFormData {
   restaurant_id: string;
 }
 
