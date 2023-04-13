@@ -47,7 +47,7 @@ export class FormComponent implements OnInit {
   ngOnInit(): void {
     this.form = this.fb.group({
       name: ['', [Validators.required]],
-      code: ['', [Validators.required]],
+      sn: ['', [Validators.required]],
       tel: ['', [Validators.required]],
       location: [''],
       description: [''],

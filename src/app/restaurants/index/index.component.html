@@ -80,7 +80,7 @@
                 <div *nzSpaceItem>
                   <nz-descriptions [nzColumn]="2">
                     <nz-descriptions-item nzTitle="餐厅编码" i18n-nzTitle [nzSpan]="2">
-                      {{ item.code }}
+                      {{ item.sn }}
                     </nz-descriptions-item>
                     <nz-descriptions-item *ngIf="item.enabled as e" nzTitle="启用功能" i18n-nzTitle [nzSpan]="2">
                       <nz-space *ngIf="e.mini_wechatpay || e.minimum_spending || e.tea; else nothingTpl">

@@ -11,7 +11,7 @@ export interface Restaurant {
   /**
    * 编码
    */
-  code: string;
+  sn: string;
   /**
    * 服务电话
    */

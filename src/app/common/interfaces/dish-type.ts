@@ -4,7 +4,11 @@ export interface DishType {
    */
   restaurant_id: string;
   /**
-   * 状态
+   * 名称
    */
-  status: boolean;
+  name: string;
+  /**
+   * 编码
+   */
+  sn: string;
 }

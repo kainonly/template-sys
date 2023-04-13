@@ -5,7 +5,7 @@
   <nz-page-header-subtitle>
     <p nz-typography style="margin: 0">
       <span nz-icon nzType="number"></span>
-      {{ restaurant.code }}
+      {{ restaurant.sn }}
     </p>
   </nz-page-header-subtitle>
   <nz-page-header-tags>
@@ -46,12 +46,12 @@
       </nz-col>
       <nz-col></nz-col>
       <nz-col>
-        <wpx-media
+        <wpx-media-input
           [wpxType]="'pictures'"
           [wpxFallback]="['assets', 'photon.svg'] | wpxAssets"
           [wpxMax]="5"
           [ngModel]="restaurant.pictures"
-        ></wpx-media>
+        ></wpx-media-input>
       </nz-col>
     </nz-row>
   </nz-page-header-content>

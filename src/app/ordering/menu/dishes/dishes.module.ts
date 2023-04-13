@@ -5,6 +5,7 @@ import { ShareModule } from '@common/share.module';
 
 import { DishesComponent } from './dishes.component';
 import { FormComponent } from './form/form.component';
+import { TypeFormComponent } from './type-form/type-form.component';
 
 const routes: Routes = [
   {
@@ -15,6 +16,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [ShareModule, RouterModule.forChild(routes)],
-  declarations: [DishesComponent, FormComponent]
+  declarations: [DishesComponent, FormComponent, TypeFormComponent]
 })
 export class DishesModule {}

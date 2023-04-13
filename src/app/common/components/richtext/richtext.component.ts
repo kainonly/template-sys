@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
-import { PicturesComponent, PicturesData } from '@common/components/pictures/pictures.component';
+import { PicturesComponent } from '@common/components/pictures/pictures.component';
 import { VideosComponent } from '@common/components/videos/videos.component';
 import { WpxService } from '@weplanx/ng';
 import { WpxMediaData } from '@weplanx/ng/media';
