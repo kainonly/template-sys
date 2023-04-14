@@ -14,17 +14,43 @@
     </nz-select>
   </nz-page-header-subtitle>
   <nz-page-header-tags>
+    <wpx-quick
+      [wpxApi]="types"
+      [wpxFilter]="typeFilter"
+      [wpxForm]="typeForm"
+      [wpxHeaderCell]="[th0, th1, th2]"
+      [wpxCell]="[td0, td1, td2]"
+    >
+      <ng-template #th0> <b>名称</b> </ng-template>
+      <ng-template #th1> <b>编码</b> </ng-template>
+      <ng-template #th2> <b>销售时段</b> </ng-template>
+      <ng-template #td0 let-data>{{ data.name }}</ng-template>
+      <ng-template #td1 let-data>{{ data.sn }}</ng-template>
+      <ng-template #td2 let-data></ng-template>
+    </wpx-quick>
     <nz-select
       style="min-width: 180px"
       nzMode="multiple"
       nzPlaceHolder="筛选菜品分类"
       nzAllowClear
       nzBorderless
+      [(ngModel)]="typeIds"
+      [nzServerSearch]="true"
+      (nzOnSearch)="getTypes($event)"
+      (ngModelChange)="getData(true)"
     ></nz-select>
   </nz-page-header-tags>
   <nz-page-header-extra>
     <nz-space>
-      <button *nzSpaceItem nz-button nzType="primary" nzShape="circle" nz-tooltip="设置分类" i18n-nz-tooltip>
+      <button
+        *nzSpaceItem
+        nz-button
+        nzType="primary"
+        nzShape="circle"
+        nz-tooltip="设置分类"
+        i18n-nz-tooltip
+        (click)="typesRef.open()"
+      >
         <i nz-icon nzType="tags"></i>
       </button>
     </nz-space>

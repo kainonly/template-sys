@@ -1,12 +1,19 @@
 export interface Member {
   /**
+   * 等级
+   */
+  level_id: string;
+
+  /**
    * 卡号
    */
   cardno: string;
+
   /**
    * 手机
    */
   phone: string;
+
   /**
    * 密码
    */
@@ -79,20 +86,6 @@ export interface Member {
   };
 
   /**
-   * 等级
-   */
-  level: {
-    /**
-     * 代码
-     */
-    code: string;
-    /**
-     * 级别来源
-     */
-    source: string;
-  };
-
-  /**
    * 会员积分
    */
   points: number;
@@ -111,4 +104,14 @@ export interface Member {
    * 支出
    */
   spending: number;
+
+  /**
+   * 级别来源
+   */
+  source: string;
+
+  /**
+   * 状态
+   */
+  status: boolean;
 }

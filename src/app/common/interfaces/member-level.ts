@@ -7,9 +7,9 @@ export interface MemberLevel {
    */
   name: string;
   /**
-   * 等级
+   * 等级代码
    */
-  level: number;
+  code: string;
   /**
    * 折扣
    */

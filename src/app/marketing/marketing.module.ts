@@ -9,7 +9,16 @@ const routes: Routes = [
   {
     path: '',
     component: MarketingComponent,
-    children: []
+    children: [
+      {
+        path: 'member',
+        loadChildren: () => import('./member/member.module').then(m => m.MemberModule),
+        data: {
+          breadcrumb: $localize`会员`
+        }
+      },
+      { path: '', redirectTo: 'member', pathMatch: 'full' }
+    ]
   }
 ];
 

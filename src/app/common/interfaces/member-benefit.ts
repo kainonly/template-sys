@@ -14,4 +14,8 @@ export interface MemberBenefit {
    * 字体图标
    */
   icon: string;
+  /**
+   * 状态
+   */
+  status: boolean;
 }

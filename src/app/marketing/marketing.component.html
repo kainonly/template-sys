@@ -1,15 +1,15 @@
 <nz-layout class="common-layout">
-  <nz-sider style="height: 100%" nzWidth="240px" nzTheme="light">
+  <nz-sider class="nav" nzWidth="240px" nzTheme="light">
     <ul nz-menu nzMode="inline" style="border: none">
       <li nz-menu-group nzTitle="会员" i18n-nzTitle>
         <ul>
-          <li nz-menu-item>
-            <span i18n>会员概览</span>
+          <li nz-menu-item nzMatchRouter [routerLink]="['/_', 'marketing', 'member', 'lists']">
+            <span i18n>会员列表</span>
           </li>
-          <li nz-menu-item>
-            <span i18n>分级与权益</span>
+          <li nz-menu-item nzMatchRouter [routerLink]="['/_', 'marketing', 'member', 'benefits']">
+            <span i18n>会员权益</span>
           </li>
-          <li nz-menu-item>
+          <li nz-menu-item nzMatchRouter [routerLink]="['/_', 'marketing', 'member', 'upgrade']">
             <span i18n>如何升级</span>
           </li>
         </ul>
@@ -38,7 +38,7 @@
   </nz-sider>
 
   <nz-layout class="inner-layout">
-    <nz-content class="content">
+    <nz-content>
       <router-outlet></router-outlet>
     </nz-content>
   </nz-layout>

@@ -1,0 +1,7 @@
+<ng-template #extraRef>
+  <button nz-button nzType="primary" (click)="update()"> 更新 </button>
+</ng-template>
+
+<nz-card [nzExtra]="extraRef">
+  <app-richtext [(ngModel)]="value"></app-richtext>
+</nz-card>

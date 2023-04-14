@@ -4,7 +4,6 @@ import { FormComponent, FormData } from '@common/components/pictures/form/form.c
 import { TagFormComponent, TagFormData } from '@common/components/pictures/tag-form/tag-form.component';
 import { Picture, PictureTag } from '@common/interfaces/picture';
 import { Restaurant } from '@common/interfaces/restaurant';
-import { Video, VideoTag } from '@common/interfaces/video';
 import { PictureTagsService } from '@common/services/picture-tags.service';
 import { RestaurantsService } from '@common/services/restaurants.service';
 import { AnyDto, WpxData, XFilter } from '@weplanx/ng';
@@ -12,10 +11,6 @@ import { PicturesService, WpxMediaComponent, WpxMediaDataSource } from '@weplanx
 import { WpxQuickComponent } from '@weplanx/ng/quick';
 import { Transport } from '@weplanx/ng/upload';
 import { NzModalService } from 'ng-zorro-antd/modal';
-
-export interface PicturesData {
-  height?: string;
-}
 
 @Component({
   selector: 'app-pictures',
@@ -108,12 +103,12 @@ export class PicturesComponent implements OnInit {
       });
   }
 
-  tagFilter = (ds: WpxData<AnyDto<VideoTag>>): void => {
+  tagFilter = (ds: WpxData<AnyDto<PictureTag>>): void => {
     ds.xfilter = { restaurant_id: 'oid' };
     ds.filter.restaurant_id = this.restaurantId;
   };
 
-  tagForm = (doc?: AnyDto<Picture>): void => {
+  tagForm = (doc?: AnyDto<PictureTag>): void => {
     this.modal.create<TagFormComponent, TagFormData>({
       nzTitle: !doc ? $localize`新增` : $localize`编辑`,
       nzContent: TagFormComponent,
@@ -129,7 +124,7 @@ export class PicturesComponent implements OnInit {
     });
   };
 
-  form = (doc: AnyDto<Video>): void => {
+  form = (doc: AnyDto<Picture>): void => {
     this.modal.create<FormComponent, FormData>({
       nzTitle: $localize`编辑`,
       nzContent: FormComponent,

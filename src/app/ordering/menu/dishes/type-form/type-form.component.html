@@ -2,7 +2,43 @@
   <nz-form-item>
     <nz-form-label nzRequired i18n>名称</nz-form-label>
     <nz-form-control nzHasFeedback [nzAutoTips]="tips.name">
-      <input nz-input type="text" formControlName="name" placeholder="请填写标签名称" i18n-placeholder />
+      <input nz-input type="text" formControlName="name" placeholder="请填写类型名称" i18n-placeholder />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzRequired i18n>编码</nz-form-label>
+    <nz-form-control nzHasFeedback [nzAutoTips]="tips.sn">
+      <input nz-input type="text" formControlName="sn" placeholder="请填写类型编码" i18n-placeholder />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item formGroupName="period">
+    <nz-form-label i18n>
+      <span style="padding-right: 12px">销售时段</span>
+      <label nz-checkbox formControlName="enabled">启用</label>
+    </nz-form-label>
+    <nz-form-control formArrayName="rules">
+      <ng-container *ngFor="let x of rules?.controls; index as i; first as isFirst">
+        <nz-input-group [formGroupName]="i" nzCompact [ngStyle]="{ 'margin-top': isFirst ? null : '-1px' }">
+          <input
+            style="width: 30%"
+            type="text"
+            nz-input
+            formControlName="name"
+            placeholder="时段名称"
+            i18n-placeholder
+          />
+          <ng-container formArrayName="value">
+            <nz-time-picker style="width: 30%" [formControlName]="0" nzFormat="HH:mm"></nz-time-picker>
+            <nz-time-picker style="width: 30%" [formControlName]="1" nzFormat="HH:mm"></nz-time-picker>
+          </ng-container>
+          <button nz-button type="button" nzType="default" style="width: 10%" (click)="removeRule(i)">
+            <i nz-icon nzType="minus-circle"></i>
+          </button>
+        </nz-input-group>
+      </ng-container>
+      <button style="margin-top: 8px" nzBlock type="button" nz-button nzType="dashed" (click)="appendRule()" i18n>
+        <i nz-icon nzType="plus-circle"></i> 新增
+      </button>
     </nz-form-control>
   </nz-form-item>
 </form>
