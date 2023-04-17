@@ -24,9 +24,15 @@
       <ng-template #th0> <b>名称</b> </ng-template>
       <ng-template #th1> <b>编码</b> </ng-template>
       <ng-template #th2> <b>销售时段</b> </ng-template>
-      <ng-template #td0 let-data>{{ data.name }}</ng-template>
-      <ng-template #td1 let-data>{{ data.sn }}</ng-template>
-      <ng-template #td2 let-data></ng-template>
+      <ng-template #td0 let-data>{{ data['name'] }}</ng-template>
+      <ng-template #td1 let-data>{{ data['sn'] }}</ng-template>
+      <ng-template #td2 let-data>
+        <ng-container *ngIf="data['period'].enabled; else unset">
+          <nz-tag *ngFor="let x of data['period'].rules">
+            {{ x.name }} {{ x.value[0] | date : 'hh:mm' }}-{{ x.value[1] | date : 'hh:mm' }}
+          </nz-tag>
+        </ng-container>
+      </ng-template>
     </wpx-quick>
     <nz-select
       style="min-width: 180px"
@@ -177,3 +183,5 @@
 <ng-template #offTpl>
   <nz-badge nzStatus="error" nzText="关闭"></nz-badge>
 </ng-template>
+
+<ng-template #unset>未设置</ng-template>

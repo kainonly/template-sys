@@ -1,5 +1,5 @@
 {
-  "name": "catering",
+  "name": "openpms",
   "scripts": {
     "start": "ng s",
     "proxy": "ng s --proxy-config src/proxy.conf.json",

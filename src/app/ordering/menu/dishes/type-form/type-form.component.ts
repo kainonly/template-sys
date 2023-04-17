@@ -80,15 +80,9 @@ export class TypeFormComponent implements OnInit {
 
   submit(data: any): void {
     if (!this.data.doc) {
-      const rules: DishTypePeriodRule[] = data.period.rules;
-      const xrules: Record<string, XData> = {};
-      for (let i = 0; i < rules.length; i++) {
-        xrules[`period.rules.${i}.value.0`] = 'timestamp';
-        xrules[`period.rules.${i}.value.1`] = 'timestamp';
-      }
       this.data.api
         .create(data, {
-          xdata: { restaurant_id: 'oid', ...xrules }
+          xdata: { restaurant_id: 'oid', 'period.rules.$.value': 'timestamps' }
         })
         .subscribe(() => {
           this.message.success($localize`数据更新成功`);
@@ -102,7 +96,7 @@ export class TypeFormComponent implements OnInit {
             $set: data
           },
           {
-            xdata: { '$set.restaurant_id': 'oid' }
+            xdata: { '$set.restaurant_id': 'oid', '$set.period.rules.$.value': 'timestamps' }
           }
         )
         .subscribe(() => {

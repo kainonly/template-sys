@@ -13,6 +13,7 @@ import { AuthorizedComponent } from '@common/components/result/authorized/author
 import { ResultModule } from '@common/components/result/result.module';
 import { UnauthorizeComponent } from '@common/components/result/unauthorize/unauthorize.component';
 import { ShareModule } from '@common/share.module';
+import { WpxMediaModule } from '@weplanx/ng/media';
 import { WpxRichtextModule } from '@weplanx/ng/richtext';
 import { WpxStoreModule } from '@weplanx/ng/store';
 import { NZ_CONFIG, NzConfig } from 'ng-zorro-antd/core/config';
@@ -23,7 +24,6 @@ import { NzMessageModule } from 'ng-zorro-antd/message';
 import { AppComponent } from './app.component';
 import { AppGuard } from './app.guard';
 import { AppInterceptors } from './app.interceptors';
-import { WpxMediaModule } from '@weplanx/ng/media';
 
 registerLocaleData(zh);
 
@@ -120,7 +120,7 @@ const routes: Routes = [
         notification: { nzPlacement: 'bottomRight' },
         table: { nzSize: 'small' },
         codeEditor: {
-          assetsRoot: `https://cdn.kainonly.com/assets`
+          assetsRoot: `https://cdn.kainonly.com/npm/monaco-editor@0.36.1/min`
         }
       }
     }
