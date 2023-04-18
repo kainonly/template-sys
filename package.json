@@ -1,5 +1,5 @@
 {
-  "name": "openpms",
+  "name": "lemonade",
   "scripts": {
     "start": "ng s",
     "proxy": "ng s --proxy-config src/proxy.conf.json",

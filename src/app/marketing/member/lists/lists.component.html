@@ -25,8 +25,10 @@
   </nz-row>
 </ng-template>
 
+<wpx-quick [wpxApi]="levels" [wpxForm]="levelForm"> </wpx-quick>
+
 <ng-template #extraRef>
-  <button nz-button nzType="primary" (click)="form()"> 新增 </button>
+  <button nz-button nzType="primary" (click)="levelsRef.open()"> 设置等级 </button>
 </ng-template>
 
 <nz-card [nzTitle]="searchRef" [nzExtra]="extraRef">
