@@ -7,20 +7,13 @@
             <nz-divider nzType="vertical"></nz-divider>
           </ng-template>
           <ng-container *nzSpaceItem>
-            <ng-container *ngIf="!app.inAdmin; else backTpl">
-              <button nz-button nzType="text" routerLink="/admin">
-                <span nz-icon nzType="appstore"></span> <span i18n>管理后台</span>
-              </button>
-            </ng-container>
-            <ng-template #backTpl>
-              <button nz-button nzType="text" routerLink="/">
-                <span nz-icon nzType="arrow-left"></span> <span i18n>返回首页</span>
-              </button>
-            </ng-template>
+            <button nz-button nzType="text" [routerLink]="!app.inSettings ? '/settings' : '/'">
+              <span nz-icon [nzType]="!app.inSettings ? 'appstore' : 'arrow-left'"></span>
+            </button>
           </ng-container>
           <nz-breadcrumb *nzSpaceItem class="breadcrumb" nzAutoGenerate>
-            <nz-breadcrumb-item>
-              <a i18n routerLink="/"> <span nz-icon nzType="home"></span> 首页 </a>
+            <nz-breadcrumb-item *ngIf="!app.inSettings">
+              <a i18n routerLink="/"> 首页 </a>
             </nz-breadcrumb-item>
           </nz-breadcrumb>
         </nz-space>

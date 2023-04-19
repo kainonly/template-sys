@@ -4,9 +4,9 @@ export interface User {
    */
   email: string;
   /**
-   * 权限组
+   * 授权门面
    */
-  roles: string[];
+  shops: string[];
   /**
    * 密码
    */

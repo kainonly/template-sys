@@ -9,7 +9,7 @@ import { AnyDto, UploadOption, WpxService } from '@weplanx/ng';
 @Injectable({ providedIn: 'root' })
 export class AppService {
   user?: AnyDto<User>;
-  inAdmin = false;
+  inSettings = false;
 
   constructor(private http: HttpClient, private wpx: WpxService, @Inject(LOCALE_ID) private locale: string) {}
 

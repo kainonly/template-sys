@@ -50,10 +50,10 @@ const routes: Routes = [
         loadChildren: () => import('./index.module').then(m => m.IndexModule)
       },
       {
-        path: 'admin',
-        loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
+        path: 'settings',
+        loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule),
         data: {
-          breadcrumb: $localize`管理后台`
+          breadcrumb: $localize`设置`
         }
       },
       { path: '', redirectTo: '_', pathMatch: 'full' }
