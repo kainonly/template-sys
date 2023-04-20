@@ -1,0 +1,174 @@
+<nz-page-header [nzGhost]="false">
+  <nz-page-header-title> 菜品管理 </nz-page-header-title>
+  <nz-page-header-tags>
+    <wpx-quick
+      [wpxApi]="types"
+      [wpxFilter]="typeFilter"
+      [wpxForm]="typeForm"
+      [wpxHeaderCell]="[th0, th1, th2]"
+      [wpxCell]="[td0, td1, td2]"
+    >
+      <ng-template #th0> <b>名称</b> </ng-template>
+      <ng-template #th1> <b>编码</b> </ng-template>
+      <ng-template #th2> <b>销售时段</b> </ng-template>
+      <ng-template #td0 let-data>{{ data['name'] }}</ng-template>
+      <ng-template #td1 let-data>{{ data['sn'] }}</ng-template>
+      <ng-template #td2 let-data>
+        <ng-container *ngIf="data['period'].enabled; else unset">
+          <nz-tag *ngFor="let x of data['period'].rules">
+            {{ x.name }} {{ x.value[0] | date : 'hh:mm' }}-{{ x.value[1] | date : 'hh:mm' }}
+          </nz-tag>
+        </ng-container>
+      </ng-template>
+    </wpx-quick>
+    <nz-select
+      style="min-width: 180px"
+      nzMode="multiple"
+      nzPlaceHolder="筛选菜品分类"
+      nzAllowClear
+      nzBorderless
+      [(ngModel)]="typeIds"
+      [nzServerSearch]="true"
+      (nzOnSearch)="getTypes($event)"
+      (ngModelChange)="getData(true)"
+    ></nz-select>
+  </nz-page-header-tags>
+  <nz-page-header-extra>
+    <nz-space>
+      <button
+        *nzSpaceItem
+        nz-button
+        nzType="primary"
+        nzShape="circle"
+        nz-tooltip="设置分类"
+        i18n-nz-tooltip
+        (click)="typesRef.open()"
+      >
+        <i nz-icon nzType="tags"></i>
+      </button>
+    </nz-space>
+  </nz-page-header-extra>
+  <nz-page-header-content>
+    <nz-row nzJustify="space-between">
+      <nz-col>
+        <nz-descriptions style="width: 640px" [nzColumn]="2" nzLayout="vertical">
+          <nz-descriptions-item nzTitle="餐厅概况">暂无</nz-descriptions-item>
+        </nz-descriptions>
+      </nz-col>
+      <nz-col></nz-col>
+      <nz-col>
+        <nz-statistic [nzValue]="0" [nzTitle]="'菜品数量'"></nz-statistic>
+      </nz-col>
+    </nz-row>
+  </nz-page-header-content>
+</nz-page-header>
+
+<ng-template #searchRef>
+  <nz-row [nzGutter]="6">
+    <nz-col>
+      <nz-input-group style="width: 180px" nzSuffixIcon="search">
+        <input type="text" nz-input placeholder="搜索" i18n-placeholder />
+      </nz-input-group>
+    </nz-col>
+    <nz-col>
+      <nz-button-group>
+        <button nz-button nzType="text" nz-tooltip="刷新" i18n-nz-tooltip>
+          <i nz-icon nzType="reload"></i>
+        </button>
+        <button nz-button nzType="text" nz-tooltip="重置" i18n-nz-tooltip>
+          <i nz-icon nzType="clear"></i>
+        </button>
+        <button nz-button nzType="text" nz-tooltip="筛选" i18n-nz-tooltip>
+          <i nz-icon nzType="filter"></i>
+        </button>
+      </nz-button-group>
+    </nz-col>
+  </nz-row>
+</ng-template>
+
+<ng-template #extraRef>
+  <nz-space>
+    <button *nzSpaceItem nz-button> 导出 </button>
+    <button *nzSpaceItem nz-button nzType="primary" (click)="form()"> 新增 </button>
+  </nz-space>
+</ng-template>
+
+<nz-content style="padding: 6px">
+  <nz-card nzSize="default" [nzTitle]="searchRef" [nzExtra]="extraRef">
+    <nz-table
+      #basicTable
+      [nzFrontPagination]="false"
+      [nzShowSizeChanger]="true"
+      [nzHideOnSinglePage]="true"
+      [nzLoading]="false"
+      [nzData]="ds.values"
+      [nzTotal]="ds.total"
+      [(nzPageSize)]="ds.pagesize"
+      [(nzPageIndex)]="ds.page"
+      (nzPageIndexChange)="getData(false)"
+      (nzPageSizeChange)="getData(true)"
+    >
+      <thead>
+        <tr>
+          <th
+            nzWidth="60px"
+            nzLeft
+            nzAlign="center"
+            [nzChecked]="ds.checked"
+            [nzIndeterminate]="ds.indeterminate"
+            (nzCheckedChange)="ds.setNChecked($event)"
+          ></th>
+          <th nzWidth="300px"><b>菜品名称【编号】</b></th>
+          <th nzWidth="150px"><b>菜品分类</b></th>
+          <th><b>功能</b></th>
+          <th nzWidth="120px"><b>服务费率</b></th>
+          <th nzWidth="120px"><b>税率</b></th>
+          <th nzWidth="120px"><b>售价 / 特价</b></th>
+          <th nzWidth="60px" nzRight nzAlign="center">
+            <button nz-button nzType="text" nzBlock disabled>
+              <i nz-icon nzType="setting"></i>
+            </button>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of basicTable.data">
+          <td
+            nzLeft
+            nzAlign="center"
+            [nzDisabled]="data['disabled']"
+            [nzChecked]="ds.checkedIds.has(data['_id'])"
+            (nzCheckedChange)="ds.setChecked(data['_id'], $event)"
+          ></td>
+          <td>{{ data.name }}</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>
+            <ng-container *ngIf="data.status; else offTpl">
+              <nz-badge nzStatus="processing" nzText="启用"></nz-badge>
+            </ng-container>
+          </td>
+          <td nzRight nzAlign="center">
+            <button nz-button nzType="text" nz-dropdown [nzDropdownMenu]="menu">
+              <i nz-icon nzType="ellipsis"></i>
+            </button>
+            <nz-dropdown-menu #menu="nzDropdownMenu">
+              <ul nz-menu>
+                <li nz-menu-item i18n>编辑</li>
+                <li nz-menu-item nzDanger i18n>删除</li>
+              </ul>
+            </nz-dropdown-menu>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </nz-card>
+</nz-content>
+
+<ng-template #offTpl>
+  <nz-badge nzStatus="error" nzText="关闭"></nz-badge>
+</ng-template>
+
+<ng-template #unset>未设置</ng-template>

@@ -24,13 +24,13 @@ const routes: Routes = [
           breadcrumb: $localize`门店`
         }
       },
-      // {
-      //   path: 'ordering',
-      //   loadChildren: () => import('./ordering/ordering.module').then(m => m.OrderingModule),
-      //   data: {
-      //     breadcrumb: $localize`点餐`
-      //   }
-      // },
+      {
+        path: 'ordering',
+        loadChildren: () => import('./ordering/ordering.module').then(m => m.OrderingModule),
+        data: {
+          breadcrumb: $localize`点餐`
+        }
+      },
       {
         path: 'resources',
         loadChildren: () => import('./resources/resources.module').then(m => m.ResourcesModule),
@@ -38,13 +38,13 @@ const routes: Routes = [
           breadcrumb: $localize`资源`
         }
       },
-      // {
-      //   path: 'marketing',
-      //   loadChildren: () => import('./marketing/marketing.module').then(m => m.MarketingModule),
-      //   data: {
-      //     breadcrumb: $localize`营销`
-      //   }
-      // },
+      {
+        path: 'marketing',
+        loadChildren: () => import('./marketing/marketing.module').then(m => m.MarketingModule),
+        data: {
+          breadcrumb: $localize`营销`
+        }
+      },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   }
