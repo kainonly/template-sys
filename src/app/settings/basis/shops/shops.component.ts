@@ -14,7 +14,7 @@ import { FormComponent, InputData } from './form/form.component';
 })
 export class ShopsComponent implements OnInit {
   searchText = '';
-  dataset: WpxData<AnyDto<Shop>> = new WpxData<AnyDto<Shop>>();
+  ds: WpxData<AnyDto<Shop>> = new WpxData<AnyDto<Shop>>();
 
   constructor(private shops: ShopsService, private modal: NzModalService, private message: NzMessageService) {}
 
@@ -23,14 +23,14 @@ export class ShopsComponent implements OnInit {
   }
 
   getData(refresh = false): void {
-    this.shops.pages(this.dataset, refresh).subscribe(() => {});
+    this.shops.pages(this.ds, refresh).subscribe(() => {});
   }
 
   submitSearch(): void {
     if (!this.searchText) {
-      this.dataset.filter = {};
+      this.ds.filter = {};
     } else {
-      this.dataset.filter = {
+      this.ds.filter = {
         name: { $regex: this.searchText }
       };
     }

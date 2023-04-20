@@ -1,28 +1,20 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { User } from '@common/interfaces/user';
 import { UsersService } from '@common/services/users.service';
 import { AnyDto, WpxData, WpxService } from '@weplanx/ng';
-import { TableField, WpxTableComponent } from '@weplanx/ng/table';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 
-import { FormComponent, FormData } from './form/form.component';
+import { FormComponent, InputData } from './form/form.component';
 
 @Component({
   selector: 'app-settings-basis-users',
   templateUrl: './users.component.html'
 })
-export class UsersComponent {
-  @ViewChild(WpxTableComponent) table!: WpxTableComponent<User>;
-  fields: Map<string, TableField> = new Map<string, TableField>([
-    ['email', { label: '电子邮件', type: 'string', keyword: true }],
-    ['name', { label: '称呼', type: 'string', keyword: true }],
-    ['status', { label: '状态', type: 'bool' }],
-    ['create_time', { label: '创建时间', type: 'date', option: { time: true } }],
-    ['update_time', { label: '更新时间', type: 'date', option: { time: true } }]
-  ]);
-  dataset: WpxData<AnyDto<User>> = new WpxData<AnyDto<User>>();
+export class UsersComponent implements OnInit {
+  searchText = '';
+  ds: WpxData<AnyDto<User>> = new WpxData<AnyDto<User>>();
 
   constructor(
     public users: UsersService,
@@ -31,8 +23,32 @@ export class UsersComponent {
     private message: NzMessageService
   ) {}
 
+  ngOnInit(): void {
+    this.getData(true);
+  }
+
+  getData(refresh = false): void {
+    this.users.pages(this.ds, refresh).subscribe(() => {});
+  }
+
+  submitSearch(): void {
+    if (!this.searchText) {
+      this.ds.filter = {};
+    } else {
+      this.ds.filter = {
+        name: { $regex: this.searchText }
+      };
+    }
+    this.getData(true);
+  }
+
+  clearSearch(): void {
+    this.searchText = '';
+    this.getData(true);
+  }
+
   form(doc?: AnyDto<User>): void {
-    this.modal.create<FormComponent, FormData>({
+    this.modal.create<FormComponent, InputData>({
       nzTitle: !doc ? '创建' : `编辑【${doc.email}】`,
       nzWidth: 640,
       nzContent: FormComponent,
@@ -40,7 +56,7 @@ export class UsersComponent {
         doc
       },
       nzOnOk: () => {
-        this.table.getData(true);
+        this.getData(true);
       }
     });
   }
@@ -54,36 +70,8 @@ export class UsersComponent {
       nzOnOk: () => {
         this.users.delete(doc._id).subscribe(() => {
           this.message.success($localize`数据删除成功`);
-          this.table.getData(true);
+          this.getData(true);
         });
-      },
-      nzCancelText: $localize`再想想`
-    });
-  }
-
-  bulkDelete(): void {
-    this.modal.confirm({
-      nzTitle: $localize`您确定删除这些用户吗？`,
-      nzOkText: $localize`是的`,
-      nzOkType: 'primary',
-      nzOkDanger: true,
-      nzOnOk: () => {
-        this.users
-          .bulkDelete(
-            {
-              _id: { $in: [...this.dataset.checkedIds.values()] }
-            },
-            {
-              xfilter: {
-                '_id.$in': 'oids'
-              }
-            }
-          )
-          .subscribe(() => {
-            this.message.success($localize`数据删除成功`);
-            this.table.getData(true);
-            this.dataset.clearChecked();
-          });
       },
       nzCancelText: $localize`再想想`
     });

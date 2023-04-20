@@ -8,7 +8,7 @@ import { AnyDto, validates, WpxService } from '@weplanx/ng';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 
-export interface FormData {
+export interface InputData {
   doc?: AnyDto<User>;
 }
 
@@ -35,7 +35,7 @@ export class FormComponent implements OnInit {
   passwordVisible = false;
 
   constructor(
-    @Inject(NZ_MODAL_DATA) public data: FormData,
+    @Inject(NZ_MODAL_DATA) public data: InputData,
     public wpx: WpxService,
     private modalRef: NzModalRef,
     private message: NzMessageService,
