@@ -1,8 +1,8 @@
 export interface Dish {
   /**
-   * 所属餐厅
+   * 所属门店
    */
-  restaurant_id: string;
+  shop_id: string;
   /**
    * 所属分类
    */

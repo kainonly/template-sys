@@ -71,14 +71,4 @@ import { AppService } from '@app';
     </nz-layout>
   `
 })
-export class SettingsComponent implements OnInit, OnDestroy {
-  constructor(private app: AppService) {}
-
-  ngOnInit(): void {
-    this.app.inSettings = true;
-  }
-
-  ngOnDestroy(): void {
-    this.app.inSettings = false;
-  }
-}
+export class SettingsComponent {}

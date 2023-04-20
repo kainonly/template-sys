@@ -1,7 +1,8 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { AppService } from '@app';
+import { SidenavComponent } from '@common/components/layout/sidenav/sidenav.component';
 import { WpxService } from '@weplanx/ng';
 import { NzDrawerRef, NzDrawerService } from 'ng-zorro-antd/drawer';
 
@@ -12,21 +13,41 @@ import { ProfileComponent } from './profile/profile.component';
   templateUrl: 'layout.component.html',
   styleUrls: ['./layout.component.scss']
 })
-export class LayoutComponent {
-  @ViewChild('profileTitleTpl') profileTitleTpl!: TemplateRef<any>;
+export class LayoutComponent implements OnInit {
+  @ViewChild('sidenavTitleRef') sidenavTitleRef!: TemplateRef<any>;
+  @ViewChild('profileTitleRef') profileTitleRef!: TemplateRef<any>;
+  private sidenavRef?: NzDrawerRef<SidenavComponent, any>;
   private profileRef?: NzDrawerRef<ProfileComponent, any>;
 
   constructor(
     private wpx: WpxService,
     public app: AppService,
     private router: Router,
-    private activatedRoute: ActivatedRoute,
+    private route: ActivatedRoute,
     private drawer: NzDrawerService
   ) {}
 
-  profile(): void {
-    this.profileRef = this.drawer.create<ProfileComponent, { value: string }, string>({
-      nzTitle: this.profileTitleTpl,
+  ngOnInit(): void {
+    this.route.data.subscribe(data => {
+      this.app.user = data['user'];
+    });
+  }
+
+  openSidenav(): void {
+    this.sidenavRef = this.drawer.create<SidenavComponent>({
+      nzTitle: this.sidenavTitleRef,
+      nzContent: SidenavComponent,
+      nzPlacement: 'left'
+    });
+  }
+
+  closeSidenav(): void {
+    this.sidenavRef?.close();
+  }
+
+  openProfile(): void {
+    this.profileRef = this.drawer.create<ProfileComponent, any>({
+      nzTitle: this.profileTitleRef,
       nzWidth: '800px',
       nzContent: ProfileComponent
     });

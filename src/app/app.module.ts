@@ -13,6 +13,8 @@ import { AuthorizedComponent } from '@common/components/result/authorized/author
 import { ResultModule } from '@common/components/result/result.module';
 import { UnauthorizeComponent } from '@common/components/result/unauthorize/unauthorize.component';
 import { ShareModule } from '@common/share.module';
+import { shopResolver } from '@common/shop.resolver';
+import { userResolver } from '@common/user.resolver';
 import { WpxMediaModule } from '@weplanx/ng/media';
 import { WpxRichtextModule } from '@weplanx/ng/richtext';
 import { WpxStoreModule } from '@weplanx/ng/store';
@@ -22,7 +24,7 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { NzMessageModule } from 'ng-zorro-antd/message';
 
 import { AppComponent } from './app.component';
-import { AppGuard } from './app.guard';
+import { appGuard } from './app.guard';
 import { AppInterceptors } from './app.interceptors';
 
 registerLocaleData(zh);
@@ -43,12 +45,11 @@ const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
-    canActivate: [AppGuard],
+    canActivate: [appGuard],
+    resolve: {
+      user: userResolver
+    },
     children: [
-      {
-        path: '_',
-        loadChildren: () => import('./index.module').then(m => m.IndexModule)
-      },
       {
         path: 'settings',
         loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule),
@@ -56,7 +57,14 @@ const routes: Routes = [
           breadcrumb: $localize`设置`
         }
       },
-      { path: '', redirectTo: '_', pathMatch: 'full' }
+      {
+        path: ':id',
+        loadChildren: () => import('./index.module').then(m => m.IndexModule),
+        resolve: {
+          shop: shopResolver
+        }
+      },
+      { path: '', redirectTo: 'settings', pathMatch: 'full' }
     ]
   }
 ];

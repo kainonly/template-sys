@@ -1,4 +1,8 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
+import { AppService } from '@app';
+import { ShopsService } from '@common/services/shops.service';
 
 @Component({
   selector: 'app-index',
@@ -7,21 +11,21 @@ import { Component } from '@angular/core';
       <ul nz-menu nzMode="vertical">
         <li
           nz-menu-item
-          nz-tooltip="总览"
+          nz-tooltip="仪表盘"
           i18n-nz-tooltip
           nzTooltipPlacement="right"
           nzMatchRouter
-          [routerLink]="['/', '_', 'overview']"
+          [routerLink]="['/', app.shopId, 'dashboard']"
         >
-          <span nz-icon nzType="desktop"></span>
+          <span nz-icon nzType="dashboard"></span>
         </li>
         <li
           nz-menu-item
-          nz-tooltip="餐厅"
+          nz-tooltip="门店"
           i18n-nz-tooltip
           nzTooltipPlacement="right"
           nzMatchRouter
-          [routerLink]="['/', '_', 'restaurants']"
+          [routerLink]="['/', app.shopId, 'overview']"
         >
           <span nz-icon nzType="shop"></span>
         </li>
@@ -31,7 +35,7 @@ import { Component } from '@angular/core';
           i18n-nz-tooltip
           nzTooltipPlacement="right"
           nzMatchRouter
-          [routerLink]="['/', '_', 'ordering']"
+          [routerLink]="['/', app.shopId, 'ordering']"
         >
           <span nz-icon nzType="coffee"></span>
         </li>
@@ -41,7 +45,7 @@ import { Component } from '@angular/core';
           i18n-nz-tooltip
           nzTooltipPlacement="right"
           nzMatchRouter
-          [routerLink]="['/', '_', 'resources']"
+          [routerLink]="['/', app.shopId, 'resources']"
         >
           <span nz-icon nzType="inbox"></span>
         </li>
@@ -51,7 +55,7 @@ import { Component } from '@angular/core';
           i18n-nz-tooltip
           nzTooltipPlacement="right"
           nzMatchRouter
-          [routerLink]="['/', '_', 'marketing']"
+          [routerLink]="['/', app.shopId, 'marketing']"
         >
           <span nz-icon nzType="bulb"></span>
         </li>
@@ -61,4 +65,22 @@ import { Component } from '@angular/core';
     <router-outlet></router-outlet>
   `
 })
-export class IndexComponent {}
+export class IndexComponent implements OnInit, OnDestroy {
+  constructor(
+    private route: ActivatedRoute,
+    public app: AppService,
+    private shops: ShopsService,
+    private cd: ChangeDetectorRef
+  ) {}
+
+  ngOnInit(): void {
+    this.route.data.subscribe(data => {
+      this.app.shop = data['shop'];
+      this.cd.detectChanges();
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.app.shop = undefined;
+  }
+}

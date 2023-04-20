@@ -41,7 +41,7 @@ export class RichtextComponent implements ControlValueAccessor {
   onChanged!: (value: any) => void;
   private onTouched!: () => void;
 
-  constructor(private modal: NzModalService, private wpx: WpxService, private zone: NgZone) {}
+  constructor(private modal: NzModalService, private wpx: WpxService) {}
 
   registerOnChange(fn: any): void {
     this.onChanged = fn;

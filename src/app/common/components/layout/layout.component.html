@@ -7,20 +7,20 @@
             <nz-divider nzType="vertical"></nz-divider>
           </ng-template>
           <ng-container *nzSpaceItem>
-            <button nz-button nzType="text" [routerLink]="!app.inSettings ? '/settings' : '/'">
-              <span nz-icon [nzType]="!app.inSettings ? 'appstore' : 'arrow-left'"></span>
+            <button nz-button nzType="text" (click)="openSidenav()">
+              <span nz-icon nzType="appstore"></span>
             </button>
           </ng-container>
           <nz-breadcrumb *nzSpaceItem class="breadcrumb" nzAutoGenerate>
-            <nz-breadcrumb-item *ngIf="!app.inSettings">
-              <a i18n routerLink="/"> 首页 </a>
+            <nz-breadcrumb-item *ngIf="app.shop as v">
+              <a [routerLink]="['/', v._id]" i18n> {{ v.name }}</a>
             </nz-breadcrumb-item>
           </nz-breadcrumb>
         </nz-space>
       </nz-col>
       <nz-col> </nz-col>
       <nz-col>
-        <div class="center" (click)="profile()">
+        <div class="center" (click)="openProfile()">
           <ng-container *ngIf="app.user as u">
             <nz-badge nzDot>
               <ng-container *ngIf="!!u.avatar; else defaultAvatar">
@@ -46,7 +46,17 @@
   <router-outlet></router-outlet>
 </div>
 
-<ng-template #profileTitleTpl>
+<ng-template #sidenavTitleRef>
+  <nz-row nzJustify="space-between">
+    <nz-col i18n>我的门店</nz-col>
+    <nz-col></nz-col>
+    <nz-col>
+      <a routerLink="/settings" (click)="closeSidenav()" i18n> 设置 </a>
+    </nz-col>
+  </nz-row>
+</ng-template>
+
+<ng-template #profileTitleRef>
   <nz-row nzJustify="space-between">
     <nz-col><span i18n>个人中心</span></nz-col>
     <nz-col></nz-col>

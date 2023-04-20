@@ -5,9 +5,9 @@ import { AnyDto } from '@weplanx/ng';
  */
 export interface Area {
   /**
-   * 所属餐厅
+   * 所属门店
    */
-  restaurant_id: string;
+  shop_id: string;
   /**
    * 名称
    */

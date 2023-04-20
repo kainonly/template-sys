@@ -11,26 +11,26 @@ const routes: Routes = [
     component: IndexComponent,
     children: [
       {
+        path: 'dashboard',
+        loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
+        data: {
+          breadcrumb: $localize`仪表盘`
+        }
+      },
+      {
         path: 'overview',
         loadChildren: () => import('./overview/overview.module').then(m => m.OverviewModule),
         data: {
-          breadcrumb: $localize`总览`
+          breadcrumb: $localize`门店`
         }
       },
-      {
-        path: 'restaurants',
-        loadChildren: () => import('./restaurants/restaurants.module').then(m => m.RestaurantsModule),
-        data: {
-          breadcrumb: $localize`餐厅`
-        }
-      },
-      {
-        path: 'ordering',
-        loadChildren: () => import('./ordering/ordering.module').then(m => m.OrderingModule),
-        data: {
-          breadcrumb: $localize`点餐`
-        }
-      },
+      // {
+      //   path: 'ordering',
+      //   loadChildren: () => import('./ordering/ordering.module').then(m => m.OrderingModule),
+      //   data: {
+      //     breadcrumb: $localize`点餐`
+      //   }
+      // },
       {
         path: 'resources',
         loadChildren: () => import('./resources/resources.module').then(m => m.ResourcesModule),
@@ -38,14 +38,14 @@ const routes: Routes = [
           breadcrumb: $localize`资源`
         }
       },
-      {
-        path: 'marketing',
-        loadChildren: () => import('./marketing/marketing.module').then(m => m.MarketingModule),
-        data: {
-          breadcrumb: $localize`营销`
-        }
-      },
-      { path: '', redirectTo: 'overview', pathMatch: 'full' }
+      // {
+      //   path: 'marketing',
+      //   loadChildren: () => import('./marketing/marketing.module').then(m => m.MarketingModule),
+      //   data: {
+      //     breadcrumb: $localize`营销`
+      //   }
+      // },
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   }
 ];

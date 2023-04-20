@@ -19,9 +19,6 @@
 <ng-template #footer>
   <nz-space>
     <ng-container *nzSpaceItem>
-      <ng-container *ngTemplateOutlet="instance.restaurantSearchRef"></ng-container>
-    </ng-container>
-    <ng-container *nzSpaceItem>
       <wpx-quick #tagsRef [wpxApi]="instance.tags"> </wpx-quick>
       <button nz-button (click)="tagsRef.open()" i18n> 设置标签 </button>
     </ng-container>

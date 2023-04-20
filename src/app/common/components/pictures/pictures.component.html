@@ -6,19 +6,6 @@
   ></wpx-upload-transport>
 </ng-template>
 
-<ng-template #restaurantSearchRef>
-  <nz-select
-    nzBorderless
-    [nzDropdownMatchSelectWidth]="false"
-    [(ngModel)]="restaurantId"
-    (ngModelChange)="restaurantChange()"
-  >
-    <ng-container *ngFor="let item of restaurantItems">
-      <nz-option [nzValue]="item._id" [nzLabel]="item.name"></nz-option>
-    </ng-container>
-  </nz-select>
-</ng-template>
-
 <wpx-quick [wpxApi]="tags" [wpxFilter]="tagFilter" [wpxForm]="tagForm"> </wpx-quick>
 <ng-template #tagSearchRef>
   <nz-select

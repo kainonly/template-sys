@@ -12,8 +12,8 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  form!: FormGroup;
   loading = false;
+  form!: FormGroup;
 
   constructor(
     public wpx: WpxService,
@@ -38,21 +38,12 @@ export class LoginComponent implements OnInit {
     return this.form.get('password') as FormControl;
   }
 
-  /**
-   * 飞书授权
-   */
-  feishuOAuth(): void {
-    this.app.oauth().subscribe(v => {
-      window.location.href = v;
-    });
-  }
-
   submit(data: any): void {
     this.loading = true;
     this.app.login(data).subscribe({
-      next: async () => {
+      next: () => {
         this.loading = false;
-        await this.router.navigateByUrl('/');
+        this.router.navigateByUrl('/');
         this.notification.success($localize`认证状态`, $localize`🚀登录成功，正在加载数据~`);
       },
       error: () => {

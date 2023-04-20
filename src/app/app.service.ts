@@ -1,17 +1,24 @@
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Inject, Injectable, LOCALE_ID } from '@angular/core';
-import { Observable, switchMap } from 'rxjs';
+import { Observable, Subscription, switchMap, timer } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { Shop } from '@common/interfaces/shop';
 import { SetUserDto, User } from '@common/interfaces/user';
 import { AnyDto, UploadOption, WpxService } from '@weplanx/ng';
 
 @Injectable({ providedIn: 'root' })
 export class AppService {
   user?: AnyDto<User>;
-  inSettings = false;
+  shop?: AnyDto<Shop>;
+
+  private refreshTokenSubscription?: Subscription;
 
   constructor(private http: HttpClient, private wpx: WpxService, @Inject(LOCALE_ID) private locale: string) {}
+
+  get shopId(): string {
+    return this.shop!._id;
+  }
 
   ping(): Observable<any> {
     return this.http.get('');
@@ -21,21 +28,32 @@ export class AppService {
     return this.http.post('login', data);
   }
 
-  verify(): Observable<HttpResponse<any>> {
-    return this.http.get('verify', { observe: 'response' });
+  verify(): Observable<boolean> {
+    return this.http.get('verify', { observe: 'response' }).pipe(map(v => v.status === 200));
   }
 
-  refreshToken(): Observable<any> {
-    return this.http.get<any>('code').pipe(
-      switchMap(v =>
-        this.http.post('refresh_token', {
-          code: v.code
-        })
+  refreshToken(): void {
+    if (this.refreshTokenSubscription) {
+      this.refreshTokenSubscription.unsubscribe();
+    }
+    this.refreshTokenSubscription = timer(0, 3200 * 1000)
+      .pipe(
+        switchMap(() => this.http.get<any>('code')),
+        switchMap(v =>
+          this.http.post('refresh_token', {
+            code: v.code
+          })
+        )
       )
-    );
+      .subscribe(() => {
+        console.debug('refresh_token');
+      });
   }
 
   logout(): Observable<any> {
+    if (this.refreshTokenSubscription) {
+      this.refreshTokenSubscription.unsubscribe();
+    }
     return this.http.post('logout', {});
   }
 
@@ -49,23 +67,6 @@ export class AppService {
           this.wpx.upload.next(v);
           this.wpx.upload.complete();
           return v;
-        })
-      );
-  }
-
-  oauth(action?: string): Observable<string> {
-    const state = JSON.stringify({
-      action,
-      locale: this.locale
-    });
-    return this.http
-      .get<any>('options', {
-        params: { type: 'collaboration' }
-      })
-      .pipe(
-        map(v => {
-          const redirect_uri = encodeURIComponent(v.redirect);
-          return `${v.url}?redirect_uri=${redirect_uri}&app_id=${v.app_id}&state=${state}`;
         })
       );
   }

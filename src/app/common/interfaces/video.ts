@@ -5,7 +5,7 @@ export interface Video extends WpxVideo {
   /**
    * 所属餐厅
    */
-  restaurant_id: string;
+  shop_id: string;
   /**
    * 标签
    */
@@ -16,5 +16,5 @@ export interface VideoTag extends WpxQuick {
   /**
    * 所属餐厅
    */
-  restaurant_id: string;
+  shop_id: string;
 }

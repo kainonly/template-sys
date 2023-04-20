@@ -3,9 +3,9 @@ import { WpxQuick } from '@weplanx/ng/quick';
 
 export interface Picture extends WpxPicture {
   /**
-   * 所属餐厅
+   * 所属门店
    */
-  restaurant_id: string;
+  shop_id: string;
   /**
    * 标签
    */
@@ -14,7 +14,7 @@ export interface Picture extends WpxPicture {
 
 export interface PictureTag extends WpxQuick {
   /**
-   * 所属餐厅
+   * 所属门店
    */
-  restaurant_id: string;
+  shop_id: string;
 }

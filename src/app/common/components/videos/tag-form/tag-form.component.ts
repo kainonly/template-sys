@@ -6,8 +6,8 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 
-export interface TagFormData extends WpxQuickFormData {
-  restaurant_id: string;
+export interface TagInputData extends WpxQuickFormData {
+  shopId: string;
 }
 
 @Component({
@@ -25,7 +25,7 @@ export class TagFormComponent implements OnInit {
   };
 
   constructor(
-    @Inject(NZ_MODAL_DATA) public data: TagFormData,
+    @Inject(NZ_MODAL_DATA) public data: TagInputData,
     private modalRef: NzModalRef,
     private message: NzMessageService,
     private notification: NzNotificationService,
@@ -34,7 +34,7 @@ export class TagFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      restaurant_id: [this.data.restaurant_id],
+      shop_id: [this.data.shopId],
       name: [null, [Validators.required]]
     });
     if (this.data.doc) {
@@ -50,7 +50,7 @@ export class TagFormComponent implements OnInit {
     if (!this.data.doc) {
       this.data.api
         .create(data, {
-          xdata: { restaurant_id: 'oid' }
+          xdata: { shop_id: 'oid' }
         })
         .subscribe(() => {
           this.message.success($localize`数据更新成功`);
@@ -64,7 +64,7 @@ export class TagFormComponent implements OnInit {
             $set: data
           },
           {
-            xdata: { '$set.restaurant_id': 'oid' }
+            xdata: { '$set.shop_id': 'oid' }
           }
         )
         .subscribe(() => {

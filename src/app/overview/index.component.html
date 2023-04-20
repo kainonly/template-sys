@@ -1,0 +1,74 @@
+<nz-page-header *ngIf="app.shop as shop" [nzGhost]="false">
+  <nz-page-header-title>
+    {{ shop.name }}
+  </nz-page-header-title>
+  <nz-page-header-subtitle>
+    <p nz-typography style="margin: 0">
+      <span nz-icon nzType="number"></span>
+      {{ shop.sn }}
+    </p>
+  </nz-page-header-subtitle>
+  <nz-page-header-tags>
+    <!--    <nz-tag [nzColor]="'blue'" *ngIf="restaurant.enabled.mini_wechatpay">小程序支付</nz-tag>-->
+    <!--    <nz-tag [nzColor]="'blue'" *ngIf="restaurant.enabled.minimum_spending">最低限额消费</nz-tag>-->
+    <!--    <nz-tag [nzColor]="'blue'" *ngIf="restaurant.enabled.tea">茶位费</nz-tag>-->
+  </nz-page-header-tags>
+  <nz-page-header-extra>
+    <button nz-button nzType="primary" nzShape="circle" (click)="form()" nz-tooltip="编辑" i18n-nz-tooltip>
+      <span nz-icon nzType="edit"></span>
+    </button>
+  </nz-page-header-extra>
+  <nz-page-header-content>
+    <nz-row nzJustify="space-between">
+      <nz-col>
+        <nz-space>
+          <wpx-upload-avatar *nzSpaceItem> </wpx-upload-avatar>
+          <nz-descriptions *nzSpaceItem nzSize="small" nzLayout="vertical" style="width: 640px">
+            <nz-descriptions-item nzTitle="服务电话">{{ shop.tel }}</nz-descriptions-item>
+            <nz-descriptions-item nzTitle="地址">
+              <ng-container *ngIf="shop.address; else nothingRef">{{ shop.address }}</ng-container>
+            </nz-descriptions-item>
+            <nz-descriptions-item nzTitle="状态">
+              <ng-container *ngIf="shop.status; else closedDownRef">
+                <nz-badge nzStatus="processing" nzText="营业"></nz-badge>
+              </ng-container>
+              <ng-template #closedDownRef>
+                <nz-badge nzStatus="error" nzText="停业"></nz-badge>
+              </ng-template>
+            </nz-descriptions-item>
+            <nz-descriptions-item nzTitle="公告" [nzSpan]="3">
+              <ng-container *ngIf="shop.bulletin; else nothingRef">
+                {{ shop.bulletin }}
+              </ng-container>
+            </nz-descriptions-item>
+          </nz-descriptions>
+        </nz-space>
+      </nz-col>
+      <nz-col></nz-col>
+      <nz-col>
+        <wpx-media-input
+          [wpxType]="'pictures'"
+          [wpxFallback]="['assets', 'photon.svg'] | wpxAssets"
+          [wpxMax]="5"
+          [ngModel]="shop.pictures"
+        ></wpx-media-input>
+      </nz-col>
+    </nz-row>
+  </nz-page-header-content>
+  <nz-page-header-footer>
+    <nz-tabset nzLinkRouter>
+      <nz-tab>
+        <a *nzTabLink nz-tab-link [routerLink]="['/', shop._id, 'overview', 'areas']">区位列表</a>
+      </nz-tab>
+      <nz-tab>
+        <a *nzTabLink nz-tab-link [routerLink]="['/', shop._id, 'overview', 'period']">营业时段</a>
+      </nz-tab>
+    </nz-tabset>
+  </nz-page-header-footer>
+</nz-page-header>
+
+<ng-template #nothingRef>暂无</ng-template>
+
+<nz-content style="padding: 6px">
+  <router-outlet></router-outlet>
+</nz-content>

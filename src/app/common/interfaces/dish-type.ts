@@ -2,7 +2,7 @@ export interface DishType {
   /**
    * 所属餐厅
    */
-  restaurant_id: string;
+  shop_id: string;
   /**
    * 名称
    */

@@ -9,8 +9,8 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 
-export interface FormData {
-  restaurant_id: string;
+export interface InputData {
+  shopId: string;
   doc: AnyDto<Video>;
 }
 
@@ -30,7 +30,7 @@ export class FormComponent implements OnInit {
   tagItems: Array<AnyDto<VideoTag>> = [];
 
   constructor(
-    @Inject(NZ_MODAL_DATA) public data: FormData,
+    @Inject(NZ_MODAL_DATA) public data: InputData,
     private modalRef: NzModalRef,
     private message: NzMessageService,
     private notification: NzNotificationService,
@@ -49,14 +49,14 @@ export class FormComponent implements OnInit {
   }
 
   getTags(name?: string): void {
-    const filter: Record<string, any> = { restaurant_id: this.data.restaurant_id };
+    const filter: Record<string, any> = { shop_id: this.data.shopId };
     if (name) {
       filter['name'] = { $regex: name };
     }
     this.tags
       .find(filter, {
         pagesize: 1000,
-        xfilter: { restaurant_id: 'oid' }
+        xfilter: { shop_id: 'oid' }
       })
       .subscribe(data => {
         this.tagItems = [...data];

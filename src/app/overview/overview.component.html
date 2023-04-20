@@ -1,21 +1,9 @@
 <nz-layout class="common-layout">
-  <!--  <nz-page-header [nzGhost]="false" nzTitle="总览" i18n-nzTitle nzSubtitle="统计与观测" i18n-nzSubtitle>-->
-  <!--    <nz-page-header-footer>-->
-  <!--      <nz-tabset nzLinkRouter>-->
-  <!--        <nz-tab>-->
-  <!--          <a *nzTabLink nz-tab-link [routerLink]="['/index', 'overview', 'dashboard']" i18n> 营业概况 </a>-->
-  <!--        </nz-tab>-->
-  <!--        <nz-tab>-->
-  <!--          <a *nzTabLink nz-tab-link [routerLink]="['/index', 'overview', 'journal']" i18n> 流水账 </a>-->
-  <!--        </nz-tab>-->
-  <!--        <nz-tab>-->
-  <!--          <a *nzTabLink nz-tab-link [routerLink]="['/index', 'overview', 'report']" i18n> 理由报表 </a>-->
-  <!--        </nz-tab>-->
-  <!--      </nz-tabset>-->
-  <!--    </nz-page-header-footer>-->
-  <!--  </nz-page-header>-->
+  <nz-sider class="nav" nzWidth="240px" nzTheme="light">
+    <!--    <app-restaurants-outline [id]="id" [areaId]="areaId" (status)="navigated($event)"></app-restaurants-outline>-->
+  </nz-sider>
 
-  <nz-content style="padding: 8px">
+  <nz-layout>
     <router-outlet></router-outlet>
-  </nz-content>
+  </nz-layout>
 </nz-layout>
