@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { AppService } from '@app';
-import { UsersService } from '@common/services/users.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalRef } from 'ng-zorro-antd/modal';
 
@@ -24,7 +23,6 @@ export class BackupEmailComponent implements OnInit {
     private app: AppService,
     private modalRef: NzModalRef,
     private fb: FormBuilder,
-    private users: UsersService,
     private message: NzMessageService
   ) {}
 

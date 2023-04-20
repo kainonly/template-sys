@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { AppService } from '@app';
 
@@ -12,12 +12,8 @@ import { AppService } from '@app';
     </nz-result>
   `
 })
-export class AuthorizedComponent implements OnInit {
+export class AuthorizedComponent {
   constructor(private app: AppService) {}
-
-  ngOnInit(): void {
-    console.log(this.app.user);
-  }
 
   close(): void {
     this.app.getUser().subscribe(() => {

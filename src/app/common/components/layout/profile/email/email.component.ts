@@ -12,7 +12,7 @@ import { NzModalRef } from 'ng-zorro-antd/modal';
   templateUrl: './email.component.html'
 })
 export class EmailComponent implements OnInit {
-  tips = {
+  tips: any = {
     email: {
       default: {
         email: $localize`电子邮件格式不规范`,

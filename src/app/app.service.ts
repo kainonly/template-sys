@@ -1,10 +1,11 @@
-import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable, LOCALE_ID } from '@angular/core';
 import { Observable, Subscription, switchMap, timer } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { Shop } from '@common/interfaces/shop';
 import { SetUserDto, User } from '@common/interfaces/user';
+import { UsersService } from '@common/services/users.service';
 import { AnyDto, UploadOption, WpxService } from '@weplanx/ng';
 
 @Injectable({ providedIn: 'root' })
@@ -14,7 +15,12 @@ export class AppService {
 
   private refreshTokenSubscription?: Subscription;
 
-  constructor(private http: HttpClient, private wpx: WpxService, @Inject(LOCALE_ID) private locale: string) {}
+  constructor(
+    @Inject(LOCALE_ID) private locale: string,
+    private http: HttpClient,
+    private wpx: WpxService,
+    private users: UsersService
+  ) {}
 
   get shopId(): string {
     return this.shop!._id;

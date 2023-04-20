@@ -1,6 +1,5 @@
 import { Component, Type } from '@angular/core';
 import { Router } from '@angular/router';
-import { timer } from 'rxjs';
 
 import { AppService } from '@app';
 import { NzDrawerRef } from 'ng-zorro-antd/drawer';

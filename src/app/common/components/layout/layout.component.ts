@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { AppService } from '@app';
@@ -13,7 +13,7 @@ import { ProfileComponent } from './profile/profile.component';
   templateUrl: 'layout.component.html',
   styleUrls: ['./layout.component.scss']
 })
-export class LayoutComponent implements OnInit {
+export class LayoutComponent {
   @ViewChild('sidenavTitleRef') sidenavTitleRef!: TemplateRef<any>;
   @ViewChild('profileTitleRef') profileTitleRef!: TemplateRef<any>;
   private sidenavRef?: NzDrawerRef<SidenavComponent, any>;
@@ -26,12 +26,6 @@ export class LayoutComponent implements OnInit {
     private route: ActivatedRoute,
     private drawer: NzDrawerService
   ) {}
-
-  ngOnInit(): void {
-    this.route.data.subscribe(data => {
-      this.app.user = data['user'];
-    });
-  }
 
   openSidenav(): void {
     this.sidenavRef = this.drawer.create<SidenavComponent>({

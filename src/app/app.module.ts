@@ -14,7 +14,6 @@ import { ResultModule } from '@common/components/result/result.module';
 import { UnauthorizeComponent } from '@common/components/result/unauthorize/unauthorize.component';
 import { ShareModule } from '@common/share.module';
 import { shopResolver } from '@common/shop.resolver';
-import { userResolver } from '@common/user.resolver';
 import { WpxMediaModule } from '@weplanx/ng/media';
 import { WpxRichtextModule } from '@weplanx/ng/richtext';
 import { WpxStoreModule } from '@weplanx/ng/store';
@@ -46,9 +45,6 @@ const routes: Routes = [
     path: '',
     component: LayoutComponent,
     canActivate: [appGuard],
-    resolve: {
-      user: userResolver
-    },
     children: [
       {
         path: 'settings',
