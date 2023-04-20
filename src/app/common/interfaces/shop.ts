@@ -3,11 +3,11 @@
  */
 export interface Shop {
   /**
-   * 门店名称
+   * 名称
    */
   name: string;
   /**
-   * 品牌 Logo
+   * Logo
    */
   logo: string;
   /**
@@ -23,9 +23,9 @@ export interface Shop {
    */
   tel: string;
   /**
-   * 位置
+   * 地址
    */
-  location: string;
+  address: string;
   /**
    * 公告
    */

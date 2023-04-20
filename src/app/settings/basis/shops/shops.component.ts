@@ -1,15 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 
-import { Restaurant } from '@common/interfaces/restaurant';
-import { RestaurantsService } from '@common/services/restaurants.service';
+import { Shop } from '@common/interfaces/shop';
+import { ShopsService } from '@common/services/shops.service';
 import { AnyDto, WpxData } from '@weplanx/ng';
-import { WpxStoreService } from '@weplanx/ng/store';
-import { NzContextMenuService } from 'ng-zorro-antd/dropdown';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 
-import { FormComponent, FormData } from '../../../restaurants/form/form.component';
+import { FormComponent, InputData } from './form/form.component';
 
 @Component({
   selector: 'app-settings-basis-shops',
@@ -17,23 +14,16 @@ import { FormComponent, FormData } from '../../../restaurants/form/form.componen
 })
 export class ShopsComponent implements OnInit {
   searchText = '';
-  dataset: WpxData<AnyDto<Restaurant>> = new WpxData<AnyDto<Restaurant>>();
+  dataset: WpxData<AnyDto<Shop>> = new WpxData<AnyDto<Shop>>();
 
-  constructor(
-    private restaurants: RestaurantsService,
-    private router: Router,
-    private modal: NzModalService,
-    private storage: WpxStoreService,
-    private contextMenu: NzContextMenuService,
-    private message: NzMessageService
-  ) {}
+  constructor(private shops: ShopsService, private modal: NzModalService, private message: NzMessageService) {}
 
   ngOnInit(): void {
     this.getData(true);
   }
 
   getData(refresh = false): void {
-    this.restaurants.pages(this.dataset, refresh).subscribe(() => {});
+    this.shops.pages(this.dataset, refresh).subscribe(() => {});
   }
 
   submitSearch(): void {
@@ -52,8 +42,8 @@ export class ShopsComponent implements OnInit {
     this.getData(true);
   }
 
-  form(doc?: AnyDto<Restaurant>): void {
-    this.modal.create<FormComponent, FormData>({
+  form(doc?: AnyDto<Shop>): void {
+    this.modal.create<FormComponent, InputData>({
       nzTitle: !doc ? `创建` : `编辑【${doc.name}】`,
       nzContent: FormComponent,
       nzWidth: 640,
@@ -61,12 +51,12 @@ export class ShopsComponent implements OnInit {
         doc
       },
       nzOnOk: () => {
-        // this.outline.restaurant$.next(doc?._id);
+        this.getData(true);
       }
     });
   }
 
-  delete(doc: AnyDto<Restaurant>): void {
+  delete(doc: AnyDto<Shop>): void {
     this.modal.confirm({
       nzTitle: $localize`您确定要删除【${doc.name}】?`,
       nzOkText: $localize`是的`,
@@ -74,7 +64,7 @@ export class ShopsComponent implements OnInit {
       nzOkDanger: true,
       nzCancelText: $localize`再想想`,
       nzOnOk: () => {
-        this.restaurants.delete(doc._id).subscribe(() => {
+        this.shops.delete(doc._id).subscribe(() => {
           this.message.success($localize`数据删除成功`);
         });
       }
