@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { AppService } from '@app';
 
@@ -6,6 +6,14 @@ import { AppService } from '@app';
   selector: 'app-ordering',
   templateUrl: './ordering.component.html'
 })
-export class OrderingComponent {
+export class OrderingComponent implements OnInit {
+  shopId!: string;
+
   constructor(public app: AppService) {}
+
+  ngOnInit(): void {
+    this.app.shop.subscribe(data => {
+      this.shopId = data._id;
+    });
+  }
 }

@@ -1,6 +1,57 @@
 <nz-layout class="common-layout">
-  <nz-sider class="nav" nzWidth="240px" nzTheme="light">
-    <!--    <app-restaurants-outline [id]="id" [areaId]="areaId" (status)="navigated($event)"></app-restaurants-outline>-->
+  <nz-sider class="nav" style="padding: 8px" nzWidth="240px" nzTheme="light">
+    <nz-input-group [nzPrefix]="searchRef" style="width: 100%">
+      <ng-template #searchRef>
+        <span nz-icon nzType="search"></span>
+      </ng-template>
+      <input type="text" nz-input placeholder="搜索" [(ngModel)]="searchText" />
+      <button nzSize="small" nz-button nzType="text" nz-dropdown [nzDropdownMenu]="actionsMenu">
+        <span nz-icon nzType="ellipsis"></span>
+      </button>
+    </nz-input-group>
+    <nz-dropdown-menu #actionsMenu="nzDropdownMenu">
+      <ul nz-menu nzSelectable>
+        <li nz-menu-item (click)="getData()">刷新</li>
+        <li nz-menu-item (click)="form()">新增区位</li>
+      </ul>
+    </nz-dropdown-menu>
+
+    <nz-divider style="margin: 8px 0"></nz-divider>
+
+    <ul class="lists" nz-menu cdkDropList (cdkDropListDropped)="sort($event)">
+      <li nz-menu-item nzMatchRouter [routerLink]="['/', shopId, 'overview', 'shop']">
+        <span nz-icon nzType="shop"></span>
+        <span>{{ shop.name }}</span>
+      </li>
+      <li nz-menu-group nzTitle="区位导航">
+        <ul>
+          <ng-container *ngFor="let item of areaItems">
+            <li
+              cdkDrag
+              nz-menu-item
+              [nzDanger]="!item.status"
+              nzMatchRouter
+              [routerLink]="['/', shopId, 'overview', 'areas', item._id]"
+              (dblclick)="form(item)"
+              (contextmenu)="actions($event, areaActionsMenu, item._id)"
+            >
+              <div class="placeholder" *cdkDragPlaceholder>{{ item.name }}</div>
+              {{ item.name }}
+            </li>
+          </ng-container>
+        </ul>
+        <nz-dropdown-menu #areaActionsMenu="nzDropdownMenu">
+          <ul nz-menu *ngIf="areaDict[actionId!] as v">
+            <li nz-menu-item [nzSelected]="false">
+              <span>{{ v.name }}</span>
+            </li>
+            <li nz-menu-divider></li>
+            <li nz-menu-item (click)="form(v)">编辑</li>
+            <li nz-menu-item nzDanger (click)="delete(v)">删除</li>
+          </ul>
+        </nz-dropdown-menu>
+      </li>
+    </ul>
   </nz-sider>
 
   <nz-layout>

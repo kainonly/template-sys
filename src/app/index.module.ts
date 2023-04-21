@@ -10,18 +10,18 @@ const routes: Routes = [
     path: '',
     component: IndexComponent,
     children: [
-      {
-        path: 'dashboard',
-        loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
-        data: {
-          breadcrumb: $localize`仪表盘`
-        }
-      },
+      // {
+      //   path: 'dashboard',
+      //   loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
+      //   data: {
+      //     breadcrumb: $localize`仪表盘`
+      //   }
+      // },
       {
         path: 'overview',
         loadChildren: () => import('./overview/overview.module').then(m => m.OverviewModule),
         data: {
-          breadcrumb: $localize`门店`
+          breadcrumb: $localize`概况`
         }
       },
       {
@@ -45,7 +45,7 @@ const routes: Routes = [
           breadcrumb: $localize`营销`
         }
       },
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
+      { path: '', redirectTo: 'overview', pathMatch: 'full' }
     ]
   }
 ];

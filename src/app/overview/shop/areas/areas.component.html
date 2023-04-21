@@ -1,0 +1,104 @@
+<ng-template #searchRef>
+  <nz-row [nzGutter]="6">
+    <nz-col>
+      <nz-input-group style="width: 180px" nzSuffixIcon="search">
+        <input
+          (keyup.enter)="submitSearch()"
+          [(ngModel)]="searchText"
+          type="text"
+          nz-input
+          placeholder="搜索"
+          i18n-placeholder
+        />
+      </nz-input-group>
+    </nz-col>
+    <nz-col>
+      <nz-button-group>
+        <button nz-button nzType="text" nz-tooltip="刷新" i18n-nz-tooltip (click)="getData(true)">
+          <i nz-icon nzType="reload"></i>
+        </button>
+        <button nz-button nzType="text" nz-tooltip="重置" i18n-nz-tooltip (click)="clearSearch()">
+          <i nz-icon nzType="clear"></i>
+        </button>
+      </nz-button-group>
+    </nz-col>
+  </nz-row>
+</ng-template>
+
+<ng-template #extraRef>
+  <button nz-button nzType="primary" (click)="form()"> 新增 </button>
+</ng-template>
+
+<nz-card nzSize="default" [nzTitle]="searchRef" [nzExtra]="extraRef">
+  <nz-table
+    #basicTable
+    [nzFrontPagination]="false"
+    [nzShowSizeChanger]="true"
+    [nzHideOnSinglePage]="true"
+    [nzLoading]="false"
+    [nzData]="ds.values"
+    [nzTotal]="ds.total"
+    [(nzPageSize)]="ds.pagesize"
+    [(nzPageIndex)]="ds.page"
+    (nzPageIndexChange)="getData(false)"
+    (nzPageSizeChange)="getData(true)"
+  >
+    <thead>
+      <tr>
+        <th
+          nzWidth="60px"
+          nzLeft
+          nzAlign="center"
+          [nzChecked]="ds.checked"
+          [nzIndeterminate]="ds.indeterminate"
+          (nzCheckedChange)="ds.setNChecked($event)"
+        ></th>
+        <th><b>区位名称</b></th>
+        <th nzWidth="120px"><b>茶水费</b></th>
+        <th nzWidth="120px"><b>茶水服务率</b></th>
+        <th nzWidth="120px"><b>茶水税率</b></th>
+        <th nzWidth="120px"><b>状态</b></th>
+        <th nzWidth="60px" nzRight nzAlign="center">
+          <button nz-button nzType="text" nzBlock disabled>
+            <i nz-icon nzType="setting"></i>
+          </button>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of basicTable.data">
+        <td
+          nzLeft
+          nzAlign="center"
+          [nzDisabled]="data['disabled']"
+          [nzChecked]="ds.checkedIds.has(data['_id'])"
+          (nzCheckedChange)="ds.setChecked(data['_id'], $event)"
+        ></td>
+        <td>{{ data.name }}</td>
+        <td>{{ data.tea?.fee | nzSafeNull : '-' }} 元/位</td>
+        <td>{{ data.tea?.service | nzSafeNull : '-' }} %</td>
+        <td>{{ data.tea?.tax | nzSafeNull : '-' }} %</td>
+        <td>
+          <ng-container *ngIf="data.status; else offTpl">
+            <nz-badge nzStatus="processing" nzText="启用"></nz-badge>
+          </ng-container>
+        </td>
+        <td nzRight nzAlign="center">
+          <button nz-button nzType="text" nz-dropdown [nzDropdownMenu]="menu">
+            <i nz-icon nzType="ellipsis"></i>
+          </button>
+          <nz-dropdown-menu #menu="nzDropdownMenu">
+            <ul nz-menu>
+              <li nz-menu-item i18n (click)="form(data)">编辑</li>
+              <li nz-menu-item nzDanger i18n (click)="delete(data)">删除</li>
+            </ul>
+          </nz-dropdown-menu>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</nz-card>
+
+<ng-template #offTpl>
+  <nz-badge nzStatus="error" nzText="关闭"></nz-badge>
+</ng-template>

@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable, LOCALE_ID } from '@angular/core';
-import { Observable, Subscription, switchMap, timer } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { Observable, Subject, Subscription, switchMap, timer } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { Shop } from '@common/interfaces/shop';
@@ -11,7 +12,7 @@ import { AnyDto, UploadOption, WpxService } from '@weplanx/ng';
 @Injectable({ providedIn: 'root' })
 export class AppService {
   user?: AnyDto<User>;
-  shop?: AnyDto<Shop>;
+  index?: ActivatedRoute;
 
   private refreshTokenSubscription?: Subscription;
 
@@ -22,8 +23,8 @@ export class AppService {
     private users: UsersService
   ) {}
 
-  get shopId(): string {
-    return this.shop!._id;
+  get shop(): Observable<AnyDto<Shop>> {
+    return this.index!.data.pipe(map(v => v['shop']));
   }
 
   ping(): Observable<any> {

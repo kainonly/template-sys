@@ -22,6 +22,7 @@ export class PicturesComponent implements OnInit {
   @ViewChild(WpxMediaComponent, { static: true }) mediaRef!: WpxMediaComponent;
   @ViewChild(WpxQuickComponent, { static: true }) tagsRef!: WpxQuickComponent;
 
+  shopId!: string;
   ds?: WpxMediaDataSource;
   searchText = '';
 
@@ -36,17 +37,20 @@ export class PicturesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.ds = new WpxMediaDataSource(this.pictures);
-    this.ds.filter = { shop_id: this.app.shopId };
-    this.ds.xfilter = { 'tags.$in': 'oids', shop_id: 'oid' };
-    this.getTags();
+    this.app.shop.subscribe(data => {
+      this.shopId = data._id;
+      this.ds = new WpxMediaDataSource(this.pictures);
+      this.ds.filter = { shop_id: this.shopId };
+      this.ds.xfilter = { 'tags.$in': 'oids', shop_id: 'oid' };
+      this.getTags();
+    });
   }
 
   getData(refresh = false): void {
     if (!this.ds) {
       return;
     }
-    this.ds.filter = { shop_id: this.app.shopId };
+    this.ds.filter = { shop_id: this.shopId };
     if (this.searchText) {
       this.ds.filter['name'] = { $regex: this.searchText };
     }
@@ -57,7 +61,7 @@ export class PicturesComponent implements OnInit {
   }
 
   getTags(name?: string): void {
-    const filter: Record<string, any> = { shop_id: this.app.shopId };
+    const filter: Record<string, any> = { shop_id: this.shopId };
     const xfilter: Record<string, XFilter> = { shop_id: 'oid' };
     if (name) {
       filter['name'] = { $regex: name };
@@ -74,7 +78,7 @@ export class PicturesComponent implements OnInit {
 
   upload(data: Transport[]): void {
     const docs: Picture[] = data.map(v => ({
-      shop_id: this.app.shopId,
+      shop_id: this.shopId,
       name: v.name,
       url: Reflect.get(v.file.originFileObj!, 'key')
     }));
@@ -89,7 +93,7 @@ export class PicturesComponent implements OnInit {
 
   tagFilter = (ds: WpxData<AnyDto<PictureTag>>): void => {
     ds.xfilter = { shop_id: 'oid' };
-    ds.filter.shop_id = this.app.shopId;
+    ds.filter.shop_id = this.shopId;
   };
 
   tagForm = (doc?: AnyDto<PictureTag>): void => {
@@ -97,7 +101,7 @@ export class PicturesComponent implements OnInit {
       nzTitle: !doc ? $localize`新增` : $localize`编辑`,
       nzContent: TagFormComponent,
       nzData: {
-        shopId: this.app.shopId,
+        shopId: this.shopId,
         doc: doc,
         api: this.tags
       },
@@ -113,7 +117,7 @@ export class PicturesComponent implements OnInit {
       nzTitle: $localize`编辑`,
       nzContent: FormComponent,
       nzData: {
-        shopId: this.app.shopId,
+        shopId: this.shopId,
         doc
       }
     });

@@ -1,4 +1,4 @@
-<nz-page-header *ngIf="app.shop as shop" [nzGhost]="false">
+<nz-page-header [nzGhost]="false">
   <nz-page-header-title>
     {{ shop.name }}
   </nz-page-header-title>
@@ -23,10 +23,16 @@
       <nz-col>
         <nz-space>
           <wpx-upload-avatar *nzSpaceItem> </wpx-upload-avatar>
-          <nz-descriptions *nzSpaceItem nzSize="small" nzLayout="vertical" style="width: 640px">
-            <nz-descriptions-item nzTitle="服务电话">{{ shop.tel }}</nz-descriptions-item>
-            <nz-descriptions-item nzTitle="地址">
-              <ng-container *ngIf="shop.address; else nothingRef">{{ shop.address }}</ng-container>
+          <nz-descriptions *nzSpaceItem nzSize="small" style="width: 640px">
+            <nz-descriptions-item nzTitle="负责人">
+              <ng-container *ngIf="shop.principal; else nothingRef">
+                {{ shop.principal }}
+              </ng-container>
+            </nz-descriptions-item>
+            <nz-descriptions-item nzTitle="联系电话">
+              <ng-container *ngIf="shop.tel; else nothingRef">
+                {{ shop.tel }}
+              </ng-container>
             </nz-descriptions-item>
             <nz-descriptions-item nzTitle="状态">
               <ng-container *ngIf="shop.status; else closedDownRef">
@@ -35,6 +41,11 @@
               <ng-template #closedDownRef>
                 <nz-badge nzStatus="error" nzText="停业"></nz-badge>
               </ng-template>
+            </nz-descriptions-item>
+            <nz-descriptions-item nzTitle="地址" [nzSpan]="3">
+              <ng-container *ngIf="shop.address; else nothingRef">
+                {{ shop.address }}
+              </ng-container>
             </nz-descriptions-item>
             <nz-descriptions-item nzTitle="公告" [nzSpan]="3">
               <ng-container *ngIf="shop.bulletin; else nothingRef">
@@ -58,10 +69,10 @@
   <nz-page-header-footer>
     <nz-tabset nzLinkRouter>
       <nz-tab>
-        <a *nzTabLink nz-tab-link [routerLink]="['/', shop._id, 'overview', 'areas']">区位列表</a>
+        <a *nzTabLink nz-tab-link [routerLink]="['/', shop._id, 'overview', 'shop', 'areas']">区位列表</a>
       </nz-tab>
       <nz-tab>
-        <a *nzTabLink nz-tab-link [routerLink]="['/', shop._id, 'overview', 'period']">营业时段</a>
+        <a *nzTabLink nz-tab-link [routerLink]="['/', shop._id, 'overview', 'shop', 'periods']">营业时段</a>
       </nz-tab>
     </nz-tabset>
   </nz-page-header-footer>

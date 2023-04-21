@@ -1,19 +1,25 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 
 import { AppService } from '@app';
-import { WpxService } from '@weplanx/ng';
+import { Shop } from '@common/interfaces/shop';
+import { AnyDto, WpxService } from '@weplanx/ng';
 import { NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
-  selector: 'app-overview-index',
-  templateUrl: './index.component.html',
-  styleUrls: ['./index.component.scss']
+  selector: 'app-overview-shop',
+  templateUrl: './shop.component.html',
+  styleUrls: ['./shop.component.scss']
 })
-export class IndexComponent implements OnInit {
+export class ShopComponent implements OnInit {
+  shop!: AnyDto<Shop>;
+
   constructor(public app: AppService, public wpx: WpxService, private modal: NzModalService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.app.shop.subscribe(data => {
+      this.shop = data;
+    });
+  }
 
   form(): void {
     // this.modal.create<FormComponent, FormData>({
