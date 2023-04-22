@@ -3,10 +3,10 @@
     <ul nz-menu nzMode="inline" style="border: none">
       <li nz-menu-group nzTitle="媒体库" i18n-nzTitle>
         <ul>
-          <li nz-menu-item nzMatchRouter [routerLink]="['/', shopId, 'resources', 'media', 'pictures']">
+          <li nz-menu-item nzMatchRouter [routerLink]="['/', app.shopId, 'resources', 'media', 'pictures']">
             <span i18n>图片</span>
           </li>
-          <li nz-menu-item nzMatchRouter [routerLink]="['/', shopId, 'resources', 'media', 'videos']">
+          <li nz-menu-item nzMatchRouter [routerLink]="['/', app.shopId, 'resources', 'media', 'videos']">
             <span i18n>视频</span>
           </li>
         </ul>

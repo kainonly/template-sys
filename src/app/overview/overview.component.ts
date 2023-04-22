@@ -1,10 +1,11 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 import { AppService } from '@app';
 import { Area, AreaDict } from '@common/interfaces/area';
-import { Shop } from '@common/interfaces/shop';
 import { AreasService } from '@common/services/areas.service';
+import { ShopsService } from '@common/services/shops.service';
 import { AnyDto } from '@weplanx/ng';
 import { NzContextMenuService, NzDropdownMenuComponent } from 'ng-zorro-antd/dropdown';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -17,36 +18,44 @@ import { AreaFormComponent, AreaInputData } from './area-form/area-form.componen
   templateUrl: './overview.component.html',
   styleUrls: ['./overview.component.scss']
 })
-export class OverviewComponent implements OnInit {
-  shop!: AnyDto<Shop>;
-  shopId!: string;
+export class OverviewComponent implements OnInit, OnDestroy {
   searchText = '';
   areaItems: Array<AnyDto<Area>> = [];
   areaDict: AreaDict = {};
 
   actionId?: string;
 
+  private changesSubscription!: Subscription;
+
   constructor(
     public app: AppService,
+    private shops: ShopsService,
     private areas: AreasService,
     private modal: NzModalService,
     private contextMenu: NzContextMenuService,
-    private message: NzMessageService
+    private message: NzMessageService,
+    private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    this.app.shop.subscribe(data => {
-      this.shop = data;
-      this.shopId = this.shop._id;
-      this.getData();
+    this.changesSubscription = this.app.changes.subscribe(data => {
+      if (data['shopId'] || data['area']) {
+        this.getData();
+        // this.cd.detectChanges();
+      }
     });
+    this.app.emit({ area: true });
+  }
+
+  ngOnDestroy(): void {
+    this.changesSubscription.unsubscribe();
   }
 
   getData(): void {
     this.areas
       .find(
         {
-          shop_id: this.shopId
+          shop_id: this.app.shopId
         },
         {
           pagesize: 1000,
@@ -60,6 +69,7 @@ export class OverviewComponent implements OnInit {
         for (const v of data) {
           this.areaDict[v._id] = v;
         }
+        this.areas.set(this.areaDict);
       });
   }
 
@@ -77,10 +87,12 @@ export class OverviewComponent implements OnInit {
       nzTitle: !doc ? `创建` : `编辑【${doc.name}】`,
       nzContent: AreaFormComponent,
       nzData: {
-        shopId: this.shopId,
+        shopId: this.app.shopId!,
         doc
       },
-      nzOnOk: () => {}
+      nzOnOk: () => {
+        this.app.emit({ area: true });
+      }
     });
   }
 
@@ -94,6 +106,7 @@ export class OverviewComponent implements OnInit {
       nzOnOk: () => {
         this.areas.delete(doc._id).subscribe(() => {
           this.message.success($localize`数据删除成功`);
+          this.app.emit({ area: true });
         });
       }
     });

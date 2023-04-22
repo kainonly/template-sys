@@ -1,11 +1,11 @@
 <nz-page-header [nzGhost]="false">
   <nz-page-header-title>
-    {{ shop.name }}
+    {{ shop?.name }}
   </nz-page-header-title>
   <nz-page-header-subtitle>
     <p nz-typography style="margin: 0">
       <span nz-icon nzType="number"></span>
-      {{ shop.sn }}
+      {{ shop?.sn }}
     </p>
   </nz-page-header-subtitle>
   <nz-page-header-tags>
@@ -25,17 +25,17 @@
           <wpx-upload-avatar *nzSpaceItem> </wpx-upload-avatar>
           <nz-descriptions *nzSpaceItem nzSize="small" style="width: 640px">
             <nz-descriptions-item nzTitle="负责人">
-              <ng-container *ngIf="shop.principal; else nothingRef">
-                {{ shop.principal }}
+              <ng-container *ngIf="shop?.principal; else nothingRef">
+                {{ shop?.principal }}
               </ng-container>
             </nz-descriptions-item>
             <nz-descriptions-item nzTitle="联系电话">
-              <ng-container *ngIf="shop.tel; else nothingRef">
-                {{ shop.tel }}
+              <ng-container *ngIf="shop?.tel; else nothingRef">
+                {{ shop?.tel }}
               </ng-container>
             </nz-descriptions-item>
             <nz-descriptions-item nzTitle="状态">
-              <ng-container *ngIf="shop.status; else closedDownRef">
+              <ng-container *ngIf="shop?.status; else closedDownRef">
                 <nz-badge nzStatus="processing" nzText="营业"></nz-badge>
               </ng-container>
               <ng-template #closedDownRef>
@@ -43,13 +43,13 @@
               </ng-template>
             </nz-descriptions-item>
             <nz-descriptions-item nzTitle="地址" [nzSpan]="3">
-              <ng-container *ngIf="shop.address; else nothingRef">
-                {{ shop.address }}
+              <ng-container *ngIf="shop?.address; else nothingRef">
+                {{ shop?.address }}
               </ng-container>
             </nz-descriptions-item>
             <nz-descriptions-item nzTitle="公告" [nzSpan]="3">
-              <ng-container *ngIf="shop.bulletin; else nothingRef">
-                {{ shop.bulletin }}
+              <ng-container *ngIf="shop?.bulletin; else nothingRef">
+                {{ shop?.bulletin }}
               </ng-container>
             </nz-descriptions-item>
           </nz-descriptions>
@@ -58,6 +58,7 @@
       <nz-col></nz-col>
       <nz-col>
         <wpx-media-input
+          *ngIf="shop"
           [wpxType]="'pictures'"
           [wpxFallback]="['assets', 'photon.svg'] | wpxAssets"
           [wpxMax]="5"
@@ -69,10 +70,10 @@
   <nz-page-header-footer>
     <nz-tabset nzLinkRouter>
       <nz-tab>
-        <a *nzTabLink nz-tab-link [routerLink]="['/', shop._id, 'overview', 'shop', 'areas']">区位列表</a>
+        <a *nzTabLink nz-tab-link [routerLink]="['/', app.shopId, 'overview', 'shop', 'areas']"> 区位列表 </a>
       </nz-tab>
       <nz-tab>
-        <a *nzTabLink nz-tab-link [routerLink]="['/', shop._id, 'overview', 'shop', 'periods']">营业时段</a>
+        <a *nzTabLink nz-tab-link [routerLink]="['/', app.shopId, 'overview', 'shop', 'periods']"> 营业时段 </a>
       </nz-tab>
     </nz-tabset>
   </nz-page-header-footer>

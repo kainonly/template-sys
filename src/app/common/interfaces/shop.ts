@@ -1,3 +1,6 @@
+import { Area } from '@common/interfaces/area';
+import { AnyDto } from '@weplanx/ng';
+
 /**
  * 门店
  */
@@ -52,3 +55,5 @@ export interface Shop {
    */
   status: boolean;
 }
+
+export type ShopDict = Record<string, AnyDto<Shop>>;

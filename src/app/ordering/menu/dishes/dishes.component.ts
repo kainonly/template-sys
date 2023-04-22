@@ -18,7 +18,6 @@ import { TypeFormComponent, TypeInputData } from './type-form/type-form.componen
 export class DishesComponent implements OnInit {
   @ViewChild(WpxQuickComponent, { static: true }) typesRef!: WpxQuickComponent;
 
-  shopId!: string;
   ds: WpxData<AnyDto<Dish>> = new WpxData<AnyDto<Dish>>();
 
   typeItems: Array<AnyDto<DishType>> = [];
@@ -26,16 +25,12 @@ export class DishesComponent implements OnInit {
 
   constructor(public app: AppService, public types: DishTypesService, private modal: NzModalService) {}
 
-  ngOnInit(): void {
-    this.app.shop.subscribe(data => {
-      this.shopId = data._id;
-    });
-  }
+  ngOnInit(): void {}
 
   getData(refresh = false): void {}
 
   getTypes(name?: string): void {
-    const filter: Record<string, any> = { shop_id: this.shopId };
+    const filter: Record<string, any> = { shop_id: this.app.shopId };
     const xfilter: Record<string, XFilter> = { shop_id: 'oid' };
     if (name) {
       filter['name'] = { $regex: name };
@@ -47,7 +42,7 @@ export class DishesComponent implements OnInit {
 
   typeFilter = (ds: WpxData<AnyDto<DishType>>): void => {
     ds.xfilter = { shop_id: 'oid' };
-    ds.filter.shop_id = this.shopId;
+    ds.filter.shop_id = this.app.shopId;
   };
 
   typeForm = (doc?: AnyDto<DishType>): void => {
@@ -55,7 +50,7 @@ export class DishesComponent implements OnInit {
       nzTitle: !doc ? $localize`新增` : $localize`编辑`,
       nzContent: TypeFormComponent,
       nzData: {
-        shopId: this.shopId,
+        shopId: this.app.shopId!,
         doc: doc,
         api: this.types
       },

@@ -19,9 +19,9 @@
     <nz-divider style="margin: 8px 0"></nz-divider>
 
     <ul class="lists" nz-menu cdkDropList (cdkDropListDropped)="sort($event)">
-      <li nz-menu-item nzMatchRouter [routerLink]="['/', shopId, 'overview', 'shop']">
+      <li *ngIf="app.shopId" nz-menu-item nzMatchRouter [routerLink]="['/', app.shopId, 'overview', 'shop']">
         <span nz-icon nzType="shop"></span>
-        <span>{{ shop.name }}</span>
+        <span>门店概况</span>
       </li>
       <li nz-menu-group nzTitle="区位导航">
         <ul>
@@ -31,7 +31,7 @@
               nz-menu-item
               [nzDanger]="!item.status"
               nzMatchRouter
-              [routerLink]="['/', shopId, 'overview', 'areas', item._id]"
+              [routerLink]="['/', app.shopId, 'overview', 'areas', item._id]"
               (dblclick)="form(item)"
               (contextmenu)="actions($event, areaActionsMenu, item._id)"
             >

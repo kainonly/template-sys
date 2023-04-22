@@ -7,13 +7,7 @@ import { AppService } from '@app';
   templateUrl: './marketing.component.html'
 })
 export class MarketingComponent implements OnInit {
-  shopId!: string;
-
   constructor(public app: AppService) {}
 
-  ngOnInit(): void {
-    this.app.shop.subscribe(data => {
-      this.shopId = data._id;
-    });
-  }
+  ngOnInit(): void {}
 }

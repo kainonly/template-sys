@@ -12,8 +12,8 @@
             </button>
           </ng-container>
           <nz-breadcrumb *nzSpaceItem class="breadcrumb" nzAutoGenerate>
-            <nz-breadcrumb-item *ngIf="app.shop | async as v">
-              <a [routerLink]="['/', v._id]" i18n> {{ v.name }}</a>
+            <nz-breadcrumb-item *ngIf="shop">
+              <a [routerLink]="['/', shop._id]" i18n> {{ shop.name }}</a>
             </nz-breadcrumb-item>
           </nz-breadcrumb>
         </nz-space>

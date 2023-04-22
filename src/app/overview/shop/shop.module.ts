@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { ShopFormModule } from '@common/components/shop-form/shop-form.module';
 import { ShareModule } from '@common/share.module';
 
 import { AreasComponent } from './areas/areas.component';
@@ -32,7 +33,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [ShareModule, RouterModule.forChild(routes)],
+  imports: [ShareModule, ShopFormModule, RouterModule.forChild(routes)],
   declarations: [ShopComponent, AreasComponent, PeriodsComponent]
 })
 export class ShopModule {}

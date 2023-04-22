@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
+import { ShopFormComponent, ShopInputData } from '@common/components/shop-form/shop-form.component';
 import { Shop } from '@common/interfaces/shop';
 import { ShopsService } from '@common/services/shops.service';
 import { AnyDto, WpxData } from '@weplanx/ng';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
-
-import { FormComponent, InputData } from './form/form.component';
 
 @Component({
   selector: 'app-settings-basis-shops',
@@ -43,9 +42,9 @@ export class ShopsComponent implements OnInit {
   }
 
   form(doc?: AnyDto<Shop>): void {
-    this.modal.create<FormComponent, InputData>({
+    this.modal.create<ShopFormComponent, ShopInputData>({
       nzTitle: !doc ? `创建` : `编辑【${doc.name}】`,
-      nzContent: FormComponent,
+      nzContent: ShopFormComponent,
       nzWidth: 640,
       nzData: {
         doc

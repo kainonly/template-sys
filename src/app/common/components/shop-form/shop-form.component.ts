@@ -7,15 +7,15 @@ import { AnyDto, WpxService } from '@weplanx/ng';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 
-export interface InputData {
+export interface ShopInputData {
   doc?: AnyDto<Shop>;
 }
 
 @Component({
-  selector: 'app-settings-basis-shops-form',
-  templateUrl: './form.component.html'
+  selector: 'app-shops-form',
+  templateUrl: './shop-form.component.html'
 })
-export class FormComponent implements OnInit {
+export class ShopFormComponent implements OnInit {
   form!: FormGroup;
   tips: any = {
     name: {
@@ -36,7 +36,7 @@ export class FormComponent implements OnInit {
   };
 
   constructor(
-    @Inject(NZ_MODAL_DATA) public data: InputData,
+    @Inject(NZ_MODAL_DATA) public data: ShopInputData,
     public wpx: WpxService,
     private modalRef: NzModalRef,
     private message: NzMessageService,

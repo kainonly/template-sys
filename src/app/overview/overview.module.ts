@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { ShareModule } from '@common/share.module';
 
-import { areaResolver } from './area/area.resolver';
 import { AreaFormComponent } from './area-form/area-form.component';
 import { OverviewComponent } from './overview.component';
 
@@ -18,10 +17,7 @@ const routes: Routes = [
       },
       {
         path: 'areas/:areaId',
-        loadChildren: () => import('./area/area.module').then(m => m.AreaModule),
-        resolve: {
-          area: areaResolver
-        }
+        loadChildren: () => import('./area/area.module').then(m => m.AreaModule)
       },
       { path: '', redirectTo: 'shop', pathMatch: 'full' }
     ]

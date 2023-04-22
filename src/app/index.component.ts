@@ -15,7 +15,7 @@ import { ShopsService } from '@common/services/shops.service';
           i18n-nz-tooltip
           nzTooltipPlacement="right"
           nzMatchRouter
-          [routerLink]="['/', shopId, 'overview']"
+          [routerLink]="['/', app.shopId, 'overview']"
         >
           <span nz-icon nzType="desktop"></span>
         </li>
@@ -25,7 +25,7 @@ import { ShopsService } from '@common/services/shops.service';
           i18n-nz-tooltip
           nzTooltipPlacement="right"
           nzMatchRouter
-          [routerLink]="['/', shopId, 'ordering']"
+          [routerLink]="['/', app.shopId, 'ordering']"
         >
           <span nz-icon nzType="coffee"></span>
         </li>
@@ -35,7 +35,7 @@ import { ShopsService } from '@common/services/shops.service';
           i18n-nz-tooltip
           nzTooltipPlacement="right"
           nzMatchRouter
-          [routerLink]="['/', shopId, 'resources']"
+          [routerLink]="['/', app.shopId, 'resources']"
         >
           <span nz-icon nzType="inbox"></span>
         </li>
@@ -45,7 +45,7 @@ import { ShopsService } from '@common/services/shops.service';
           i18n-nz-tooltip
           nzTooltipPlacement="right"
           nzMatchRouter
-          [routerLink]="['/', shopId, 'marketing']"
+          [routerLink]="['/', app.shopId, 'marketing']"
         >
           <span nz-icon nzType="bulb"></span>
         </li>
@@ -56,8 +56,6 @@ import { ShopsService } from '@common/services/shops.service';
   `
 })
 export class IndexComponent implements OnInit {
-  shopId!: string;
-
   constructor(
     public app: AppService,
     private shops: ShopsService,
@@ -66,9 +64,11 @@ export class IndexComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.app.index = this.route;
-    this.app.shop.subscribe(data => {
-      this.shopId = data._id;
+    this.route.params.subscribe(data => {
+      this.app.shopId = data['id'];
+      this.app.changes.next({
+        shopId: this.app.shopId
+      });
       this.cd.detectChanges();
     });
   }

@@ -16,11 +16,10 @@ import { AreaFormComponent, AreaInputData } from '../../area-form/area-form.comp
   templateUrl: './areas.component.html'
 })
 export class AreasComponent implements OnInit, OnDestroy {
-  shopId!: string;
-
   ds: WpxData<AnyDto<Area>> = new WpxData<AnyDto<Area>>();
   searchText = '';
 
+  private changesSubscription!: Subscription;
   private areaSubscription!: Subscription;
 
   constructor(
@@ -32,30 +31,31 @@ export class AreasComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.app.shop.subscribe(data => {
-      this.shopId = data._id;
-      this.ds.filter = { shop_id: this.shopId };
-      this.ds.xfilter = { shop_id: 'oid' };
-      this.getData(true);
+    this.getData(true);
+    this.changesSubscription = this.app.changes.subscribe(data => {
+      if (data['shopId'] || data['area']) {
+        this.getData(true);
+      }
     });
   }
 
   ngOnDestroy(): void {
-    if (this.areaSubscription) {
-      this.areaSubscription.unsubscribe();
-    }
+    this.changesSubscription.unsubscribe();
+    this.areaSubscription?.unsubscribe();
   }
 
   getData(refresh = false): void {
+    this.ds.filter = { shop_id: this.app.shopId };
+    this.ds.xfilter = { shop_id: 'oid' };
     this.areas.pages(this.ds, refresh).subscribe(() => {});
   }
 
   submitSearch(): void {
     if (!this.searchText) {
-      this.ds.filter = { shop_id: this.shopId };
+      this.ds.filter = { shop_id: this.app.shopId };
     } else {
       this.ds.filter = {
-        shop_id: this.shopId,
+        shop_id: this.app.shopId,
         name: { $regex: this.searchText }
       };
     }
@@ -72,11 +72,11 @@ export class AreasComponent implements OnInit, OnDestroy {
       nzTitle: !doc ? `创建` : `编辑【${doc.name}】`,
       nzContent: AreaFormComponent,
       nzData: {
-        shopId: this.shopId,
+        shopId: this.app.shopId!,
         doc
       },
       nzOnOk: () => {
-        // this.outline.area$.next(this.restaurantId);
+        this.app.emit({ area: true });
       }
     });
   }
@@ -91,7 +91,7 @@ export class AreasComponent implements OnInit, OnDestroy {
       nzOnOk: () => {
         this.areas.delete(doc._id).subscribe(() => {
           this.message.success($localize`数据删除成功`);
-          // this.outline.area$.next(this.restaurantId);
+          this.app.emit({ area: true });
         });
       }
     });

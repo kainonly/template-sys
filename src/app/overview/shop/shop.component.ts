@@ -1,37 +1,62 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 import { AppService } from '@app';
+import { ShopFormComponent, ShopInputData } from '@common/components/shop-form/shop-form.component';
 import { Shop } from '@common/interfaces/shop';
+import { ShopsService } from '@common/services/shops.service';
 import { AnyDto, WpxService } from '@weplanx/ng';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { NzTabSetComponent } from 'ng-zorro-antd/tabs';
 
 @Component({
   selector: 'app-overview-shop',
   templateUrl: './shop.component.html',
   styleUrls: ['./shop.component.scss']
 })
-export class ShopComponent implements OnInit {
-  shop!: AnyDto<Shop>;
+export class ShopComponent implements OnInit, OnDestroy {
+  @ViewChild(NzTabSetComponent) tabset!: NzTabSetComponent;
+  shop?: AnyDto<Shop>;
 
-  constructor(public app: AppService, public wpx: WpxService, private modal: NzModalService) {}
+  private changesSubscription?: Subscription;
+
+  constructor(
+    public app: AppService,
+    public wpx: WpxService,
+    private shops: ShopsService,
+    private modal: NzModalService
+  ) {}
 
   ngOnInit(): void {
-    this.app.shop.subscribe(data => {
+    this.getShop();
+    this.changesSubscription = this.app.changes.subscribe(data => {
+      if (data['shopId']) {
+        this.getShop();
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.changesSubscription?.unsubscribe();
+  }
+
+  getShop(): void {
+    this.shops.findById(this.app.shopId!).subscribe(data => {
       this.shop = data;
     });
   }
 
   form(): void {
-    // this.modal.create<FormComponent, FormData>({
-    //   nzTitle: `编辑【${this.restaurant!.name}】`,
-    //   nzContent: FormComponent,
-    //   nzWidth: 640,
-    //   nzData: {
-    //     doc: this.restaurant
-    //   },
-    //   nzOnOk: () => {
-    //     this.outline.restaurant$.next(this.restaurant!._id);
-    //   }
-    // });
+    this.modal.create<ShopFormComponent, ShopInputData>({
+      nzTitle: `编辑【${this.shop!.name}】`,
+      nzContent: ShopFormComponent,
+      nzWidth: 640,
+      nzData: {
+        doc: this.shop
+      },
+      nzOnOk: () => {
+        this.app.changes.next({ shopId: this.shop!._id });
+      }
+    });
   }
 }

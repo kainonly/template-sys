@@ -1,30 +1,24 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable, LOCALE_ID } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { Observable, Subject, Subscription, switchMap, timer } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { Shop } from '@common/interfaces/shop';
+import { KeyValue } from '@common/interfaces/type';
 import { SetUserDto, User } from '@common/interfaces/user';
-import { UsersService } from '@common/services/users.service';
 import { AnyDto, UploadOption, WpxService } from '@weplanx/ng';
 
 @Injectable({ providedIn: 'root' })
 export class AppService {
   user?: AnyDto<User>;
-  index?: ActivatedRoute;
+  shopId?: string;
 
+  readonly changes: Subject<KeyValue> = new Subject();
   private refreshTokenSubscription?: Subscription;
 
-  constructor(
-    @Inject(LOCALE_ID) private locale: string,
-    private http: HttpClient,
-    private wpx: WpxService,
-    private users: UsersService
-  ) {}
+  constructor(@Inject(LOCALE_ID) private locale: string, private http: HttpClient, private wpx: WpxService) {}
 
-  get shop(): Observable<AnyDto<Shop>> {
-    return this.index!.data.pipe(map(v => v['shop']));
+  emit(v: KeyValue): void {
+    this.changes.next(v);
   }
 
   ping(): Observable<any> {
@@ -39,10 +33,8 @@ export class AppService {
     return this.http.get('verify', { observe: 'response' }).pipe(map(v => v.status === 200));
   }
 
-  refreshToken(): void {
-    if (this.refreshTokenSubscription) {
-      this.refreshTokenSubscription.unsubscribe();
-    }
+  autoRefreshToken(): void {
+    this.stopRefreshToken();
     this.refreshTokenSubscription = timer(0, 3200 * 1000)
       .pipe(
         switchMap(() => this.http.get<any>('code')),
@@ -57,10 +49,12 @@ export class AppService {
       });
   }
 
+  stopRefreshToken(): void {
+    this.refreshTokenSubscription?.unsubscribe();
+  }
+
   logout(): Observable<any> {
-    if (this.refreshTokenSubscription) {
-      this.refreshTokenSubscription.unsubscribe();
-    }
+    this.stopRefreshToken();
     return this.http.post('logout', {});
   }
 

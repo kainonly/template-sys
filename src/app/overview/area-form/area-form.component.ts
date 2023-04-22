@@ -1,7 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { AppService } from '@app';
 import { Area } from '@common/interfaces/area';
 import { AreasService } from '@common/services/areas.service';
 import { AnyDto, WpxService } from '@weplanx/ng';

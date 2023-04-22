@@ -1,6 +1,7 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { switchMap } from 'rxjs';
 
 import { AppService } from '@app';
 import { Area } from '@common/interfaces/area';
@@ -55,8 +56,11 @@ export class AreaComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.data.subscribe(data => {
-      this.area = data['area'];
+    this.route.params.pipe(switchMap(v => this.areas.get(v['areaId']))).subscribe(data => {
+      if (!data) {
+        return;
+      }
+      this.area = data;
       this.shopId = this.area.shop_id;
       this.getTables();
     });
@@ -111,7 +115,9 @@ export class AreaComponent implements OnInit {
         shopId: this.shopId,
         doc: this.area
       },
-      nzOnOk: () => {}
+      nzOnOk: () => {
+        this.app.emit({ area: true });
+      }
     });
   }
 

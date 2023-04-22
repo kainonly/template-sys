@@ -35,5 +35,4 @@ export interface Area {
   status: boolean;
 }
 
-export type RestaurantAreas = Record<string, Array<AnyDto<Area>>>;
 export type AreaDict = Record<string, AnyDto<Area>>;

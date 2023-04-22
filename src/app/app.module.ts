@@ -13,7 +13,6 @@ import { AuthorizedComponent } from '@common/components/result/authorized/author
 import { ResultModule } from '@common/components/result/result.module';
 import { UnauthorizeComponent } from '@common/components/result/unauthorize/unauthorize.component';
 import { ShareModule } from '@common/share.module';
-import { shopResolver } from '@common/shop.resolver';
 import { WpxMediaModule } from '@weplanx/ng/media';
 import { WpxRichtextModule } from '@weplanx/ng/richtext';
 import { WpxStoreModule } from '@weplanx/ng/store';
@@ -55,10 +54,7 @@ const routes: Routes = [
       },
       {
         path: ':id',
-        loadChildren: () => import('./index.module').then(m => m.IndexModule),
-        resolve: {
-          shop: shopResolver
-        }
+        loadChildren: () => import('./index.module').then(m => m.IndexModule)
       },
       { path: '', redirectTo: 'settings', pathMatch: 'full' }
     ]
@@ -113,7 +109,7 @@ const routes: Routes = [
         }
       }
     }),
-    RouterModule.forRoot(routes, { useHash: true, initialNavigation: 'enabledBlocking' })
+    RouterModule.forRoot(routes, { useHash: true })
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AppInterceptors, multi: true },
