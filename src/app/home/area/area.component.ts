@@ -17,7 +17,7 @@ import { TableFormComponent, TableInputData } from './table-form/table-form.comp
 import { AreaFormComponent, AreaInputData } from '../area-form/area-form.component';
 
 @Component({
-  selector: 'app-overview-area',
+  selector: 'app-home-area',
   templateUrl: './area.component.html',
   styleUrls: ['./area.component.scss']
 })

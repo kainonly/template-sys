@@ -12,7 +12,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { AreaFormComponent, AreaInputData } from '../../area-form/area-form.component';
 
 @Component({
-  selector: 'app-overview-shop-areas',
+  selector: 'app-home-overview-areas',
   templateUrl: './areas.component.html'
 })
 export class AreasComponent implements OnInit, OnDestroy {

@@ -13,7 +13,7 @@ export interface AreaInputData {
 }
 
 @Component({
-  selector: 'app-overview-area-form',
+  selector: 'app-home-area-form',
   templateUrl: './area-form.component.html'
 })
 export class AreaFormComponent implements OnInit {

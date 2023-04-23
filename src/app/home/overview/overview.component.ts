@@ -10,11 +10,11 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { NzTabSetComponent } from 'ng-zorro-antd/tabs';
 
 @Component({
-  selector: 'app-overview-shop',
-  templateUrl: './shop.component.html',
-  styleUrls: ['./shop.component.scss']
+  selector: 'app-home-overview',
+  templateUrl: './overview.component.html',
+  styleUrls: ['./overview.component.scss']
 })
-export class ShopComponent implements OnInit, OnDestroy {
+export class OverviewComponent implements OnInit, OnDestroy {
   @ViewChild(NzTabSetComponent) tabset!: NzTabSetComponent;
   shop?: AnyDto<Shop>;
 

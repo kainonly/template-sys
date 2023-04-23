@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { AppService } from '@app';
@@ -11,23 +11,43 @@ import { ShopsService } from '@common/services/shops.service';
       <ul nz-menu nzMode="vertical">
         <li
           nz-menu-item
-          nz-tooltip="概况"
+          nz-tooltip="工作台"
           i18n-nz-tooltip
           nzTooltipPlacement="right"
           nzMatchRouter
-          [routerLink]="['/', app.shopId, 'overview']"
+          [routerLink]="['/', app.shopId, 'home']"
         >
           <span nz-icon nzType="desktop"></span>
         </li>
         <li
           nz-menu-item
-          nz-tooltip="点餐"
+          nz-tooltip="菜品"
           i18n-nz-tooltip
           nzTooltipPlacement="right"
           nzMatchRouter
           [routerLink]="['/', app.shopId, 'ordering']"
         >
           <span nz-icon nzType="coffee"></span>
+        </li>
+        <li
+          nz-menu-item
+          nz-tooltip="会员"
+          i18n-nz-tooltip
+          nzTooltipPlacement="right"
+          nzMatchRouter
+          [routerLink]="['/', app.shopId, 'members']"
+        >
+          <span nz-icon nzType="contacts"></span>
+        </li>
+        <li
+          nz-menu-item
+          nz-tooltip="营销"
+          i18n-nz-tooltip
+          nzTooltipPlacement="right"
+          nzMatchRouter
+          [routerLink]="['/', app.shopId, 'marketing']"
+        >
+          <span nz-icon nzType="bulb"></span>
         </li>
         <li
           nz-menu-item
@@ -41,13 +61,13 @@ import { ShopsService } from '@common/services/shops.service';
         </li>
         <li
           nz-menu-item
-          nz-tooltip="营销"
+          nz-tooltip="统计"
           i18n-nz-tooltip
           nzTooltipPlacement="right"
           nzMatchRouter
-          [routerLink]="['/', app.shopId, 'marketing']"
+          [routerLink]="['/', app.shopId, 'resources']"
         >
-          <span nz-icon nzType="bulb"></span>
+          <span nz-icon nzType="line-chart"></span>
         </li>
       </ul>
     </nav>
@@ -55,7 +75,7 @@ import { ShopsService } from '@common/services/shops.service';
     <router-outlet></router-outlet>
   `
 })
-export class IndexComponent implements OnInit {
+export class IndexComponent implements OnInit, OnDestroy {
   constructor(
     public app: AppService,
     private shops: ShopsService,
@@ -71,5 +91,9 @@ export class IndexComponent implements OnInit {
       });
       this.cd.detectChanges();
     });
+  }
+
+  ngOnDestroy(): void {
+    this.app.shopId = undefined;
   }
 }

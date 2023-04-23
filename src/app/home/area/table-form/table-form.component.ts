@@ -1,7 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { AppService } from '@app';
 import { Area } from '@common/interfaces/area';
 import { Table } from '@common/interfaces/table';
 import { AreasService } from '@common/services/areas.service';
@@ -17,7 +16,7 @@ export interface TableInputData {
 }
 
 @Component({
-  selector: 'app-overview-area-table-form',
+  selector: 'app-home-area-table-form',
   templateUrl: './table-form.component.html'
 })
 export class TableFormComponent implements OnInit {

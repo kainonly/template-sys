@@ -14,11 +14,11 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { AreaFormComponent, AreaInputData } from './area-form/area-form.component';
 
 @Component({
-  selector: 'app-overview',
-  templateUrl: './overview.component.html',
-  styleUrls: ['./overview.component.scss']
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss']
 })
-export class OverviewComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnInit, OnDestroy {
   searchText = '';
   areaItems: Array<AnyDto<Area>> = [];
   areaDict: AreaDict = {};

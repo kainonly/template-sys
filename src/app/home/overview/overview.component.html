@@ -70,10 +70,19 @@
   <nz-page-header-footer>
     <nz-tabset nzLinkRouter>
       <nz-tab>
-        <a *nzTabLink nz-tab-link [routerLink]="['/', app.shopId, 'overview', 'shop', 'areas']"> 区位列表 </a>
+        <a *nzTabLink nz-tab-link [routerLink]="['/', app.shopId, 'home', 'overview', 'dashboard']"> 实时看板 </a>
       </nz-tab>
       <nz-tab>
-        <a *nzTabLink nz-tab-link [routerLink]="['/', app.shopId, 'overview', 'shop', 'periods']"> 营业时段 </a>
+        <a *nzTabLink nz-tab-link [routerLink]="['/', app.shopId, 'home', 'overview', 'areas']"> 堂食区位 </a>
+      </nz-tab>
+      <nz-tab>
+        <a *nzTabLink nz-tab-link [routerLink]="['/', app.shopId, 'home', 'overview', 'cards']"> 快餐牌号 </a>
+      </nz-tab>
+      <nz-tab>
+        <a *nzTabLink nz-tab-link [routerLink]="['/', app.shopId, 'home', 'overview', 'periods']"> 营业时段 </a>
+      </nz-tab>
+      <nz-tab>
+        <a *nzTabLink nz-tab-link [routerLink]="['/', app.shopId, 'home', 'overview', 'cash']"> 收银设置 </a>
       </nz-tab>
     </nz-tabset>
   </nz-page-header-footer>
