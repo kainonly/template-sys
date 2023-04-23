@@ -1,8 +1,7 @@
 {
-  "name": "lemonade",
+  "name": "hokpoint",
   "scripts": {
     "start": "ng s",
-    "proxy": "ng s --proxy-config src/proxy.conf.json",
     "i18n": "ng extract-i18n --output-path src/locale",
     "build": "ng b --configuration production",
     "build:ssr": "ng build && ng run console:server",
