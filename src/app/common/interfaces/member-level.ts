@@ -7,44 +7,22 @@ export interface MemberLevel {
    */
   name: string;
   /**
-   * 等级代码
+   * 积分
    */
-  code: string;
-  /**
-   * 折扣
-   */
-  discount: {
+  points: {
     /**
-     * 订房折扣
+     * 初始积分
      */
-    room: number;
+    initial: number;
     /**
-     * 餐饮折扣
+     * 等级积分
      */
-    dining: number;
-    /**
-     * 其他折扣
-     */
-    other: number;
+    upgrade: number;
   };
   /**
-   * 升级
+   * 默认折扣
    */
-  upgrade: {
-    /**
-     * 自动升级
-     * 0：不启用 1：支付成功后 2：酒店核实后
-     */
-    mode: 0 | 1 | 2;
-    /**
-     * 升级金额
-     */
-    amount: number;
-  };
-  /**
-   * 包含权益
-   */
-  benefits: string[];
+  discount: number;
   /**
    * 状态
    */

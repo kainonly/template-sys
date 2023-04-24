@@ -9,7 +9,6 @@ import { WpxQuickComponent, WpxQuickFormData } from '@weplanx/ng/quick';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 
-import { FormComponent, FormData } from './form/form.component';
 import { LevelFormComponent } from './level-form/level-form.component';
 
 @Component({
@@ -68,17 +67,6 @@ export class ListsComponent implements OnInit {
       }
     });
   };
-
-  form(doc?: AnyDto<Member>): void {
-    this.modal.create<FormComponent, FormData>({
-      nzTitle: !doc ? `创建` : `编辑【${doc.cardno}】`,
-      nzContent: FormComponent,
-      nzData: {
-        doc
-      },
-      nzOnOk: () => {}
-    });
-  }
 
   delete(doc: AnyDto<Member>): void {
     this.modal.confirm({

@@ -25,9 +25,7 @@
   </nz-row>
 </ng-template>
 
-<ng-template #extraRef>
-  <button nz-button nzType="primary" (click)="form()"> 新增 </button>
-</ng-template>
+<ng-template #extraRef> </ng-template>
 
 <nz-card [nzTitle]="searchRef" [nzExtra]="extraRef">
   <nz-table
@@ -53,8 +51,11 @@
           [nzIndeterminate]="ds.indeterminate"
           (nzCheckedChange)="ds.setNChecked($event)"
         ></th>
-        <th><b>权益名称</b></th>
-        <th><b>权益简介</b></th>
+        <th nzWidth="150px"><b>卡号</b></th>
+        <th nzWidth="120px"><b>等级</b></th>
+        <th><b>联系人</b></th>
+        <th nzWidth="120px"><b>余额</b></th>
+        <th nzWidth="120px"><b>积分</b></th>
         <th nzWidth="120px"><b>状态</b></th>
         <th nzWidth="60px" nzRight nzAlign="center">
           <button nz-button nzType="text" nzBlock disabled>
@@ -72,8 +73,11 @@
           [nzChecked]="ds.checkedIds.has(data['_id'])"
           (nzCheckedChange)="ds.setChecked(data['_id'], $event)"
         ></td>
-        <td>{{ data.name }}</td>
-        <td>{{ data.description }}</td>
+        <td>{{ data.cardno }}</td>
+        <td>{{ data.level_id }}</td>
+        <td>{{ data.profile.name }}</td>
+        <td>{{ data.balance }}</td>
+        <td>{{ data.points }}</td>
         <td>
           <ng-container *ngIf="data.status; else offTpl">
             <nz-badge nzStatus="processing" nzText="启用"></nz-badge>
@@ -85,8 +89,8 @@
           </button>
           <nz-dropdown-menu #menu="nzDropdownMenu">
             <ul nz-menu>
-              <li nz-menu-item i18n (click)="form(data)">编辑</li>
-              <li nz-menu-item nzDanger i18n (click)="delete(data)">删除</li>
+              <li nz-menu-item i18n>编辑</li>
+              <li nz-menu-item nzDanger i18n>删除</li>
             </ul>
           </nz-dropdown-menu>
         </td>

@@ -18,7 +18,7 @@
 
     <nz-divider style="margin: 8px 0"></nz-divider>
 
-    <ul class="lists" nz-menu cdkDropList (cdkDropListDropped)="sort($event)">
+    <ul style="border: none" nz-menu cdkDropList (cdkDropListDropped)="sort($event)">
       <li nz-menu-item nzMatchRouter [routerLink]="['/', app.shopId, 'home', 'overview']">
         <span nz-icon nzType="shop"></span>
         <span>门店概况</span>

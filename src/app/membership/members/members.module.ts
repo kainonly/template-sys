@@ -8,17 +8,7 @@ import { MembersComponent } from './members.component';
 const routes: Routes = [
   {
     path: '',
-    component: MembersComponent,
-    children: [
-      {
-        path: 'index',
-        loadChildren: () => import('./index/index.module').then(m => m.IndexModule),
-        data: {
-          breadcrumb: $localize`全部`
-        }
-      },
-      { path: '', redirectTo: 'index', pathMatch: 'full' }
-    ]
+    component: MembersComponent
   }
 ];
 

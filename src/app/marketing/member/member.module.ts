@@ -14,20 +14,6 @@ const routes: Routes = [
           breadcrumb: $localize`会员列表`
         }
       },
-      {
-        path: 'benefits',
-        loadChildren: () => import('./benefits/benefits.module').then(m => m.BenefitsModule),
-        data: {
-          breadcrumb: $localize`会员权益`
-        }
-      },
-      {
-        path: 'upgrade',
-        loadChildren: () => import('./upgrade/upgrade.module').then(m => m.UpgradeModule),
-        data: {
-          breadcrumb: $localize`如何升级`
-        }
-      },
       { path: '', redirectTo: 'lists', pathMatch: 'full' }
     ]
   }

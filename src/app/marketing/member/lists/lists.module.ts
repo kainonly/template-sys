@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { ShareModule } from '@common/share.module';
 
-import { FormComponent } from './form/form.component';
 import { LevelFormComponent } from './level-form/level-form.component';
 import { ListsComponent } from './lists.component';
 
@@ -16,6 +15,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [ShareModule, RouterModule.forChild(routes)],
-  declarations: [ListsComponent, FormComponent, LevelFormComponent]
+  declarations: [ListsComponent, LevelFormComponent]
 })
 export class ListsModule {}

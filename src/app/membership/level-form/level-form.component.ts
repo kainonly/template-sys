@@ -1,63 +1,59 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { Member } from '@common/interfaces/member';
-import { MemberBenefitsService } from '@common/services/member-benefits.service';
-import { AnyDto, WpxService } from '@weplanx/ng';
+import { WpxQuickFormData } from '@weplanx/ng/quick';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
-
-export interface FormData {
-  doc?: AnyDto<Member>;
-}
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Component({
-  selector: 'app-marketing-member-lists-form',
-  templateUrl: './form.component.html'
+  selector: 'app-membership-level-form',
+  templateUrl: './level-form.component.html'
 })
-export class FormComponent implements OnInit {
+export class LevelFormComponent implements OnInit {
   form!: FormGroup;
   tips: any = {
     name: {
       default: {
-        required: $localize`餐厅名称不能为空`
+        required: $localize`等级名称不能为空`
       }
     }
   };
 
   constructor(
-    @Inject(NZ_MODAL_DATA) public data: FormData,
-    public wpx: WpxService,
+    @Inject(NZ_MODAL_DATA) public data: WpxQuickFormData,
     private modalRef: NzModalRef,
     private message: NzMessageService,
-    private fb: FormBuilder,
-    private benefits: MemberBenefitsService
+    private notification: NzNotificationService,
+    private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      name: ['', [Validators.required]],
-      description: ['', [Validators.required]],
-      icon: ['', [Validators.required]],
+      name: [null, [Validators.required]],
+      points: this.fb.group({
+        initial: [0, [Validators.required]],
+        upgrade: [0, [Validators.required]]
+      }),
+      discount: [0, [Validators.required]],
       status: [true, [Validators.required]]
     });
     if (this.data.doc) {
       this.form.patchValue(this.data.doc);
     }
   }
-
   close(): void {
     this.modalRef.triggerCancel();
   }
 
   submit(data: any): void {
     if (!this.data.doc) {
-      this.benefits.create(data).subscribe(() => {
+      this.data.api.create(data).subscribe(() => {
         this.message.success($localize`数据更新成功`);
         this.modalRef.triggerOk();
       });
     } else {
-      this.benefits.updateById(this.data.doc._id, { $set: data }).subscribe(() => {
+      this.data.api.updateById(this.data.doc._id, { $set: data }).subscribe(() => {
         this.message.success($localize`数据更新成功`);
         this.modalRef.triggerOk();
       });

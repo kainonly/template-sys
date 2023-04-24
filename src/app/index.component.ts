@@ -35,7 +35,7 @@ import { ShopsService } from '@common/services/shops.service';
           i18n-nz-tooltip
           nzTooltipPlacement="right"
           nzMatchRouter
-          [routerLink]="['/', app.shopId, 'members']"
+          [routerLink]="['/', app.shopId, 'membership']"
         >
           <span nz-icon nzType="contacts"></span>
         </li>

@@ -10,27 +10,17 @@ export interface Member {
   cardno: string;
 
   /**
-   * 手机
-   */
-  phone: string;
-
-  /**
-   * 密码
-   */
-  password: string;
-
-  /**
    * 个人信息
    */
   profile: {
     /**
-     * 昵称
-     */
-    nickname: string;
-    /**
      * 姓名
      */
     name: string;
+    /**
+     * 手机
+     */
+    phone: string;
     /**
      * 性别
      */
@@ -40,14 +30,25 @@ export interface Member {
      */
     avatar: string;
     /**
-     * 固定电话
-     */
-    tel: string;
-    /**
      * 出生日期
      */
     birthday: Date;
   };
+
+  /**
+   * 余额
+   */
+  balance: number;
+
+  /**
+   * 会员积分
+   */
+  points: number;
+
+  /**
+   * 支出
+   */
+  spending: number;
 
   /**
    * 所在地点
@@ -68,45 +69,7 @@ export interface Member {
   };
 
   /**
-   * 微信
-   */
-  wechat: {
-    /**
-     * openid
-     */
-    openid: string;
-    /**
-     * unionid
-     */
-    unionid: string;
-    /**
-     * 推荐人
-     */
-    recommender: string;
-  };
-
-  /**
-   * 会员积分
-   */
-  points: number;
-
-  /**
-   * 余额
-   */
-  balance: number;
-
-  /**
-   * 收入
-   */
-  income: number;
-
-  /**
-   * 支出
-   */
-  spending: number;
-
-  /**
-   * 级别来源
+   * 来源
    */
   source: string;
 

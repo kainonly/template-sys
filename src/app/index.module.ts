@@ -25,6 +25,13 @@ const routes: Routes = [
         }
       },
       {
+        path: 'membership',
+        loadChildren: () => import('./membership/membership.module').then(m => m.MembershipModule),
+        data: {
+          breadcrumb: $localize`会员`
+        }
+      },
+      {
         path: 'resources',
         loadChildren: () => import('./resources/resources.module').then(m => m.ResourcesModule),
         data: {
