@@ -7,6 +7,8 @@ import { AppService } from '@app';
   templateUrl: './marketing.component.html'
 })
 export class MarketingComponent implements OnInit {
+  searchText = '';
+
   constructor(public app: AppService) {}
 
   ngOnInit(): void {}

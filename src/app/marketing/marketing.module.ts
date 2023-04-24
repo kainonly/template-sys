@@ -11,13 +11,27 @@ const routes: Routes = [
     component: MarketingComponent,
     children: [
       {
-        path: 'member',
-        loadChildren: () => import('./member/member.module').then(m => m.MemberModule),
+        path: 'remarks',
+        loadChildren: () => import('./remarks/remarks.module').then(m => m.RemarksModule),
         data: {
-          breadcrumb: $localize`会员`
+          breadcrumb: $localize`备注要求`
         }
       },
-      { path: '', redirectTo: 'member', pathMatch: 'full' }
+      {
+        path: 'reasons',
+        loadChildren: () => import('./reasons/reasons.module').then(m => m.ReasonsModule),
+        data: {
+          breadcrumb: $localize`理由预设`
+        }
+      },
+      {
+        path: 'plans/:id',
+        loadChildren: () => import('./plans/plans.module').then(m => m.PlansModule),
+        data: {
+          breadcrumb: $localize`折扣方案`
+        }
+      },
+      { path: '', redirectTo: 'remarks', pathMatch: 'full' }
     ]
   }
 ];
