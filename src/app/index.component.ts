@@ -65,7 +65,7 @@ import { ShopsService } from '@common/services/shops.service';
           i18n-nz-tooltip
           nzTooltipPlacement="right"
           nzMatchRouter
-          [routerLink]="['/', app.shopId, 'resources']"
+          [routerLink]="['/', app.shopId, 'statistics']"
         >
           <span nz-icon nzType="line-chart"></span>
         </li>

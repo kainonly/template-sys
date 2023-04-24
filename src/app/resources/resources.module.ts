@@ -17,6 +17,13 @@ const routes: Routes = [
           breadcrumb: $localize`媒体库`
         }
       },
+      {
+        path: 'articles',
+        loadChildren: () => import('./articles/articles.module').then(m => m.ArticlesModule),
+        data: {
+          breadcrumb: $localize`内容管理`
+        }
+      },
       { path: '', redirectTo: 'media', pathMatch: 'full' }
     ]
   }

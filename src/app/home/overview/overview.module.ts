@@ -39,6 +39,13 @@ const routes: Routes = [
           breadcrumb: $localize`营业时段`
         }
       },
+      {
+        path: 'pay',
+        loadChildren: () => import('./pay/pay.module').then(m => m.PayModule),
+        data: {
+          breadcrumb: $localize`收银设置`
+        }
+      },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   }

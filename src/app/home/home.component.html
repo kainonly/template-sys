@@ -19,11 +19,29 @@
     <nz-divider style="margin: 8px 0"></nz-divider>
 
     <ul class="lists" nz-menu cdkDropList (cdkDropListDropped)="sort($event)">
-      <li *ngIf="app.shopId" nz-menu-item nzMatchRouter [routerLink]="['/', app.shopId, 'home', 'overview']">
+      <li nz-menu-item nzMatchRouter [routerLink]="['/', app.shopId, 'home', 'overview']">
         <span nz-icon nzType="shop"></span>
         <span>门店概况</span>
       </li>
-      <li nz-menu-group nzTitle="堂食导航">
+      <li nz-menu-item nzMatchRouter [routerLink]="['/', app.shopId, 'home', 'booking']">
+        <span nz-icon nzType="carry-out"></span>
+        <span>预定餐台</span>
+      </li>
+      <li nz-menu-group nzTitle="点餐服务">
+        <ul>
+          <li nz-menu-item nzMatchRouter [routerLink]="['/', app.shopId, 'home', 'ordering', 'snack']">
+            <span>快餐订单</span>
+          </li>
+          <li nz-menu-item nzMatchRouter [routerLink]="['/', app.shopId, 'home', 'ordering', 'takeout']">
+            <span>外卖订单</span>
+          </li>
+        </ul>
+      </li>
+      <ng-template #areasNavTitle>
+        堂食区位
+        <span nz-icon nzType="info-circle" nz-tooltip="【双击】编辑【拖拽】排序【右键】操作"></span>
+      </ng-template>
+      <li nz-menu-group [nzTitle]="areasNavTitle">
         <ul>
           <ng-container *ngFor="let item of areaItems">
             <li
@@ -35,8 +53,11 @@
               (dblclick)="form(item)"
               (contextmenu)="actions($event, areaActionsMenu, item._id)"
             >
-              <div class="placeholder" *cdkDragPlaceholder>{{ item.name }}</div>
-              {{ item.name }}
+              <div class="placeholder" *cdkDragPlaceholder>
+                <span nz-icon nzType="holder"></span>
+                <span>{{ item.name }}</span>
+              </div>
+              <span cdkDragHandle nz-icon nzType="holder"></span> <span>{{ item.name }}</span>
             </li>
           </ng-container>
         </ul>

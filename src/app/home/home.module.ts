@@ -19,6 +19,36 @@ const routes: Routes = [
         }
       },
       {
+        path: 'booking',
+        loadChildren: () => import('./booking/booking.module').then(m => m.BookingModule),
+        data: {
+          breadcrumb: $localize`预定餐台`
+        }
+      },
+      {
+        path: 'ordering',
+        children: [
+          {
+            path: 'snack',
+            loadChildren: () => import('./snack/snack.module').then(m => m.SnackModule),
+            data: {
+              breadcrumb: $localize`快餐订单`
+            }
+          },
+          {
+            path: 'takeout',
+            loadChildren: () => import('./takeout/takeout.module').then(m => m.TakeoutModule),
+            data: {
+              breadcrumb: $localize`外卖服务`
+            }
+          },
+          { path: '', redirectTo: 'snack', pathMatch: 'full' }
+        ],
+        data: {
+          breadcrumb: $localize`点餐服务`
+        }
+      },
+      {
         path: 'areas/:areaId',
         loadChildren: () => import('./area/area.module').then(m => m.AreaModule),
         data: {
