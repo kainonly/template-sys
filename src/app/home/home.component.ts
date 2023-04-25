@@ -41,7 +41,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.changesSubscription = this.app.changes.subscribe(data => {
       if (data['shopId'] || data['area']) {
         this.getData();
-        // this.cd.detectChanges();
       }
     });
     this.app.emit({ area: true });

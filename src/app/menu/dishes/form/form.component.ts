@@ -7,12 +7,12 @@ import { AnyDto, WpxService } from '@weplanx/ng';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 
-export interface DishesInputData {
+export interface InputData {
   doc?: AnyDto<Dish>;
 }
 
 @Component({
-  selector: 'app-ordering-menu-dishes-form',
+  selector: 'app-menu-dishes-form',
   templateUrl: './form.component.html'
 })
 export class FormComponent implements OnInit {
@@ -31,14 +31,9 @@ export class FormComponent implements OnInit {
   };
 
   formatterPercent = (value: number): string => `${value} %`;
-  tags: Array<{ label: string; value: number }> = [
-    { label: '折', value: 1 },
-    { label: '荐', value: 2 },
-    { label: '热', value: 3 }
-  ];
 
   constructor(
-    @Inject(NZ_MODAL_DATA) public data: DishesInputData,
+    @Inject(NZ_MODAL_DATA) public data: InputData,
     public wpx: WpxService,
     private modalRef: NzModalRef,
     private message: NzMessageService,
@@ -48,12 +43,12 @@ export class FormComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      sn: ['', [Validators.required]],
+      type_id: [null, [Validators.required]],
       name: ['', [Validators.required]],
+      sn: [''],
       pinyin: [''],
       signature: [false],
-      cold: [false],
-      tags: [[]],
+      recommend: [false],
       price: [0],
       vip: this.fb.group({
         enabled: [false],
@@ -66,6 +61,11 @@ export class FormComponent implements OnInit {
       discount: [false],
       minimum_quantity: [0],
       dine: this.fb.group({
+        enabled: [false],
+        service: [0],
+        tax: [0]
+      }),
+      snack: this.fb.group({
         enabled: [false],
         service: [0],
         tax: [0]

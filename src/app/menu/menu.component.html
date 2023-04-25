@@ -1,0 +1,64 @@
+<nz-layout class="common-layout">
+  <nz-sider class="nav" style="padding: 8px" nzWidth="240px" nzTheme="light">
+    <nz-input-group [nzPrefix]="searchRef" style="width: 100%">
+      <ng-template #searchRef>
+        <span nz-icon nzType="search"></span>
+      </ng-template>
+      <input type="text" nz-input placeholder="搜索" [(ngModel)]="searchText" />
+    </nz-input-group>
+
+    <nz-divider style="margin: 8px 0"></nz-divider>
+
+    <ul style="border: none" nz-menu>
+      <li nz-menu-item nzMatchRouter [routerLink]="['/', app.shopId, 'menu', 'all']">
+        <span nz-icon nzType="folder-open"></span>
+        <span>全部</span>
+      </li>
+      <li nz-menu-item nzMatchRouter [routerLink]="['/', app.shopId, 'menu', 'types']">
+        <span nz-icon nzType="unordered-list"></span>
+        <span>分类列表</span>
+      </li>
+      <ng-template #typesTitle>
+        分类导航
+        <span nz-icon nzType="info-circle" nz-tooltip="【双击】编辑【拖拽】排序【右键】操作"></span>
+      </ng-template>
+      <li nz-menu-group [nzTitle]="typesTitle">
+        <ul cdkDropList (cdkDropListDropped)="sort($event)">
+          <ng-container *ngFor="let item of typeItems">
+            <li
+              nz-menu-item
+              nzMatchRouter
+              [routerLink]="['/', app.shopId, 'menu', item._id]"
+              (dblclick)="form(item)"
+              (contextmenu)="actions($event, typeActionsMenu, item._id)"
+            >
+              <div class="placeholder" *cdkDragPlaceholder>
+                <span nz-icon nzType="holder"></span>
+                <span>{{ item.name }}</span>
+              </div>
+              <span cdkDragHandle nz-icon nzType="holder"></span>
+              <span>{{ item.name }}</span>
+            </li>
+          </ng-container>
+        </ul>
+      </li>
+    </ul>
+  </nz-sider>
+
+  <nz-layout class="inner-layout">
+    <nz-content>
+      <router-outlet></router-outlet>
+    </nz-content>
+  </nz-layout>
+</nz-layout>
+
+<nz-dropdown-menu #typeActionsMenu="nzDropdownMenu">
+  <ul nz-menu *ngIf="typeDict[actionId!] as data">
+    <li nz-menu-item [nzSelected]="false">
+      <span>{{ data.name }}</span>
+    </li>
+    <li nz-menu-divider></li>
+    <li nz-menu-item (click)="form(data)">编辑</li>
+    <li nz-menu-item nzDanger (click)="delete(data)">删除</li>
+  </ul>
+</nz-dropdown-menu>

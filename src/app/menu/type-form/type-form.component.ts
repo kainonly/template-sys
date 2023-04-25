@@ -1,17 +1,20 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { WpxQuickFormData } from '@weplanx/ng/quick';
+import { DishType } from '@common/interfaces/dish-type';
+import { DishTypesService } from '@common/services/dish-types.service';
+import { AnyDto } from '@weplanx/ng';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 
-export interface TypeInputData extends WpxQuickFormData {
+export interface TypeInputData {
   shopId: string;
+  doc?: AnyDto<DishType>;
 }
 
 @Component({
-  selector: 'app-ordering-menu-dishes-type-form',
+  selector: 'app-menu-type-form',
   templateUrl: './type-form.component.html'
 })
 export class TypeFormComponent implements OnInit {
@@ -21,11 +24,6 @@ export class TypeFormComponent implements OnInit {
       default: {
         required: $localize`类型名称不能为空`
       }
-    },
-    sn: {
-      default: {
-        required: $localize`类型编码不能为空`
-      }
     }
   };
 
@@ -34,14 +32,15 @@ export class TypeFormComponent implements OnInit {
     private modalRef: NzModalRef,
     private message: NzMessageService,
     private notification: NzNotificationService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private types: DishTypesService
   ) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({
       shop_id: [this.data.shopId],
       name: [null, [Validators.required]],
-      sn: [null, [Validators.required]],
+      sn: [null],
       period: this.fb.group({
         enabled: [false, [Validators.required]],
         rules: this.fb.array([])
@@ -52,8 +51,12 @@ export class TypeFormComponent implements OnInit {
     }
   }
 
+  get period(): FormGroup {
+    return this.form?.get('period') as FormGroup;
+  }
+
   get rules(): FormArray {
-    return this.form?.get('period')?.get('rules') as FormArray;
+    return this.period.get('rules') as FormArray;
   }
 
   appendRule(value?: string): void {
@@ -78,7 +81,7 @@ export class TypeFormComponent implements OnInit {
 
   submit(data: any): void {
     if (!this.data.doc) {
-      this.data.api
+      this.types
         .create(data, {
           xdata: { shop_id: 'oid', 'period.rules.$.value': 'timestamps' }
         })
@@ -87,7 +90,7 @@ export class TypeFormComponent implements OnInit {
           this.modalRef.triggerOk();
         });
     } else {
-      this.data.api
+      this.types
         .updateById(
           this.data.doc._id,
           {

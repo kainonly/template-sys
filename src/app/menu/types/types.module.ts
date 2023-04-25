@@ -3,17 +3,17 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { ShareModule } from '@common/share.module';
 
-import { CategoriesComponent } from './categories.component';
+import { TypesComponent } from './types.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: CategoriesComponent
+    component: TypesComponent
   }
 ];
 
 @NgModule({
   imports: [ShareModule, RouterModule.forChild(routes)],
-  declarations: [CategoriesComponent]
+  declarations: [TypesComponent]
 })
-export class CategoriesModule {}
+export class TypesModule {}

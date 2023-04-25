@@ -1,16 +1,23 @@
 <form nz-form nzLayout="vertical" id="form" [formGroup]="form" (wpxSubmit)="submit($event)">
-  <nz-form-item>
-    <nz-form-label nzRequired i18n>名称</nz-form-label>
-    <nz-form-control nzHasFeedback [nzAutoTips]="tips.name">
-      <input nz-input type="text" formControlName="name" placeholder="请填写类型名称" i18n-placeholder />
-    </nz-form-control>
-  </nz-form-item>
-  <nz-form-item>
-    <nz-form-label nzRequired i18n>编码</nz-form-label>
-    <nz-form-control nzHasFeedback [nzAutoTips]="tips.sn">
-      <input nz-input type="text" formControlName="sn" placeholder="请填写类型编码" i18n-placeholder />
-    </nz-form-control>
-  </nz-form-item>
+  <nz-row [nzGutter]="24">
+    <nz-col [nzSpan]="12">
+      <nz-form-item>
+        <nz-form-label nzRequired i18n>名称</nz-form-label>
+        <nz-form-control nzHasFeedback [nzAutoTips]="tips.name">
+          <input nz-input type="text" formControlName="name" placeholder="请填写类型名称" i18n-placeholder />
+        </nz-form-control>
+      </nz-form-item>
+    </nz-col>
+    <nz-col [nzSpan]="12">
+      <nz-form-item>
+        <nz-form-label nzRequired i18n>编码</nz-form-label>
+        <nz-form-control>
+          <input nz-input type="text" formControlName="sn" placeholder="请填写类型编码" i18n-placeholder />
+        </nz-form-control>
+      </nz-form-item>
+    </nz-col>
+  </nz-row>
+
   <nz-form-item formGroupName="period">
     <nz-form-label i18n>
       <span style="padding-right: 12px">销售时段</span>

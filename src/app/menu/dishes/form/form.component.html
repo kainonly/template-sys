@@ -7,7 +7,7 @@
             <nz-form-label nzRequired i18n>
               <span style="padding-right: 12px">名称</span>
               <label nz-checkbox formControlName="signature">招牌菜</label>
-              <label nz-checkbox formControlName="cold">冷菜</label>
+              <label nz-checkbox formControlName="recommend">推荐菜</label>
             </nz-form-label>
             <nz-form-control nzHasFeedback [nzAutoTips]="tips.name">
               <input nz-input formControlName="name" placeholder="请输入菜品名称" i18n-placeholder />
@@ -16,16 +16,16 @@
         </nz-col>
         <nz-col [nzSpan]="12">
           <nz-form-item>
-            <nz-form-label i18n>拼音简称</nz-form-label>
+            <nz-form-label nzRequired i18n>分类</nz-form-label>
             <nz-form-control nzHasFeedback>
-              <input nz-input formControlName="pinyin" placeholder="请输入拼音简称" i18n-placeholder />
+              <nz-select formControlName="type_id" nzPlaceHolder="请选择菜品分类" i18n-nzPlaceHolder> </nz-select>
             </nz-form-control>
           </nz-form-item>
         </nz-col>
       </nz-row>
 
       <nz-form-item>
-        <nz-form-label i18n>菜品介绍</nz-form-label>
+        <nz-form-label i18n>介绍</nz-form-label>
         <nz-form-control nzHasFeedback>
           <textarea
             formControlName="introduction"
@@ -37,13 +37,11 @@
         </nz-form-control>
       </nz-form-item>
 
-      <nz-divider nzPlain nzText="参数"></nz-divider>
-
       <nz-row [nzGutter]="12">
         <nz-col [nzSpan]="12">
           <nz-form-item>
-            <nz-form-label i18n>
-              <span style="padding-right: 12px">菜品价格</span>
+            <nz-form-label nzRequired i18n>
+              <span style="padding-right: 12px">价格</span>
               <label nz-checkbox>时价菜</label>
               <label nz-checkbox>称重</label>
             </nz-form-label>
@@ -62,7 +60,9 @@
         </nz-col>
         <nz-col [nzSpan]="12">
           <nz-form-item formGroupName="vip">
-            <nz-form-label i18n> <label nz-checkbox formControlName="enabled">会员价格</label></nz-form-label>
+            <nz-form-label i18n>
+              <label nz-checkbox formControlName="enabled"> 会员价 </label>
+            </nz-form-label>
             <nz-form-control>
               <nz-input-number-group style="width: 100%" nzAddOnAfter="元" i18n-nzAddOnAfter>
                 <nz-input-number
@@ -105,7 +105,7 @@
         </nz-col>
         <nz-col [nzSpan]="7">
           <nz-form-item>
-            <nz-form-label i18n>起购份数</nz-form-label>
+            <nz-form-label i18n>起购数</nz-form-label>
             <nz-form-control>
               <nz-input-number-group nzAddOnAfter="个" i18n-nzAddOnAfter>
                 <nz-input-number
@@ -121,13 +121,11 @@
         </nz-col>
       </nz-row>
 
-      <nz-divider nzPlain nzText="范围"></nz-divider>
-
       <nz-table [nzFrontPagination]="false" [nzShowPagination]="false" nzTemplateMode>
         <thead>
           <tr>
             <th>
-              <div style="padding: 3px 0"> <span nz-icon nzType="paper-clip"></span> 类型 </div>
+              <div style="padding: 3px 0"> <span nz-icon nzType="paper-clip"></span> 适用范围 </div>
             </th>
             <th nzRight nzWidth="120px"><span nz-icon nzType="rise"></span> 服务费率</th>
             <th nzRight nzWidth="120px"><span nz-icon nzType="rise"></span> 税率</th>
@@ -154,6 +152,29 @@
                 [nzStep]="1"
                 [nzFormatter]="formatterPercent"
                 [nzDisabled]="!dineEnabled.value"
+              ></nz-input-number>
+            </td>
+          </tr>
+          <tr formGroupName="snack">
+            <td> <label nz-checkbox formControlName="enabled">快餐</label> </td>
+            <td>
+              <nz-input-number
+                formControlName="service"
+                nzBorderless
+                [nzMin]="0"
+                [nzStep]="1"
+                [nzFormatter]="formatterPercent"
+                [nzDisabled]="!takeoutEnabled.value"
+              ></nz-input-number>
+            </td>
+            <td>
+              <nz-input-number
+                formControlName="tax"
+                nzBorderless
+                [nzMin]="0"
+                [nzStep]="1"
+                [nzFormatter]="formatterPercent"
+                [nzDisabled]="!takeoutEnabled.value"
               ></nz-input-number>
             </td>
           </tr>
@@ -185,12 +206,11 @@
     </nz-col>
     <nz-col [nzSpan]="9">
       <nz-form-item>
-        <nz-form-label nzRequired i18n>编码</nz-form-label>
-        <nz-form-control [nzAutoTips]="tips.sn">
+        <nz-form-label nzRequired i18n>编码 / 简码</nz-form-label>
+        <nz-form-control>
           <nz-input-group nzCompact>
-            <input style="width: 25%" nz-input value="01" readonly />
-            <input style="width: 25%" nz-input value="005" readonly />
-            <input style="width: 50%" nz-input formControlName="sn" placeholder="请输入菜品编码" i18n-placeholder />
+            <input style="width: 50%" nz-input formControlName="sn" placeholder="请输入编码" i18n-placeholder />
+            <input style="width: 50%" nz-input formControlName="sn" placeholder="请输入简码" i18n-placeholder />
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
@@ -228,17 +248,6 @@
               ></nz-input-number>
             </nz-input-number-group>
           </nz-space>
-        </nz-form-control>
-      </nz-form-item>
-
-      <nz-form-item>
-        <nz-form-label i18n>标签</nz-form-label>
-        <nz-form-control>
-          <nz-select formControlName="tags" nzBorderless nzAllowClear nzMode="tags" nzPlaceHolder="请选择菜品标签">
-            <ng-container *ngFor="let tag of tags">
-              <nz-option [nzLabel]="tag.label" [nzValue]="tag.value"></nz-option>
-            </ng-container>
-          </nz-select>
         </nz-form-control>
       </nz-form-item>
 

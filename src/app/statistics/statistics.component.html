@@ -1,0 +1,35 @@
+<nz-layout class="common-layout">
+  <nz-sider class="nav" nzWidth="240px" nzTheme="light">
+    <ul nz-menu nzMode="inline" style="border: none">
+      <li nz-menu-group nzTitle="报表汇总" i18n-nzTitle>
+        <ul>
+          <li nz-menu-item nzMatchRouter [routerLink]="['/', app.shopId, 'statistics', 'report']">
+            <span i18n>流水账</span>
+          </li>
+          <li nz-menu-item nzMatchRouter [routerLink]="['/', app.shopId, 'statistics', 'report']">
+            <span i18n>堂食订单</span>
+          </li>
+          <li nz-menu-item nzMatchRouter [routerLink]="['/', app.shopId, 'statistics', 'report']">
+            <span i18n>快餐订单</span>
+          </li>
+          <li nz-menu-item nzMatchRouter [routerLink]="['/', app.shopId, 'statistics', 'report']">
+            <span i18n>外卖订单</span>
+          </li>
+        </ul>
+      </li>
+      <li nz-menu-group nzTitle="受众分析" i18n-nzTitle>
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <span i18n>会员</span>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </nz-sider>
+
+  <nz-layout>
+    <nz-content>
+      <router-outlet></router-outlet>
+    </nz-content>
+  </nz-layout>
+</nz-layout>

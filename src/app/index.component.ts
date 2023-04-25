@@ -21,11 +21,11 @@ import { ShopsService } from '@common/services/shops.service';
         </li>
         <li
           nz-menu-item
-          nz-tooltip="菜品"
+          nz-tooltip="菜谱"
           i18n-nz-tooltip
           nzTooltipPlacement="right"
           nzMatchRouter
-          [routerLink]="['/', app.shopId, 'ordering']"
+          [routerLink]="['/', app.shopId, 'menu']"
         >
           <span nz-icon nzType="coffee"></span>
         </li>

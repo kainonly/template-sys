@@ -18,10 +18,10 @@ const routes: Routes = [
         }
       },
       {
-        path: 'ordering',
-        loadChildren: () => import('./ordering/ordering.module').then(m => m.OrderingModule),
+        path: 'menu',
+        loadChildren: () => import('./menu/menu.module').then(m => m.MenuModule),
         data: {
-          breadcrumb: $localize`点餐`
+          breadcrumb: $localize`菜单`
         }
       },
       {
@@ -32,6 +32,13 @@ const routes: Routes = [
         }
       },
       {
+        path: 'marketing',
+        loadChildren: () => import('./marketing/marketing.module').then(m => m.MarketingModule),
+        data: {
+          breadcrumb: $localize`营销`
+        }
+      },
+      {
         path: 'resources',
         loadChildren: () => import('./resources/resources.module').then(m => m.ResourcesModule),
         data: {
@@ -39,10 +46,10 @@ const routes: Routes = [
         }
       },
       {
-        path: 'marketing',
-        loadChildren: () => import('./marketing/marketing.module').then(m => m.MarketingModule),
+        path: 'statistics',
+        loadChildren: () => import('./statistics/statistics.module').then(m => m.StatisticsModule),
         data: {
-          breadcrumb: $localize`营销`
+          breadcrumb: $localize`统计`
         }
       },
       { path: '', redirectTo: 'home', pathMatch: 'full' }
