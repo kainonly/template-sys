@@ -11,7 +11,10 @@ export interface DishType {
    * 编码
    */
   sn: string;
-
+  /**
+   * 使用范围
+   */
+  scopes: number[];
   /**
    * 时段
    */

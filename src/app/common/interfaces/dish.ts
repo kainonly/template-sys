@@ -8,29 +8,25 @@ export interface Dish {
    */
   type_id: string;
   /**
-   * 编号
-   */
-  sn: string;
-  /**
    * 菜品名称
    */
   name: string;
   /**
-   * 菜品拼音简码
+   * 编号
    */
-  pinyin: string;
+  sn: string;
+  /**
+   * 简码
+   */
+  code: string;
   /**
    * 招牌菜
    */
   signature: boolean;
   /**
-   * 冷菜
+   * 推荐菜
    */
-  cold: boolean;
-  /**
-   * 标签（折、推、热）
-   */
-  tags: string[];
+  recommend: boolean;
   /**
    * 价格
    */
@@ -38,7 +34,7 @@ export interface Dish {
   /**
    * 会员
    */
-  vip?: {
+  vip: {
     /**
      * 启用
      */
@@ -107,27 +103,6 @@ export interface Dish {
     tax: number;
   };
   /**
-   * 特价设置
-   */
-  special?: {
-    /**
-     * 特价
-     */
-    price: number;
-    /**
-     * 特价时间
-     */
-    period: Date[];
-    /**
-     * 每单最多
-     */
-    maximum_order: number;
-    /**
-     * 每日最多
-     */
-    maximum_daily: number;
-  };
-  /**
    * 规格
    */
   specification?: {
@@ -157,14 +132,6 @@ export interface Dish {
      */
     quantity?: number;
   };
-  /**
-   * 做法
-   */
-  methods?: string[];
-  /**
-   * 口味
-   */
-  flavors?: string[];
   /**
    * 标识图
    */

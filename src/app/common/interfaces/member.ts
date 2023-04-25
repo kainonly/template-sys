@@ -3,12 +3,10 @@ export interface Member {
    * 等级
    */
   level_id: string;
-
   /**
    * 卡号
    */
   cardno: string;
-
   /**
    * 个人信息
    */
@@ -34,22 +32,18 @@ export interface Member {
      */
     birthday: Date;
   };
-
   /**
    * 余额
    */
   balance: number;
-
   /**
    * 会员积分
    */
   points: number;
-
   /**
    * 支出
    */
   spending: number;
-
   /**
    * 所在地点
    */
@@ -67,12 +61,10 @@ export interface Member {
      */
     city: string;
   };
-
   /**
    * 来源
    */
   source: string;
-
   /**
    * 状态
    */

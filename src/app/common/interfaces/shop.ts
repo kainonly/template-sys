@@ -55,5 +55,3 @@ export interface Shop {
    */
   status: boolean;
 }
-
-export type ShopDict = Record<string, AnyDto<Shop>>;
