@@ -56,12 +56,18 @@ export class MenuComponent implements OnInit, OnDestroy {
     if (name) {
       filter['name'] = { $regex: name };
     }
-    this.types.find(filter, { pagesize: 1000, xfilter }).subscribe(data => {
-      this.typeItems = [...data];
-      for (const v of data) {
-        this.typeDict[v._id] = v;
-      }
-    });
+    this.types
+      .find(filter, {
+        pagesize: 1000,
+        xfilter,
+        sort: new Map([['sort', 1]])
+      })
+      .subscribe(data => {
+        this.typeItems = [...data];
+        for (const v of data) {
+          this.typeDict[v._id] = v;
+        }
+      });
   }
 
   private updateTypes(): void {
@@ -70,6 +76,11 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   sort(event: CdkDragDrop<string[]>): void {
     moveItemInArray(this.typeItems, event.previousIndex, event.currentIndex);
+    const values = this.typeItems.map(v => v._id);
+    this.types.sort('sort', values).subscribe(() => {
+      this.message.success($localize`数据更新成功`);
+      this.updateTypes();
+    });
   }
 
   actions($event: MouseEvent, menu: NzDropdownMenuComponent, id?: string): void {

@@ -13,21 +13,27 @@ const routes: Routes = [
     children: [
       {
         path: 'all',
-        loadChildren: () => import('./dishes/dishes.module').then(m => m.DishesModule)
+        loadChildren: () => import('./dishes/dishes.module').then(m => m.DishesModule),
+        data: {
+          breadcrumb: $localize`全部`
+        }
       },
       {
         path: 'types',
-        loadChildren: () => import('./types/types.module').then(m => m.TypesModule)
+        loadChildren: () => import('./types/types.module').then(m => m.TypesModule),
+        data: {
+          breadcrumb: $localize`分类列表`
+        }
       },
       {
         path: ':id',
-        loadChildren: () => import('./dishes/dishes.module').then(m => m.DishesModule)
+        loadChildren: () => import('./dishes/dishes.module').then(m => m.DishesModule),
+        data: {
+          breadcrumb: $localize`分类导航`
+        }
       },
       { path: '', redirectTo: 'all', pathMatch: 'full' }
-    ],
-    data: {
-      breadcrumb: $localize`菜谱`
-    }
+    ]
   }
 ];
 

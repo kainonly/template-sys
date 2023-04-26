@@ -33,7 +33,7 @@ export class AreasComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getData(true);
     this.changesSubscription = this.app.changes.subscribe(data => {
-      if (data['shopId'] || data['area']) {
+      if (data['shopId'] || data['areas']) {
         this.getData(true);
       }
     });
@@ -47,7 +47,12 @@ export class AreasComponent implements OnInit, OnDestroy {
   getData(refresh = false): void {
     this.ds.filter = { shop_id: this.app.shopId };
     this.ds.xfilter = { shop_id: 'oid' };
+    this.ds.sort = new Map([['sort', 1]]);
     this.areas.pages(this.ds, refresh).subscribe(() => {});
+  }
+
+  private updateAreas(): void {
+    this.app.emit({ areas: true });
   }
 
   submitSearch(): void {
@@ -76,7 +81,7 @@ export class AreasComponent implements OnInit, OnDestroy {
         doc
       },
       nzOnOk: () => {
-        this.app.emit({ area: true });
+        this.updateAreas();
       }
     });
   }
@@ -91,7 +96,7 @@ export class AreasComponent implements OnInit, OnDestroy {
       nzOnOk: () => {
         this.areas.delete(doc._id).subscribe(() => {
           this.message.success($localize`数据删除成功`);
-          this.app.emit({ area: true });
+          this.updateAreas();
         });
       }
     });

@@ -28,6 +28,10 @@ export interface DishType {
      */
     rules: DishTypePeriodRule[];
   };
+  /**
+   * 排序
+   */
+  sort: number;
 }
 
 export interface DishTypePeriodRule {

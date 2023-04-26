@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { DishType } from '@common/interfaces/dish-type';
+import { KeyValue } from '@common/interfaces/type';
 import { DishTypesService } from '@common/services/dish-types.service';
 import { AnyDto } from '@weplanx/ng';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -26,6 +27,11 @@ export class TypeFormComponent implements OnInit {
       }
     }
   };
+  scopeItems: Array<KeyValue<number>> = [
+    { key: $localize`堂食`, value: 1 },
+    { key: $localize`快餐`, value: 2 },
+    { key: $localize`外卖`, value: 3 }
+  ];
 
   constructor(
     @Inject(NZ_MODAL_DATA) public data: TypeInputData,
@@ -40,13 +46,18 @@ export class TypeFormComponent implements OnInit {
     this.form = this.fb.group({
       shop_id: [this.data.shopId],
       name: [null, [Validators.required]],
-      sn: [null],
+      sn: [null, [Validators.required]],
+      scopes: [[], [Validators.required]],
       period: this.fb.group({
         enabled: [false, [Validators.required]],
         rules: this.fb.array([])
       })
     });
     if (this.data.doc) {
+      const ruleLen = this.data.doc.period.rules.length;
+      for (let i = 0; i < ruleLen; i++) {
+        this.appendRule();
+      }
       this.form.patchValue(this.data.doc);
     }
   }
@@ -64,8 +75,8 @@ export class TypeFormComponent implements OnInit {
       this.fb.group({
         name: [null, [Validators.required]],
         value: this.fb.array([
-          this.fb.control(null, [Validators.required]),
-          this.fb.control(null, [Validators.required])
+          this.fb.control(new Date(), [Validators.required]),
+          this.fb.control(new Date(), [Validators.required])
         ])
       })
     );

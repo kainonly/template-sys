@@ -3,7 +3,6 @@ import { Inject, Injectable, LOCALE_ID } from '@angular/core';
 import { Observable, Subject, Subscription, switchMap, timer } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { KeyValue } from '@common/interfaces/type';
 import { SetUserDto, User } from '@common/interfaces/user';
 import { AnyDto, UploadOption, WpxService } from '@weplanx/ng';
 
@@ -12,12 +11,12 @@ export class AppService {
   user?: AnyDto<User>;
   shopId?: string;
 
-  readonly changes: Subject<KeyValue> = new Subject();
+  readonly changes: Subject<Record<string, any>> = new Subject();
   private refreshTokenSubscription?: Subscription;
 
   constructor(@Inject(LOCALE_ID) private locale: string, private http: HttpClient, private wpx: WpxService) {}
 
-  emit(v: KeyValue): void {
+  emit(v: Record<string, any>): void {
     this.changes.next(v);
   }
 

@@ -30,6 +30,10 @@ export interface Area {
     tax: number;
   };
   /**
+   * 排序
+   */
+  sort: number;
+  /**
    * 状态
    */
   status: boolean;

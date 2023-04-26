@@ -2,31 +2,26 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { AppService } from '@app';
-import { DishType } from '@common/interfaces/dish-type';
-import { DishTypesService } from '@common/services/dish-types.service';
+import { MemberLevel } from '@common/interfaces/member-level';
+import { MemberLevelsService } from '@common/services/member-levels.service';
 import { AnyDto, WpxData } from '@weplanx/ng';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 
-import { TypeFormComponent, TypeInputData } from '../type-form/type-form.component';
+import { LevelFormComponent, LevelInputData } from '../level-form/level-form.component';
 
 @Component({
-  selector: 'app-menu-types',
-  templateUrl: './types.component.html'
+  selector: 'app-membership-levels',
+  templateUrl: './levels.component.html'
 })
-export class TypesComponent implements OnInit, OnDestroy {
-  ds: WpxData<AnyDto<DishType>> = new WpxData<AnyDto<DishType>>();
-  scopeDict: Record<number, string> = {
-    1: $localize`堂食`,
-    2: $localize`快餐`,
-    3: $localize`外卖`
-  };
+export class LevelsComponent implements OnInit, OnDestroy {
+  ds: WpxData<AnyDto<MemberLevel>> = new WpxData<AnyDto<MemberLevel>>();
 
   private changesSubscription!: Subscription;
 
   constructor(
-    private app: AppService,
-    private types: DishTypesService,
+    public app: AppService,
+    private levels: MemberLevelsService,
     private modal: NzModalService,
     private message: NzMessageService
   ) {}
@@ -34,7 +29,7 @@ export class TypesComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getData(true);
     this.changesSubscription = this.app.changes.subscribe(data => {
-      if (data['dishTypes']) {
+      if (data['memberLevels']) {
         this.getData(true);
       }
     });
@@ -45,31 +40,33 @@ export class TypesComponent implements OnInit, OnDestroy {
   }
 
   getData(refresh = false): void {
-    this.ds.filter = { shop_id: this.app.shopId };
+    this.ds.filter = {
+      shop_id: this.app.shopId
+    };
     this.ds.xfilter = { shop_id: 'oid' };
-    this.ds.sort = new Map([['sort', 1]]);
-    this.types.pages(this.ds, refresh).subscribe(() => {});
+    this.ds.sort = new Map([['weights', -1]]);
+    this.levels.pages(this.ds, refresh).subscribe(() => {});
   }
 
-  private updateTypes(): void {
-    this.app.emit({ dishTypes: true });
+  private updateLevels(): void {
+    this.app.emit({ memberLevels: true });
   }
 
-  form(doc?: AnyDto<DishType>): void {
-    this.modal.create<TypeFormComponent, TypeInputData>({
+  form(doc?: AnyDto<MemberLevel>): void {
+    this.modal.create<LevelFormComponent, LevelInputData>({
       nzTitle: !doc ? `创建` : `编辑【${doc.name}】`,
-      nzContent: TypeFormComponent,
+      nzContent: LevelFormComponent,
       nzData: {
         shopId: this.app.shopId!,
         doc
       },
       nzOnOk: () => {
-        this.updateTypes();
+        this.updateLevels();
       }
     });
   }
 
-  delete(doc: AnyDto<DishType>): void {
+  delete(doc: AnyDto<MemberLevel>): void {
     this.modal.confirm({
       nzTitle: $localize`您确定要删除【${doc.name}】?`,
       nzOkText: $localize`是的`,
@@ -77,9 +74,9 @@ export class TypesComponent implements OnInit, OnDestroy {
       nzOkDanger: true,
       nzCancelText: $localize`再想想`,
       nzOnOk: () => {
-        this.types.delete(doc._id).subscribe(() => {
+        this.levels.delete(doc._id).subscribe(() => {
           this.message.success($localize`数据删除成功`);
-          this.updateTypes();
+          this.updateLevels();
         });
       }
     });

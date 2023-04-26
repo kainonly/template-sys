@@ -3,6 +3,10 @@
  */
 export interface MemberLevel {
   /**
+   * 所属门店
+   */
+  shop_id: string;
+  /**
    * 名称
    */
   name: string;
@@ -24,7 +28,7 @@ export interface MemberLevel {
    */
   discount: number;
   /**
-   * 状态
+   * 权重
    */
-  status: boolean;
+  weights: number;
 }

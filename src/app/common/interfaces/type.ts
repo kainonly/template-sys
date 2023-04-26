@@ -1,1 +1,4 @@
-export type KeyValue = Record<string, any>;
+export interface KeyValue<T> {
+  key: string;
+  value: T;
+}

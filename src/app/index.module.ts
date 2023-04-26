@@ -21,7 +21,7 @@ const routes: Routes = [
         path: 'menu',
         loadChildren: () => import('./menu/menu.module').then(m => m.MenuModule),
         data: {
-          breadcrumb: $localize`菜单`
+          breadcrumb: $localize`菜谱`
         }
       },
       {

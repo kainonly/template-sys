@@ -1,5 +1,9 @@
 export interface Member {
   /**
+   * 所属门店
+   */
+  shop_id: string;
+  /**
    * 等级
    */
   level_id: string;

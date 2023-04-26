@@ -43,7 +43,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.getData();
       }
     });
-    this.app.emit({ area: true });
+    this.getData();
   }
 
   ngOnDestroy(): void {
@@ -60,7 +60,8 @@ export class HomeComponent implements OnInit, OnDestroy {
           pagesize: 1000,
           xfilter: {
             shop_id: 'oid'
-          }
+          },
+          sort: new Map([['sort', 1]])
         }
       )
       .subscribe(data => {
@@ -72,8 +73,17 @@ export class HomeComponent implements OnInit, OnDestroy {
       });
   }
 
+  private updateAreas(): void {
+    this.app.emit({ areas: true });
+  }
+
   sort(event: CdkDragDrop<string[]>): void {
     moveItemInArray(this.areaItems, event.previousIndex, event.currentIndex);
+    const values = this.areaItems.map(v => v._id);
+    this.areas.sort('sort', values).subscribe(() => {
+      this.message.success($localize`数据更新成功`);
+      this.updateAreas();
+    });
   }
 
   actions($event: MouseEvent, menu: NzDropdownMenuComponent, id?: string): void {
@@ -90,7 +100,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         doc
       },
       nzOnOk: () => {
-        this.app.emit({ area: true });
+        this.updateAreas();
       }
     });
   }
@@ -105,7 +115,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       nzOnOk: () => {
         this.areas.delete(doc._id).subscribe(() => {
           this.message.success($localize`数据删除成功`);
-          this.app.emit({ area: true });
+          this.updateAreas();
         });
       }
     });

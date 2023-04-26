@@ -18,6 +18,17 @@
     </nz-col>
   </nz-row>
 
+  <nz-form-item>
+    <nz-form-label nzRequired i18n>范围</nz-form-label>
+    <nz-form-control>
+      <nz-select nzMode="tags" formControlName="scopes" nzPlaceHolder="请选择使用范围" i18n-nzPlaceHolder>
+        <ng-container *ngFor="let item of scopeItems">
+          <nz-option [nzLabel]="item.key" [nzValue]="item.value"></nz-option>
+        </ng-container>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+
   <nz-form-item formGroupName="period">
     <nz-form-label i18n>
       <span style="padding-right: 12px">销售时段</span>
