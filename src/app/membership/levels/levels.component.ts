@@ -15,6 +15,7 @@ import { LevelFormComponent, LevelInputData } from '../level-form/level-form.com
   templateUrl: './levels.component.html'
 })
 export class LevelsComponent implements OnInit, OnDestroy {
+  searchText = '';
   ds: WpxData<AnyDto<MemberLevel>> = new WpxData<AnyDto<MemberLevel>>();
 
   private changesSubscription!: Subscription;
@@ -27,6 +28,11 @@ export class LevelsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.ds.filter = {
+      shop_id: this.app.shopId
+    };
+    this.ds.xfilter = { shop_id: 'oid' };
+    this.ds.sort = new Map([['weights', -1]]);
     this.getData(true);
     this.changesSubscription = this.app.changes.subscribe(data => {
       if (data['memberLevels']) {
@@ -40,12 +46,26 @@ export class LevelsComponent implements OnInit, OnDestroy {
   }
 
   getData(refresh = false): void {
-    this.ds.filter = {
-      shop_id: this.app.shopId
-    };
-    this.ds.xfilter = { shop_id: 'oid' };
-    this.ds.sort = new Map([['weights', -1]]);
     this.levels.pages(this.ds, refresh).subscribe(() => {});
+  }
+
+  submitSearch(): void {
+    if (!this.searchText) {
+      this.ds.filter = {
+        shop_id: this.app.shopId
+      };
+    } else {
+      this.ds.filter = {
+        shop_id: this.app.shopId,
+        name: { $regex: this.searchText }
+      };
+    }
+    this.getData(true);
+  }
+
+  clearSearch(): void {
+    this.searchText = '';
+    this.getData(true);
   }
 
   private updateLevels(): void {

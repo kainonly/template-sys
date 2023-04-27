@@ -25,6 +25,13 @@ const routes: Routes = [
         }
       },
       {
+        path: 'recharge',
+        loadChildren: () => import('./recharge/recharge.module').then(m => m.RechargeModule),
+        data: {
+          breadcrumb: $localize`优惠充值`
+        }
+      },
+      {
         path: 'plans/:id',
         loadChildren: () => import('./plans/plans.module').then(m => m.PlansModule),
         data: {

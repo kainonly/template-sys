@@ -1,50 +1,53 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { MemberLevel } from '@common/interfaces/member-level';
-import { MemberLevelsService } from '@common/services/member-levels.service';
+import { Member } from '@common/interfaces/member';
+import { MembersService } from '@common/services/members.service';
 import { AnyDto } from '@weplanx/ng';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 
-export interface LevelInputData {
+export interface InputData {
   shopId: string;
-  doc?: AnyDto<MemberLevel>;
+  doc?: AnyDto<Member>;
 }
 
 @Component({
-  selector: 'app-membership-level-form',
-  templateUrl: './level-form.component.html'
+  selector: 'app-membership-form',
+  templateUrl: './form.component.html'
 })
-export class LevelFormComponent implements OnInit {
+export class FormComponent implements OnInit {
   form!: FormGroup;
   tips: any = {
-    name: {
+    cardno: {
       default: {
-        required: $localize`等级名称不能为空`
+        required: $localize`会员卡号不能为空`
       }
     }
   };
 
   constructor(
-    @Inject(NZ_MODAL_DATA) public data: LevelInputData,
+    @Inject(NZ_MODAL_DATA) public data: InputData,
     private modalRef: NzModalRef,
     private message: NzMessageService,
     private notification: NzNotificationService,
     private fb: FormBuilder,
-    private levels: MemberLevelsService
+    private members: MembersService
   ) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      name: [null, [Validators.required]],
-      weights: [0, [Validators.required]],
-      points: this.fb.group({
-        initial: [0, [Validators.required]],
-        upgrade: [0, [Validators.required]]
+      level_id: [null, [Validators.required]],
+      cardno: [null, [Validators.required]],
+      profile: this.fb.group({
+        name: [null, []],
+        phone: [null, []],
+        gender: [0, []],
+        avatar: [null],
+        birthday: []
       }),
-      discount: [0, [Validators.required]]
+      status: [true, [Validators.required]]
     });
     if (this.data.doc) {
       this.form.patchValue(this.data.doc);
@@ -57,12 +60,12 @@ export class LevelFormComponent implements OnInit {
 
   submit(data: any): void {
     if (!this.data.doc) {
-      this.levels.create(data).subscribe(() => {
+      this.members.create(data).subscribe(() => {
         this.message.success($localize`数据更新成功`);
         this.modalRef.triggerOk();
       });
     } else {
-      this.levels.updateById(this.data.doc._id, { $set: data }).subscribe(() => {
+      this.members.updateById(this.data.doc._id, { $set: data }).subscribe(() => {
         this.message.success($localize`数据更新成功`);
         this.modalRef.triggerOk();
       });

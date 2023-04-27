@@ -2,6 +2,8 @@
   <button nz-button nzType="primary" (click)="update()"> 更新 </button>
 </ng-template>
 
-<nz-card [nzExtra]="extraRef">
-  <app-richtext [(ngModel)]="value"></app-richtext>
-</nz-card>
+<div style="padding: 6px">
+  <nz-card [nzExtra]="extraRef">
+    <app-richtext [(ngModel)]="value"></app-richtext>
+  </nz-card>
+</div>

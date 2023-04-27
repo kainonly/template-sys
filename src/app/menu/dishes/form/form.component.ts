@@ -2,6 +2,8 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { Dish } from '@common/interfaces/dish';
+import { DishType } from '@common/interfaces/dish-type';
+import { DishTypesService } from '@common/services/dish-types.service';
 import { DishesService } from '@common/services/dishes.service';
 import { AnyDto, WpxService } from '@weplanx/ng';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -29,8 +31,9 @@ export class FormComponent implements OnInit {
       }
     }
   };
-
   formatterPercent = (value: number): string => `${value} %`;
+
+  typeItems: Array<AnyDto<DishType>> = [];
 
   constructor(
     @Inject(NZ_MODAL_DATA) public data: InputData,
@@ -38,7 +41,8 @@ export class FormComponent implements OnInit {
     private modalRef: NzModalRef,
     private message: NzMessageService,
     private fb: FormBuilder,
-    private dishes: DishesService
+    private dishes: DishesService,
+    private types: DishTypesService
   ) {}
 
   ngOnInit(): void {
@@ -107,6 +111,13 @@ export class FormComponent implements OnInit {
 
   get takeoutEnabled(): FormControl {
     return this.form.get('takeout')!.get('enabled') as FormControl;
+  }
+
+  getTypes(): void {
+    this.types.find({}, { pagesize: 1000 }).subscribe(data => {
+      console.log(data);
+      this.typeItems = [...data];
+    });
   }
 
   close(): void {

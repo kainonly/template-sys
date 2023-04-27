@@ -4,7 +4,14 @@
       <ng-template #searchRef>
         <span nz-icon nzType="search"></span>
       </ng-template>
-      <input type="text" nz-input placeholder="搜索" [(ngModel)]="searchText" />
+      <input
+        type="text"
+        nz-input
+        placeholder="搜索"
+        i18n-placeholder
+        [(ngModel)]="searchText"
+        (keyup.enter)="getLevels(searchText)"
+      />
     </nz-input-group>
 
     <nz-divider style="margin: 8px 0"></nz-divider>
@@ -18,17 +25,6 @@
         <span nz-icon nzType="unordered-list"></span>
         <span>等级列表</span>
       </li>
-
-      <!--      <li nz-menu-group nzTitle="设置">-->
-      <!--        <ul>-->
-      <!--          <li nz-menu-item nzMatchRouter [routerLink]="['/', app.shopId, 'membership', 'settings', 'recharge']">-->
-      <!--            <span>优惠充值</span>-->
-      <!--          </li>-->
-      <!--          <li nz-menu-item nzMatchRouter [routerLink]="['/', app.shopId, 'membership', 'settings', 'points']">-->
-      <!--            <span>积分配置</span>-->
-      <!--          </li>-->
-      <!--        </ul>-->
-      <!--      </li>-->
 
       <li nz-menu-group [nzTitle]="levelsTitle">
         <ng-template #levelsTitle>

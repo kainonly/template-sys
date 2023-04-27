@@ -12,9 +12,10 @@ import { NzModalService } from 'ng-zorro-antd/modal';
   templateUrl: './members.component.html'
 })
 export class MembersComponent implements OnInit {
-  ds: WpxData<AnyDto<Member>> = new WpxData<AnyDto<Member>>();
   searchText = '';
   levelId?: string;
+
+  ds: WpxData<AnyDto<Member>> = new WpxData<AnyDto<Member>>();
 
   constructor(
     private members: MembersService,

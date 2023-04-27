@@ -53,9 +53,11 @@
           [nzIndeterminate]="ds.indeterminate"
           (nzCheckedChange)="ds.setNChecked($event)"
         ></th>
-        <th nzWidth="150px"><b>编号</b></th>
-        <th><b>内容</b></th>
-        <th nzWidth="150px"><b>影响价格</b></th>
+        <th><b>名称</b></th>
+        <th><b>有效期</b></th>
+        <th nzWidth="200px"><b>充值金额</b></th>
+        <th nzWidth="200px"><b>赠送金额</b></th>
+        <th nzWidth="200px"><b>赠送积分</b></th>
         <th nzWidth="120px"><b>状态</b></th>
         <th nzWidth="60px" nzRight nzAlign="center">
           <button nz-button nzType="text" nzBlock disabled>
@@ -73,13 +75,15 @@
           [nzChecked]="ds.checkedIds.has(data['_id'])"
           (nzCheckedChange)="ds.setChecked(data['_id'], $event)"
         ></td>
-        <td>{{ data.sn }}</td>
-        <td>{{ data.content }}</td>
+        <td>{{ data['name'] }} </td>
         <td>
-          <code *ngIf="data.offset !== 0; else noRef">
-            <ng-container *ngIf="data.offset > 0">+</ng-container>{{ data.offset | currency }}
-          </code>
+          <ng-container *ngIf="data['valid_time'].length !== 0; else noLimitRef">
+            {{ data['valid_time'][0] | date : 'yyyy-MM-dd' }} ~ {{ data['valid_time'][1] | date : 'yyyy-MM-dd' }}
+          </ng-container>
         </td>
+        <td>{{ data['pay'] | currency }}</td>
+        <td> {{ data['gift']['bonus'] | currency }}</td>
+        <td>{{ data['gift']['points'] }}</td>
         <td>
           <ng-container *ngIf="data.status; else offRef">
             <nz-badge nzStatus="processing" nzText="启用"></nz-badge>
@@ -101,7 +105,7 @@
   </nz-table>
 </nz-card>
 
-<ng-template #noRef> 无 </ng-template>
+<ng-template #noLimitRef> 无期限 </ng-template>
 
 <ng-template #offRef>
   <nz-badge nzStatus="error" nzText="关闭"></nz-badge>
