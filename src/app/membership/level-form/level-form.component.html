@@ -31,8 +31,8 @@
       <nz-col [nzSpan]="12">
         <nz-form-item>
           <nz-form-label nzRequired i18n>初始积分</nz-form-label>
-          <nz-form-control>
-            <nz-input-number-group style="width: 100%" nzAddOnAfter="点" i18n-nzAddOnAfter>
+          <nz-form-control nzExtra="等级初始赠送的积分" i18n-nzExtra>
+            <nz-input-number-group style="width: 100%" nzAddOnAfterIcon="thunderbolt">
               <nz-input-number
                 formControlName="initial"
                 [nzMin]="0"
@@ -47,10 +47,26 @@
       <nz-col [nzSpan]="12">
         <nz-form-item>
           <nz-form-label nzRequired i18n>等级积分</nz-form-label>
-          <nz-form-control nzExtra="升级所需要的积分" i18n-nzExtra>
-            <nz-input-number-group style="width: 100%" nzAddOnAfter="点" i18n-nzAddOnAfter>
+          <nz-form-control nzExtra="升级所需要兑换的积分" i18n-nzExtra>
+            <nz-input-number-group style="width: 100%" nzAddOnAfterIcon="thunderbolt" i18n-nzAddOnAfter>
               <nz-input-number
                 formControlName="upgrade"
+                [nzMin]="0"
+                [nzStep]="1"
+                [nzPrecision]="2"
+                [nzPrecisionMode]="'cut'"
+              ></nz-input-number>
+            </nz-input-number-group>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+      <nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-label nzRequired i18n>消费积分</nz-form-label>
+          <nz-form-control nzExtra="获得 1 积分所需消费的金额" i18n-nzExtra>
+            <nz-input-number-group style="width: 100%" nzAddOnAfter="CN¥" i18n-nzAddOnAfter>
+              <nz-input-number
+                formControlName="earn"
                 [nzMin]="0"
                 [nzStep]="1"
                 [nzPrecision]="2"
@@ -65,7 +81,7 @@
       <nz-form-item>
         <nz-form-label nzRequired i18n>折扣</nz-form-label>
         <nz-form-control>
-          <nz-input-number-group style="width: 100%" nzAddOnAfter="%" i18n-nzAddOnAfter>
+          <nz-input-number-group style="width: 100%" nzAddOnAfterIcon="percentage">
             <nz-input-number
               formControlName="discount"
               [nzMin]="0"

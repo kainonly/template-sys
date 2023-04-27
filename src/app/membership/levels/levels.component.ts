@@ -32,7 +32,7 @@ export class LevelsComponent implements OnInit, OnDestroy {
       shop_id: this.app.shopId
     };
     this.ds.xfilter = { shop_id: 'oid' };
-    this.ds.sort = new Map([['weights', -1]]);
+    this.ds.sort = new Map([['weights', 1]]);
     this.getData(true);
     this.changesSubscription = this.app.changes.subscribe(data => {
       if (data['memberLevels']) {

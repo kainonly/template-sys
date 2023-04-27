@@ -25,7 +25,9 @@
   </nz-row>
 </ng-template>
 
-<ng-template #extraRef> </ng-template>
+<ng-template #extraRef>
+  <button nz-button nzType="primary" (click)="form()"> 新增 </button>
+</ng-template>
 
 <nz-card [nzTitle]="searchRef" [nzExtra]="extraRef">
   <nz-table
@@ -52,10 +54,10 @@
           (nzCheckedChange)="ds.setNChecked($event)"
         ></th>
         <th nzWidth="150px"><b>卡号</b></th>
-        <th nzWidth="120px"><b>等级</b></th>
+        <th nzWidth="200px"><b>等级</b></th>
         <th><b>联系人</b></th>
-        <th nzWidth="120px"><b>余额</b></th>
-        <th nzWidth="120px"><b>积分</b></th>
+        <th nzWidth="200px"><b>余额</b></th>
+        <th nzWidth="200px"><b>积分</b></th>
         <th nzWidth="120px"><b>状态</b></th>
         <th nzWidth="60px" nzRight nzAlign="center">
           <button nz-button nzType="text" nzBlock disabled>
@@ -73,13 +75,33 @@
           [nzChecked]="ds.checkedIds.has(data['_id'])"
           (nzCheckedChange)="ds.setChecked(data['_id'], $event)"
         ></td>
-        <td>{{ data.cardno }}</td>
-        <td>{{ data.level_id }}</td>
-        <td>{{ data.profile.name }}</td>
-        <td>{{ data.balance }}</td>
-        <td>{{ data.points }}</td>
+        <td>{{ data['cardno'] }}</td>
+        <td>{{ levelDict[data['level_id']].name }}</td>
         <td>
-          <ng-container *ngIf="data.status; else offTpl">
+          <nz-space [nzSplit]="spaceSplitRef">
+            <ng-container *nzSpaceItem>
+              <span [ngSwitch]="data['profile'].gender">
+                <ng-container *ngSwitchCase="0" i18n>隐私</ng-container>
+                <ng-container *ngSwitchCase="1" i18n>男士</ng-container>
+                <ng-container *ngSwitchCase="2" i18n>女士</ng-container>
+              </span>
+            </ng-container>
+            <ng-container *nzSpaceItem>
+              <span *ngIf="data['profile'].name; else noRef">{{ data['profile'].name }}</span>
+            </ng-container>
+            <ng-container *nzSpaceItem>
+              <span *ngIf="data['profile'].phone; else noRef">{{ data['profile'].phone }}</span>
+            </ng-container>
+          </nz-space>
+        </td>
+        <td>
+          <code>{{ data['balance'] | currency }}</code>
+        </td>
+        <td>
+          <code>{{ data['points'] }}<span nz-icon nzType="thunderbolt"></span></code>
+        </td>
+        <td>
+          <ng-container *ngIf="data['status']; else offRef">
             <nz-badge nzStatus="processing" nzText="启用"></nz-badge>
           </ng-container>
         </td>
@@ -89,8 +111,8 @@
           </button>
           <nz-dropdown-menu #menu="nzDropdownMenu">
             <ul nz-menu>
-              <li nz-menu-item i18n>编辑</li>
-              <li nz-menu-item nzDanger i18n>删除</li>
+              <li nz-menu-item i18n (click)="form(data)">编辑</li>
+              <li nz-menu-item nzDanger i18n (click)="delete(data)">删除</li>
             </ul>
           </nz-dropdown-menu>
         </td>
@@ -99,6 +121,12 @@
   </nz-table>
 </nz-card>
 
-<ng-template #offTpl>
+<ng-template #noRef>暂无</ng-template>
+
+<ng-template #offRef>
   <nz-badge nzStatus="error" nzText="关闭"></nz-badge>
+</ng-template>
+
+<ng-template #spaceSplitRef>
+  <nz-divider nzType="vertical"></nz-divider>
 </ng-template>

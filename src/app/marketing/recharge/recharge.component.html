@@ -81,9 +81,15 @@
             {{ data['valid_time'][0] | date : 'yyyy-MM-dd' }} ~ {{ data['valid_time'][1] | date : 'yyyy-MM-dd' }}
           </ng-container>
         </td>
-        <td>{{ data['pay'] | currency }}</td>
-        <td> {{ data['gift']['bonus'] | currency }}</td>
-        <td>{{ data['gift']['points'] }}</td>
+        <td>
+          <code>{{ data['pay'] | currency }}</code>
+        </td>
+        <td>
+          <code>{{ data['gift']['bonus'] | currency }}</code>
+        </td>
+        <td>
+          <code>{{ data['gift']['points'] }}<span nz-icon nzType="thunderbolt"></span></code>
+        </td>
         <td>
           <ng-container *ngIf="data.status; else offRef">
             <nz-badge nzStatus="processing" nzText="启用"></nz-badge>

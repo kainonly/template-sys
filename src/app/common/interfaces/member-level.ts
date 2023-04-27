@@ -22,6 +22,10 @@ export interface MemberLevel {
      * 等级积分
      */
     upgrade: number;
+    /**
+     * 消费积分
+     */
+    earn: number;
   };
   /**
    * 默认折扣

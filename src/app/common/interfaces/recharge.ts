@@ -25,7 +25,7 @@ export interface Recharge {
     points: number;
   };
   /**
-   * 有效时间
+   * 有效期
    */
   valid_time: Date[];
   /**

@@ -50,7 +50,7 @@
               <label nz-checkbox>称重</label>
             </nz-form-label>
             <nz-form-control>
-              <nz-input-number-group style="width: 100%" nzAddOnAfter="元" i18n-nzAddOnAfter>
+              <nz-input-number-group style="width: 100%" nzAddOnAfter="CN¥" i18n-nzAddOnAfter>
                 <nz-input-number
                   formControlName="price"
                   [nzMin]="0"
@@ -68,7 +68,7 @@
               <label nz-checkbox formControlName="enabled"> 会员价 </label>
             </nz-form-label>
             <nz-form-control>
-              <nz-input-number-group style="width: 100%" nzAddOnAfter="元" i18n-nzAddOnAfter>
+              <nz-input-number-group style="width: 100%" nzAddOnAfter="CN¥" i18n-nzAddOnAfter>
                 <nz-input-number
                   formControlName="price"
                   [nzMin]="0"
@@ -85,7 +85,7 @@
           <nz-form-item>
             <nz-form-label i18n>成本价</nz-form-label>
             <nz-form-control>
-              <nz-input-number-group style="width: 100%" nzAddOnAfter="元" i18n-nzAddOnAfter>
+              <nz-input-number-group style="width: 100%" nzAddOnAfter="CN¥" i18n-nzAddOnAfter>
                 <nz-input-number
                   formControlName="cost"
                   [nzMin]="0"
@@ -101,7 +101,7 @@
           <nz-form-item>
             <nz-form-label i18n>提成</nz-form-label>
             <nz-form-control>
-              <nz-input-number-group style="width: 100%" nzAddOnAfter="%" i18n-nzAddOnAfter>
+              <nz-input-number-group style="width: 100%" nzAddOnAfterIcon="percentage">
                 <nz-input-number formControlName="commission" [nzMin]="0" [nzStep]="1" [nzMax]="100"></nz-input-number>
               </nz-input-number-group>
             </nz-form-control>
@@ -111,7 +111,7 @@
           <nz-form-item>
             <nz-form-label i18n>起购数</nz-form-label>
             <nz-form-control>
-              <nz-input-number-group nzAddOnAfter="个" i18n-nzAddOnAfter>
+              <nz-input-number-group>
                 <nz-input-number
                   formControlName="minimum_quantity"
                   [nzMin]="0"
@@ -214,7 +214,7 @@
         <nz-form-control>
           <nz-input-group nzCompact>
             <input style="width: 50%" nz-input formControlName="sn" placeholder="请输入编码" i18n-placeholder />
-            <input style="width: 50%" nz-input formControlName="sn" placeholder="请输入简码" i18n-placeholder />
+            <input style="width: 50%" nz-input formControlName="code" placeholder="请输入简码" i18n-placeholder />
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>

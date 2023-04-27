@@ -42,7 +42,8 @@ export class LevelFormComponent implements OnInit {
       weights: [0, [Validators.required]],
       points: this.fb.group({
         initial: [0, [Validators.required]],
-        upgrade: [0, [Validators.required]]
+        upgrade: [0, [Validators.required]],
+        earn: [0, [Validators.required]]
       }),
       discount: [0, [Validators.required]]
     });

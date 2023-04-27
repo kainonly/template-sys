@@ -4,7 +4,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { AppService } from '@app';
 import { MemberLevel } from '@common/interfaces/member-level';
 import { MemberLevelsService } from '@common/services/member-levels.service';
-import { AnyDto, XFilter } from '@weplanx/ng';
+import { AnyDto, Filter, XFilter } from '@weplanx/ng';
 import { WpxQuickComponent } from '@weplanx/ng/quick';
 import { NzContextMenuService, NzDropdownMenuComponent } from 'ng-zorro-antd/dropdown';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -38,17 +38,17 @@ export class MembershipComponent implements OnInit {
     this.getLevels();
   }
 
-  getLevels(name?: string): void {
-    const filter: Record<string, any> = { shop_id: this.app.shopId };
+  getLevels(): void {
+    const filter: Filter<MemberLevel> = { shop_id: this.app.shopId };
     const xfilter: Record<string, XFilter> = { shop_id: 'oid' };
-    if (name) {
-      filter['name'] = { $regex: name };
+    if (this.searchText) {
+      filter.name = { $regex: this.searchText };
     }
     this.levels
       .find(filter, {
         pagesize: 1000,
         xfilter,
-        sort: new Map([['weights', -1]])
+        sort: new Map([['weights', 1]])
       })
       .subscribe(data => {
         this.levelItems = [...data];
@@ -64,7 +64,7 @@ export class MembershipComponent implements OnInit {
 
   sort(event: CdkDragDrop<string[]>): void {
     moveItemInArray(this.levelItems, event.previousIndex, event.currentIndex);
-    const values = this.levelItems.map(v => v._id).reverse();
+    const values = this.levelItems.map(v => v._id);
     this.levels.sort('weights', values).subscribe(() => {
       this.message.success($localize`数据更新成功`);
       this.updateLevels();
@@ -85,7 +85,7 @@ export class MembershipComponent implements OnInit {
         doc
       },
       nzOnOk: () => {
-        this.message.success($localize`数据更新成功`);
+        this.getLevels();
         this.updateLevels();
       }
     });
@@ -101,6 +101,7 @@ export class MembershipComponent implements OnInit {
       nzOnOk: () => {
         this.levels.delete(doc._id).subscribe(() => {
           this.message.success($localize`数据删除成功`);
+          this.getLevels();
           this.updateLevels();
         });
       }

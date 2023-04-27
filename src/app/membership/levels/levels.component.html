@@ -53,11 +53,14 @@
           [nzIndeterminate]="ds.indeterminate"
           (nzCheckedChange)="ds.setNChecked($event)"
         ></th>
-        <th nzWidth="240px"><b>等级名称</b></th>
-        <th><b>初始积分</b></th>
-        <th><b>等级积分</b></th>
-        <th><b>默认折扣</b></th>
-        <th><b>权重</b></th>
+        <th>
+          <span nz-icon nzType="number" nz-tooltip="权重"></span>
+          <b> 等级名称</b>
+        </th>
+        <th nzWidth="200px"><b>初始积分</b></th>
+        <th nzWidth="200px"><b>等级积分</b></th>
+        <th nzWidth="200px"><b>消费积分</b></th>
+        <th nzWidth="200px"><b>默认折扣</b></th>
         <th nzWidth="60px" nzRight nzAlign="center">
           <button nz-button nzType="text" nzBlock disabled>
             <i nz-icon nzType="setting"></i>
@@ -74,15 +77,25 @@
           [nzChecked]="ds.checkedIds.has(data['_id'])"
           (nzCheckedChange)="ds.setChecked(data['_id'], $event)"
         ></td>
-        <td>{{ data.name }}</td>
-        <td>{{ data.points.initial }}</td>
-        <td>{{ data.points.upgrade }}</td>
+        <td>
+          <nz-tag nzColor="blue">{{ data.weights }}</nz-tag>
+          {{ data.name }}
+        </td>
+        <td>
+          <code>{{ data.points.initial }}</code>
+        </td>
+        <td>
+          <code>{{ data.points.upgrade }}</code>
+        </td>
+        <td>
+          <code>{{ data.points.earn | currency }}/<span nz-icon nzType="thunderbolt"></span></code>
+        </td>
         <td>
           <ng-container *ngIf="data.discount !== 0; else noDiscountRef">
             <code>{{ data.discount }}%</code>
           </ng-container>
         </td>
-        <td>{{ data.weights }}</td>
+
         <td nzRight nzAlign="center">
           <button nz-button nzType="text" nz-dropdown [nzDropdownMenu]="menu">
             <i nz-icon nzType="ellipsis"></i>

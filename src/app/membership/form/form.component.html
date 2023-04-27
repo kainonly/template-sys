@@ -1,4 +1,72 @@
-<form nz-form nzLayout="vertical" id="form" [formGroup]="form" (wpxSubmit)="submit($event)"> </form>
+<form nz-form nzLayout="vertical" id="form" [formGroup]="form" (wpxSubmit)="submit($event)">
+  <nz-row [nzGutter]="16">
+    <nz-col [nzSpan]="12">
+      <nz-form-item>
+        <nz-form-label nzRequired i18n>会员卡号</nz-form-label>
+        <nz-form-control nzHasFeedback [nzAutoTips]="tips.cardno">
+          <input nz-input type="text" formControlName="cardno" placeholder="请填写会员卡号" i18n-placeholder />
+        </nz-form-control>
+      </nz-form-item>
+    </nz-col>
+    <nz-col [nzSpan]="12">
+      <nz-form-item>
+        <nz-form-label nzRequired i18n>会员等级</nz-form-label>
+        <nz-form-control nzHasFeedback>
+          <nz-select formControlName="level_id" nzPlaceHolder="请选择会员等级" i18n-nzPlaceHolder>
+            <ng-container *ngFor="let item of levelItems">
+              <nz-option [nzLabel]="item.name" [nzValue]="item._id"></nz-option>
+            </ng-container>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </nz-col>
+    <ng-container formGroupName="profile">
+      <nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-label i18n>姓名</nz-form-label>
+          <nz-form-control>
+            <input nz-input type="text" formControlName="name" placeholder="请填写会员姓名" i18n-placeholder />
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+      <nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-label i18n>联系方式</nz-form-label>
+          <nz-form-control>
+            <input nz-input type="text" formControlName="phone" placeholder="请填写联系方式" i18n-placeholder />
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+      <nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-label i18n>出生日期</nz-form-label>
+          <nz-form-control>
+            <nz-date-picker style="width: 100%" formControlName="birthday"></nz-date-picker>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+      <nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-label i18n>性别</nz-form-label>
+          <nz-form-control>
+            <nz-radio-group formControlName="gender">
+              <label nz-radio-button [nzValue]="0" i18n>隐私</label>
+              <label nz-radio-button [nzValue]="1" i18n>男士</label>
+              <label nz-radio-button [nzValue]="2" i18n>女士</label>
+            </nz-radio-group>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+    </ng-container>
+  </nz-row>
+
+  <nz-form-item>
+    <nz-form-label nzRequired i18n>状态</nz-form-label>
+    <nz-form-control>
+      <nz-switch formControlName="status"></nz-switch>
+    </nz-form-control>
+  </nz-form-item>
+</form>
 
 <div *nzModalFooter>
   <button nz-button type="button" nzType="default" (click)="close()" i18n>取消</button>

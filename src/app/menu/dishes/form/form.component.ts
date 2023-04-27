@@ -20,11 +20,6 @@ export interface InputData {
 export class FormComponent implements OnInit {
   form!: FormGroup;
   tips: any = {
-    sn: {
-      default: {
-        required: $localize`菜品编码不能为空`
-      }
-    },
     name: {
       default: {
         required: $localize`菜品名称不能为空`
@@ -50,7 +45,7 @@ export class FormComponent implements OnInit {
       type_id: [null, [Validators.required]],
       name: ['', [Validators.required]],
       sn: [''],
-      pinyin: [''],
+      code: [''],
       signature: [false],
       recommend: [false],
       price: [0],

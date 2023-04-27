@@ -70,6 +70,10 @@ export interface Member {
    */
   source: string;
   /**
+   * 有效期
+   */
+  valid_time: Date[];
+  /**
    * 状态
    */
   status: boolean;
