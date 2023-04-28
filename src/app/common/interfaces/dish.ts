@@ -86,6 +86,23 @@ export interface Dish {
     tax: number;
   };
   /**
+   * 快餐
+   */
+  snack: {
+    /**
+     * 启用
+     */
+    enabled: boolean;
+    /**
+     * 服务费率
+     */
+    service: number;
+    /**
+     * 税率
+     */
+    tax: number;
+  };
+  /**
    * 外卖
    */
   takeout: {
@@ -144,10 +161,6 @@ export interface Dish {
    * 介绍
    */
   introduction: string;
-  /**
-   * 售罄
-   */
-  sold_out: boolean;
   /**
    * 销量
    */

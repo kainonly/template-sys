@@ -82,16 +82,16 @@
           {{ data.name }}
         </td>
         <td>
-          <code>{{ data.points.initial }}</code>
+          <code>{{ data.points.initial }}<span nz-icon nzType="thunderbolt"></span></code>
         </td>
         <td>
-          <code>{{ data.points.upgrade }}</code>
+          <code>{{ data.points.upgrade }}<span nz-icon nzType="thunderbolt"></span></code>
         </td>
         <td>
           <code>{{ data.points.earn | currency }}/<span nz-icon nzType="thunderbolt"></span></code>
         </td>
         <td>
-          <ng-container *ngIf="data.discount !== 0; else noDiscountRef">
+          <ng-container *ngIf="data.discount !== 0; else noRef">
             <code>{{ data.discount }}%</code>
           </ng-container>
         </td>
@@ -112,6 +112,4 @@
   </nz-table>
 </nz-card>
 
-<ng-template #noDiscountRef>
-  <span i18n>无折扣</span>
-</ng-template>
+<ng-template #noRef>-</ng-template>

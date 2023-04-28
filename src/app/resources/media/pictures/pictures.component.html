@@ -26,7 +26,7 @@
     <nz-row nzJustify="space-between">
       <nz-col>
         <p nz-typography i18n>
-          <span nz-icon nzType="check-circle"></span>
+          <span nz-icon nzType="info-circle"></span>
           上传不超出 {{ (wpx.upload | async)?.limit | nzBytes : 0 : 'KB' }}，支持 jpeg、png、bmp、gif、webp、avif 等格式
         </p>
         <ng-container *ngTemplateOutlet="view.searchRef"></ng-container>

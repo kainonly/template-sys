@@ -10,6 +10,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 
 export interface InputData {
+  shopId: string;
   doc?: AnyDto<Dish>;
 }
 
@@ -44,8 +45,8 @@ export class FormComponent implements OnInit {
     this.form = this.fb.group({
       type_id: [null, [Validators.required]],
       name: ['', [Validators.required]],
-      sn: [''],
-      code: [''],
+      sn: ['', [Validators.required]],
+      code: ['', [Validators.required]],
       signature: [false],
       recommend: [false],
       price: [0],
@@ -79,10 +80,11 @@ export class FormComponent implements OnInit {
         way: [1],
         quantity: [0]
       }),
-      logo: [],
-      introduction: [],
+      logo: [''],
+      introduction: [''],
       status: [true, [Validators.required]]
     });
+    this.getTypes();
     if (this.data.doc) {
       this.form.patchValue(this.data.doc);
     }
@@ -109,10 +111,21 @@ export class FormComponent implements OnInit {
   }
 
   getTypes(): void {
-    this.types.find({}, { pagesize: 1000 }).subscribe(data => {
-      console.log(data);
-      this.typeItems = [...data];
-    });
+    this.types
+      .find(
+        {
+          shop_id: this.data.shopId
+        },
+        {
+          pagesize: 1000,
+          xfilter: { shop_id: 'oid' },
+          sort: new Map([['sort', 1]])
+        }
+      )
+      .subscribe(data => {
+        console.log(data);
+        this.typeItems = [...data];
+      });
   }
 
   close(): void {
@@ -121,15 +134,34 @@ export class FormComponent implements OnInit {
 
   submit(data: any): void {
     if (!this.data.doc) {
-      this.dishes.create(data).subscribe(() => {
-        this.message.success($localize`数据更新成功`);
-        this.modalRef.triggerOk();
-      });
+      data.shop_id = this.data.shopId;
+      this.dishes
+        .create(data, {
+          xdata: {
+            shop_id: 'oid',
+            type_id: 'oid'
+          }
+        })
+        .subscribe(() => {
+          this.message.success($localize`数据更新成功`);
+          this.modalRef.triggerOk();
+        });
     } else {
-      this.dishes.updateById(this.data.doc._id, { $set: data }).subscribe(() => {
-        this.message.success($localize`数据更新成功`);
-        this.modalRef.triggerOk();
-      });
+      this.dishes
+        .updateById(
+          this.data.doc._id,
+          { $set: data },
+          {
+            xdata: {
+              '$set.shop_id': 'oid',
+              '$set.type_id': 'oid'
+            }
+          }
+        )
+        .subscribe(() => {
+          this.message.success($localize`数据更新成功`);
+          this.modalRef.triggerOk();
+        });
     }
   }
 }

@@ -62,7 +62,8 @@
         <th nzWidth="240px"><b>菜品名称【编码】</b></th>
         <th nzWidth="200px"><b>菜品分类</b></th>
         <th><b>功能</b></th>
-        <th nzWidth="200px"><b>售价 / 会员价</b></th>
+        <th nzWidth="120px"><b>售价</b></th>
+        <th nzWidth="120px"><b>会员价</b></th>
         <th nzWidth="120px"><b>状态</b></th>
         <th nzWidth="60px" nzRight nzAlign="center">
           <button nz-button nzType="text" nzBlock disabled>
@@ -80,11 +81,22 @@
           [nzChecked]="ds.checkedIds.has(data['_id'])"
           (nzCheckedChange)="ds.setChecked(data['_id'], $event)"
         ></td>
-        <td>{{ data.name }}</td>
+        <td>{{ data['name'] }}</td>
+        <td>{{ typeDict[data['type_id']].name }}</td>
         <td></td>
         <td>
-          <ng-container *ngIf="data.status; else offRef">
-            <nz-badge nzStatus="processing" nzText="启用"></nz-badge>
+          <ng-container *ngIf="data['price']; else noRef">
+            {{ data['price'] | currency }}
+          </ng-container>
+        </td>
+        <td>
+          <ng-container *ngIf="data['vip'].enabled; else noRef">
+            {{ data['vip']['price'] | currency }}
+          </ng-container>
+        </td>
+        <td>
+          <ng-container *ngIf="data['status']; else offRef">
+            <nz-badge nzStatus="processing" nzText="上架"></nz-badge>
           </ng-container>
         </td>
         <td nzRight nzAlign="center">
@@ -93,8 +105,8 @@
           </button>
           <nz-dropdown-menu #menu="nzDropdownMenu">
             <ul nz-menu>
-              <li nz-menu-item i18n>编辑</li>
-              <li nz-menu-item nzDanger i18n>删除</li>
+              <li nz-menu-item i18n (click)="form(data)">编辑</li>
+              <li nz-menu-item nzDanger i18n (click)="delete(data)">删除</li>
             </ul>
           </nz-dropdown-menu>
         </td>
@@ -103,6 +115,8 @@
   </nz-table>
 </nz-card>
 
+<ng-template #noRef>-</ng-template>
+
 <ng-template #offRef>
-  <nz-badge nzStatus="error" nzText="关闭"></nz-badge>
+  <nz-badge nzStatus="error" nzText="下架"></nz-badge>
 </ng-template>
