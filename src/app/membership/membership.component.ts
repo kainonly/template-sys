@@ -1,10 +1,11 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 import { AppService } from '@app';
-import { MemberLevel } from '@common/interfaces/member-level';
+import { MemberLevel, MemberLevelDict } from '@common/interfaces/member-level';
 import { MemberLevelsService } from '@common/services/member-levels.service';
-import { AnyDto, Filter, XFilter } from '@weplanx/ng';
+import { AnyDto, Filter } from '@weplanx/ng';
 import { WpxQuickComponent } from '@weplanx/ng/quick';
 import { NzContextMenuService, NzDropdownMenuComponent } from 'ng-zorro-antd/dropdown';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -17,14 +18,15 @@ import { LevelFormComponent, LevelInputData } from './level-form/level-form.comp
   templateUrl: './membership.component.html',
   styleUrls: ['./membership.component.scss']
 })
-export class MembershipComponent implements OnInit {
+export class MembershipComponent implements OnInit, OnDestroy {
   @ViewChild(WpxQuickComponent, { static: true }) levelsRef!: WpxQuickComponent;
   searchText = '';
+  actionId?: string;
 
   levelItems: Array<AnyDto<MemberLevel>> = [];
-  levelDict: Record<string, AnyDto<MemberLevel>> = {};
+  levelDict: MemberLevelDict = {};
 
-  actionId?: string;
+  private changesSubscription!: Subscription;
 
   constructor(
     public app: AppService,
@@ -36,18 +38,26 @@ export class MembershipComponent implements OnInit {
 
   ngOnInit(): void {
     this.getLevels();
+    this.changesSubscription = this.app.changes.subscribe(data => {
+      if (data['memberLevels']) {
+        this.getLevels();
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.changesSubscription.unsubscribe();
   }
 
   getLevels(): void {
     const filter: Filter<MemberLevel> = { shop_id: this.app.shopId };
-    const xfilter: Record<string, XFilter> = { shop_id: 'oid' };
     if (this.searchText) {
       filter.name = { $regex: this.searchText };
     }
     this.levels
       .find(filter, {
         pagesize: 1000,
-        xfilter,
+        xfilter: { shop_id: 'oid' },
         sort: new Map([['weights', 1]])
       })
       .subscribe(data => {
@@ -55,11 +65,13 @@ export class MembershipComponent implements OnInit {
         for (const v of data) {
           this.levelDict[v._id] = v;
         }
+        this.levels.set(this.levelDict);
       });
   }
 
-  private updateLevels(): void {
-    this.app.emit({ memberLevels: true });
+  actions($event: MouseEvent, menu: NzDropdownMenuComponent, id?: string): void {
+    this.actionId = id;
+    this.contextMenu.create($event as MouseEvent, menu);
   }
 
   sort(event: CdkDragDrop<string[]>): void {
@@ -67,13 +79,7 @@ export class MembershipComponent implements OnInit {
     const values = this.levelItems.map(v => v._id);
     this.levels.sort('weights', values).subscribe(() => {
       this.message.success($localize`数据更新成功`);
-      this.updateLevels();
     });
-  }
-
-  actions($event: MouseEvent, menu: NzDropdownMenuComponent, id?: string): void {
-    this.actionId = id;
-    this.contextMenu.create($event as MouseEvent, menu);
   }
 
   form(doc: AnyDto<MemberLevel>): void {
@@ -86,7 +92,6 @@ export class MembershipComponent implements OnInit {
       },
       nzOnOk: () => {
         this.getLevels();
-        this.updateLevels();
       }
     });
   }
@@ -102,7 +107,6 @@ export class MembershipComponent implements OnInit {
         this.levels.delete(doc._id).subscribe(() => {
           this.message.success($localize`数据删除成功`);
           this.getLevels();
-          this.updateLevels();
         });
       }
     });

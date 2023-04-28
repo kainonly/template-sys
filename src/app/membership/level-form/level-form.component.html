@@ -11,7 +11,7 @@
     <nz-col [nzSpan]="12">
       <nz-form-item>
         <nz-form-label nzRequired i18n>权重</nz-form-label>
-        <nz-form-control nzHasFeedback>
+        <nz-form-control nzHasFeedback [nzAutoTips]="tips.weights">
           <nz-input-number
             style="width: 100%"
             formControlName="weights"
@@ -31,7 +31,7 @@
       <nz-col [nzSpan]="12">
         <nz-form-item>
           <nz-form-label nzRequired i18n>初始积分</nz-form-label>
-          <nz-form-control nzExtra="等级初始赠送的积分" i18n-nzExtra>
+          <nz-form-control nzExtra="等级初始赠送的积分" i18n-nzExtra [nzAutoTips]="tips.initial">
             <nz-input-number-group style="width: 100%" nzAddOnAfterIcon="thunderbolt">
               <nz-input-number
                 formControlName="initial"
@@ -47,8 +47,8 @@
       <nz-col [nzSpan]="12">
         <nz-form-item>
           <nz-form-label nzRequired i18n>等级积分</nz-form-label>
-          <nz-form-control nzExtra="升级所需要兑换的积分" i18n-nzExtra>
-            <nz-input-number-group style="width: 100%" nzAddOnAfterIcon="thunderbolt" i18n-nzAddOnAfter>
+          <nz-form-control nzExtra="升级所需要兑换的积分" i18n-nzExtra [nzAutoTips]="tips.upgrade">
+            <nz-input-number-group style="width: 100%" nzAddOnAfterIcon="thunderbolt">
               <nz-input-number
                 formControlName="upgrade"
                 [nzMin]="0"
@@ -63,7 +63,7 @@
       <nz-col [nzSpan]="12">
         <nz-form-item>
           <nz-form-label nzRequired i18n>消费积分</nz-form-label>
-          <nz-form-control nzExtra="获得 1 积分所需消费的金额" i18n-nzExtra>
+          <nz-form-control nzExtra="获得 1 积分所需消费的金额" i18n-nzExtra [nzAutoTips]="tips.earn">
             <nz-input-number-group style="width: 100%" nzAddOnAfter="CN¥" i18n-nzAddOnAfter>
               <nz-input-number
                 formControlName="earn"
@@ -80,7 +80,7 @@
     <nz-col [nzSpan]="12">
       <nz-form-item>
         <nz-form-label nzRequired i18n>折扣</nz-form-label>
-        <nz-form-control>
+        <nz-form-control [nzAutoTips]="tips.discount">
           <nz-input-number-group style="width: 100%" nzAddOnAfterIcon="percentage">
             <nz-input-number
               formControlName="discount"

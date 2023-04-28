@@ -19,10 +19,35 @@ export interface LevelInputData {
 })
 export class LevelFormComponent implements OnInit {
   form!: FormGroup;
-  tips: any = {
+  tips = {
     name: {
       default: {
         required: $localize`等级名称不能为空`
+      }
+    },
+    weights: {
+      default: {
+        required: $localize`权重不能为空`
+      }
+    },
+    initial: {
+      default: {
+        required: $localize`初始积分不能为空`
+      }
+    },
+    upgrade: {
+      default: {
+        required: $localize`等级积分不能为空`
+      }
+    },
+    earn: {
+      default: {
+        required: $localize`消费积分不能为空`
+      }
+    },
+    discount: {
+      default: {
+        required: $localize`折扣不能为空`
       }
     }
   };
@@ -58,15 +83,34 @@ export class LevelFormComponent implements OnInit {
 
   submit(data: any): void {
     if (!this.data.doc) {
-      this.levels.create(data).subscribe(() => {
-        this.message.success($localize`数据更新成功`);
-        this.modalRef.triggerOk();
-      });
+      data.shop_id = this.data.shopId;
+      this.levels
+        .create(data, {
+          xdata: {
+            shop_id: 'oid'
+          }
+        })
+        .subscribe(() => {
+          this.message.success($localize`数据更新成功`);
+          this.modalRef.triggerOk();
+        });
     } else {
-      this.levels.updateById(this.data.doc._id, { $set: data }).subscribe(() => {
-        this.message.success($localize`数据更新成功`);
-        this.modalRef.triggerOk();
-      });
+      this.levels
+        .updateById(
+          this.data.doc._id,
+          {
+            $set: data
+          },
+          {
+            xdata: {
+              '$set.shop_id': 'oid'
+            }
+          }
+        )
+        .subscribe(() => {
+          this.message.success($localize`数据更新成功`);
+          this.modalRef.triggerOk();
+        });
     }
   }
 }

@@ -1,3 +1,5 @@
+import { AnyDto } from '@weplanx/ng';
+
 /**
  * 会员等级
  */
@@ -36,3 +38,5 @@ export interface MemberLevel {
    */
   weights: number;
 }
+
+export type MemberLevelDict = Record<string, AnyDto<MemberLevel>>;

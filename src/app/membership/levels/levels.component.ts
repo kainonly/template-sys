@@ -1,5 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
 
 import { AppService } from '@app';
 import { MemberLevel } from '@common/interfaces/member-level';
@@ -14,11 +13,9 @@ import { LevelFormComponent, LevelInputData } from '../level-form/level-form.com
   selector: 'app-membership-levels',
   templateUrl: './levels.component.html'
 })
-export class LevelsComponent implements OnInit, OnDestroy {
-  searchText = '';
+export class LevelsComponent implements OnInit {
   ds: WpxData<AnyDto<MemberLevel>> = new WpxData<AnyDto<MemberLevel>>();
-
-  private changesSubscription!: Subscription;
+  searchText = '';
 
   constructor(
     public app: AppService,
@@ -31,18 +28,11 @@ export class LevelsComponent implements OnInit, OnDestroy {
     this.ds.filter = {
       shop_id: this.app.shopId
     };
-    this.ds.xfilter = { shop_id: 'oid' };
+    this.ds.xfilter = {
+      shop_id: 'oid'
+    };
     this.ds.sort = new Map([['weights', 1]]);
     this.getData(true);
-    this.changesSubscription = this.app.changes.subscribe(data => {
-      if (data['memberLevels']) {
-        this.getData(true);
-      }
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.changesSubscription.unsubscribe();
   }
 
   getData(refresh = false): void {
@@ -50,15 +40,11 @@ export class LevelsComponent implements OnInit, OnDestroy {
   }
 
   submitSearch(): void {
-    if (!this.searchText) {
-      this.ds.filter = {
-        shop_id: this.app.shopId
-      };
-    } else {
-      this.ds.filter = {
-        shop_id: this.app.shopId,
-        name: { $regex: this.searchText }
-      };
+    this.ds.filter = {
+      shop_id: this.app.shopId
+    };
+    if (this.searchText) {
+      this.ds.filter.name = { $regex: this.searchText };
     }
     this.getData(true);
   }
@@ -81,6 +67,7 @@ export class LevelsComponent implements OnInit, OnDestroy {
         doc
       },
       nzOnOk: () => {
+        this.getData(true);
         this.updateLevels();
       }
     });
@@ -96,6 +83,7 @@ export class LevelsComponent implements OnInit, OnDestroy {
       nzOnOk: () => {
         this.levels.delete(doc._id).subscribe(() => {
           this.message.success($localize`数据删除成功`);
+          this.getData(true);
           this.updateLevels();
         });
       }

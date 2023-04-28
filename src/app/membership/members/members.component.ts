@@ -7,30 +7,32 @@ import { Member } from '@common/interfaces/member';
 import { MemberLevel } from '@common/interfaces/member-level';
 import { MemberLevelsService } from '@common/services/member-levels.service';
 import { MembersService } from '@common/services/members.service';
-import { AnyDto, WpxData, XFilter } from '@weplanx/ng';
+import { AnyDto, WpxData } from '@weplanx/ng';
+import { NzDrawerService } from 'ng-zorro-antd/drawer';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 
 import { FormComponent, InputData } from '../form/form.component';
+import { LevelsComponent } from '../levels/levels.component';
 
 @Component({
   selector: 'app-membership-members',
   templateUrl: './members.component.html'
 })
 export class MembersComponent implements OnInit, OnDestroy {
+  ds: WpxData<AnyDto<Member>> = new WpxData<AnyDto<Member>>();
   searchText = '';
 
-  ds: WpxData<AnyDto<Member>> = new WpxData<AnyDto<Member>>();
-
   levelDict: Record<string, AnyDto<MemberLevel>> = {};
-  private levelId?: string;
+  levelId?: string;
 
-  private changesSubscription!: Subscription;
+  private levelsSubscription!: Subscription;
 
   constructor(
     public app: AppService,
     private modal: NzModalService,
     private message: NzMessageService,
+    private drawer: NzDrawerService,
     private route: ActivatedRoute,
     private members: MembersService,
     private levels: MemberLevelsService
@@ -47,38 +49,27 @@ export class MembersComponent implements OnInit, OnDestroy {
         shop_id: 'oid',
         level_id: 'oid'
       };
-      this.getLevels();
       this.getData(true);
     });
-    this.changesSubscription = this.app.changes.subscribe(data => {
-      if (data['memberLevels']) {
-        this.getLevels();
-      }
+    this.levelsSubscription = this.levels.dict.subscribe(data => {
+      this.levelDict = data;
     });
   }
 
   ngOnDestroy(): void {
-    this.changesSubscription.unsubscribe();
+    this.levelsSubscription.unsubscribe();
   }
 
   getData(refresh = false): void {
     this.members.pages(this.ds, refresh).subscribe(() => {});
   }
 
-  getLevels(): void {
-    this.levels
-      .find(
-        { shop_id: this.app.shopId },
-        {
-          pagesize: 1000,
-          xfilter: { shop_id: 'oid' }
-        }
-      )
-      .subscribe(data => {
-        for (const v of data) {
-          this.levelDict[v._id] = v;
-        }
-      });
+  openLevels(): void {
+    this.drawer.create({
+      nzWidth: 960,
+      nzClosable: false,
+      nzContent: LevelsComponent
+    });
   }
 
   submitSearch(): void {

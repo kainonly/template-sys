@@ -19,11 +19,7 @@
     <ul style="border: none" nz-menu>
       <li nz-menu-item nzMatchRouter [routerLink]="['/', app.shopId, 'membership', 'all']">
         <span nz-icon nzType="folder-open"></span>
-        <span>全部</span>
-      </li>
-      <li nz-menu-item nzMatchRouter [routerLink]="['/', app.shopId, 'membership', 'levels']">
-        <span nz-icon nzType="unordered-list"></span>
-        <span>等级列表</span>
+        <span>全部会员</span>
       </li>
 
       <li nz-menu-group [nzTitle]="levelsTitle">
@@ -53,10 +49,8 @@
     </ul>
   </nz-sider>
 
-  <nz-layout class="inner-layout">
-    <nz-content>
-      <router-outlet></router-outlet>
-    </nz-content>
+  <nz-layout>
+    <router-outlet></router-outlet>
   </nz-layout>
 </nz-layout>
 
