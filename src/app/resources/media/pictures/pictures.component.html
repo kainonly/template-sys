@@ -17,36 +17,38 @@
           i18n-nz-tooltip
           (click)="view.tagsRef.open()"
         >
-          <i nz-icon nzType="tags"></i>
+          <i nz-icon nzType="setting"></i>
         </button>
       </ng-container>
     </nz-space>
   </nz-page-header-extra>
   <nz-page-header-content>
-    <nz-row nzJustify="space-between">
+    <nz-row nzJustify="space-between" nzAlign="bottom">
       <nz-col>
-        <p nz-typography i18n>
-          <span nz-icon nzType="info-circle"></span>
-          上传不超出 {{ (wpx.upload | async)?.limit | nzBytes : 0 : 'KB' }}，支持 jpeg、png、bmp、gif、webp、avif 等格式
-        </p>
         <ng-container *ngTemplateOutlet="view.searchRef"></ng-container>
       </nz-col>
       <nz-col></nz-col>
       <nz-col>
-        <nz-statistic *ngIf="view" [nzValue]="view.ds?.total" nzTitle="元素数量" i18n-nzTitle></nz-statistic>
+        <span *ngIf="view">共计 {{ view.ds?.total }} 个元素</span>
       </nz-col>
     </nz-row>
   </nz-page-header-content>
 </nz-page-header>
 
-<div style="padding: 6px; height: calc(100% - 116px)">
+<div style="padding: 6px; height: calc(100% - 84px)">
   <app-pictures #view></app-pictures>
 </div>
+
+<nz-alert class="banner" nzBanner nzType="info" [nzMessage]="uploadInfoRef" nzCloseable>
+  <ng-template #uploadInfoRef>
+    上传不超出 {{ (wpx.upload | async)?.limit | nzBytes : 0 : 'KB' }}，支持 jpeg、png、bmp、gif、webp、avif 等格式
+  </ng-template>
+</nz-alert>
 
 <ng-container *ngIf="view.ds as ds">
   <nz-alert
     *ngIf="ds.checkedNumber !== 0"
-    class="actions"
+    class="banner"
     nzType="info"
     nzBanner
     nzMessage="批量"

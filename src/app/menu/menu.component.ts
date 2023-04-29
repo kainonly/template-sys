@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { AppService } from '@app';
 import { DishType } from '@common/interfaces/dish-type';
 import { DishTypesService } from '@common/services/dish-types.service';
-import { AnyDto, XFilter } from '@weplanx/ng';
+import { AnyDto, Filter, XFilter } from '@weplanx/ng';
 import { WpxQuickComponent } from '@weplanx/ng/quick';
 import { NzContextMenuService, NzDropdownMenuComponent } from 'ng-zorro-antd/dropdown';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -50,16 +50,17 @@ export class MenuComponent implements OnInit, OnDestroy {
     this.changesSubscription.unsubscribe();
   }
 
-  getTypes(name?: string): void {
-    const filter: Record<string, any> = { shop_id: this.app.shopId };
-    const xfilter: Record<string, XFilter> = { shop_id: 'oid' };
-    if (name) {
-      filter['name'] = { $regex: name };
+  getTypes(): void {
+    const filter: Filter<DishType> = { shop_id: this.app.shopId };
+    if (this.searchText) {
+      filter.name = { $regex: this.searchText };
     }
     this.types
       .find(filter, {
         pagesize: 1000,
-        xfilter,
+        xfilter: {
+          shop_id: 'oid'
+        },
         sort: new Map([['sort', 1]])
       })
       .subscribe(data => {
@@ -67,6 +68,7 @@ export class MenuComponent implements OnInit, OnDestroy {
         for (const v of data) {
           this.typeDict[v._id] = v;
         }
+        this.types.set(this.typeDict);
       });
   }
 

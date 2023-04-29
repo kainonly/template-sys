@@ -16,6 +16,7 @@ import { TypeFormComponent, TypeInputData } from '../type-form/type-form.compone
 })
 export class TypesComponent implements OnInit, OnDestroy {
   ds: WpxData<AnyDto<DishType>> = new WpxData<AnyDto<DishType>>();
+  searchText = '';
   scopeDict: Record<number, string> = {
     1: $localize`堂食`,
     2: $localize`快餐`,
@@ -32,6 +33,13 @@ export class TypesComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.ds.filter = {
+      shop_id: this.app.shopId
+    };
+    this.ds.xfilter = {
+      shop_id: 'oid'
+    };
+    this.ds.sort = new Map([['sort', 1]]);
     this.getData(true);
     this.changesSubscription = this.app.changes.subscribe(data => {
       if (data['dishTypes']) {
@@ -45,10 +53,22 @@ export class TypesComponent implements OnInit, OnDestroy {
   }
 
   getData(refresh = false): void {
-    this.ds.filter = { shop_id: this.app.shopId };
-    this.ds.xfilter = { shop_id: 'oid' };
-    this.ds.sort = new Map([['sort', 1]]);
     this.types.pages(this.ds, refresh).subscribe(() => {});
+  }
+
+  submitSearch(): void {
+    this.ds.filter = {
+      shop_id: this.app.shopId
+    };
+    if (this.searchText) {
+      this.ds.filter.name = { $regex: this.searchText };
+    }
+    this.getData(true);
+  }
+
+  clearSearch(): void {
+    this.searchText = '';
+    this.getData(true);
   }
 
   private updateTypes(): void {

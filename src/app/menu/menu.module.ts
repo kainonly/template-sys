@@ -3,8 +3,11 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { ShareModule } from '@common/share.module';
 
+import { DishesComponent } from './dishes/dishes.component';
+import { FormComponent } from './form/form.component';
 import { MenuComponent } from './menu.component';
 import { TypeFormComponent } from './type-form/type-form.component';
+import { TypesComponent } from './types/types.component';
 
 const routes: Routes = [
   {
@@ -13,21 +16,14 @@ const routes: Routes = [
     children: [
       {
         path: 'all',
-        loadChildren: () => import('./dishes/dishes.module').then(m => m.DishesModule),
+        component: DishesComponent,
         data: {
-          breadcrumb: $localize`全部`
-        }
-      },
-      {
-        path: 'types',
-        loadChildren: () => import('./types/types.module').then(m => m.TypesModule),
-        data: {
-          breadcrumb: $localize`分类列表`
+          breadcrumb: $localize`全部菜品`
         }
       },
       {
         path: ':id',
-        loadChildren: () => import('./dishes/dishes.module').then(m => m.DishesModule),
+        component: DishesComponent,
         data: {
           breadcrumb: $localize`分类导航`
         }
@@ -39,6 +35,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [ShareModule, RouterModule.forChild(routes)],
-  declarations: [MenuComponent, TypeFormComponent]
+  declarations: [MenuComponent, DishesComponent, FormComponent, TypesComponent, TypeFormComponent]
 })
 export class MenuModule {}

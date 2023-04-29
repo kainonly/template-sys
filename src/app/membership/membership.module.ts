@@ -18,7 +18,7 @@ const routes: Routes = [
         path: 'all',
         component: MembersComponent,
         data: {
-          breadcrumb: $localize`全部`
+          breadcrumb: $localize`全部会员`
         }
       },
       {

@@ -1,5 +1,5 @@
 <nz-layout class="common-layout">
-  <nz-sider class="nav" style="padding: 8px" nzWidth="240px" nzTheme="light">
+  <nz-sider class="nav" nzWidth="240px" nzTheme="light">
     <nz-input-group [nzPrefix]="searchRef" style="width: 100%">
       <ng-template #searchRef>
         <span nz-icon nzType="search"></span>
@@ -16,7 +16,7 @@
 
     <nz-divider style="margin: 8px 0"></nz-divider>
 
-    <ul style="border: none" nz-menu>
+    <ul nz-menu>
       <li nz-menu-item nzMatchRouter [routerLink]="['/', app.shopId, 'membership', 'all']">
         <span nz-icon nzType="folder-open"></span>
         <span>全部会员</span>

@@ -1,22 +1,25 @@
 <nz-layout class="common-layout">
-  <nz-sider class="nav" style="padding: 8px" nzWidth="240px" nzTheme="light">
+  <nz-sider class="nav" nzWidth="240px" nzTheme="light">
     <nz-input-group [nzPrefix]="searchRef" style="width: 100%">
       <ng-template #searchRef>
         <span nz-icon nzType="search"></span>
       </ng-template>
-      <input type="text" nz-input placeholder="搜索" [(ngModel)]="searchText" />
+      <input
+        type="text"
+        nz-input
+        placeholder="分类搜索"
+        i18n-placeholder
+        [(ngModel)]="searchText"
+        (keyup.enter)="getTypes()"
+      />
     </nz-input-group>
 
-    <nz-divider style="margin: 8px 0"></nz-divider>
+    <nz-divider></nz-divider>
 
-    <ul style="border: none" nz-menu>
+    <ul nz-menu>
       <li nz-menu-item nzMatchRouter [routerLink]="['/', app.shopId, 'menu', 'all']">
         <span nz-icon nzType="folder-open"></span>
-        <span>全部</span>
-      </li>
-      <li nz-menu-item nzMatchRouter [routerLink]="['/', app.shopId, 'menu', 'types']">
-        <span nz-icon nzType="unordered-list"></span>
-        <span>分类列表</span>
+        <span>全部菜品</span>
       </li>
       <li nz-menu-group [nzTitle]="typesTitle">
         <ng-template #typesTitle>
@@ -44,10 +47,8 @@
     </ul>
   </nz-sider>
 
-  <nz-layout class="inner-layout">
-    <nz-content>
-      <router-outlet></router-outlet>
-    </nz-content>
+  <nz-layout>
+    <router-outlet></router-outlet>
   </nz-layout>
 </nz-layout>
 

@@ -8,6 +8,6 @@ export interface Article {
 
 export interface ArticleValue {
   blocks: any[];
-  time: string;
+  time: number;
   version: boolean;
 }

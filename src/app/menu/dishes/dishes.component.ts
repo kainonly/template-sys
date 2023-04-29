@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 import { AppService } from '@app';
 import { Dish } from '@common/interfaces/dish';
@@ -7,26 +8,32 @@ import { DishType } from '@common/interfaces/dish-type';
 import { DishTypesService } from '@common/services/dish-types.service';
 import { DishesService } from '@common/services/dishes.service';
 import { AnyDto, WpxData } from '@weplanx/ng';
+import { NzDrawerService } from 'ng-zorro-antd/drawer';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 
-import { FormComponent, InputData } from './form/form.component';
+import { FormComponent, InputData } from '../form/form.component';
+import { TypesComponent } from '../types/types.component';
 
 @Component({
   selector: 'app-menu-dishes',
   templateUrl: './dishes.component.html'
 })
-export class DishesComponent implements OnInit {
+export class DishesComponent implements OnInit, OnDestroy {
   ds: WpxData<AnyDto<Dish>> = new WpxData<AnyDto<Dish>>();
+  searchText = '';
 
   typeDict: Record<string, AnyDto<DishType>> = {};
-  private typeId?: string;
+  typeId?: string;
+
+  private typesSubscription!: Subscription;
 
   constructor(
     public app: AppService,
     private route: ActivatedRoute,
     private modal: NzModalService,
     private message: NzMessageService,
+    private drawer: NzDrawerService,
     private dishes: DishesService,
     private types: DishTypesService
   ) {}
@@ -42,32 +49,47 @@ export class DishesComponent implements OnInit {
         shop_id: 'oid',
         type_id: 'oid'
       };
-      this.getTypes();
       this.getData(true);
     });
+    this.typesSubscription = this.types.dict.subscribe(data => {
+      this.typeDict = data;
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.typesSubscription.unsubscribe();
   }
 
   getData(refresh = false): void {
     this.dishes.pages(this.ds, refresh).subscribe(() => {});
   }
 
-  getTypes(): void {
-    this.types
-      .find(
-        {
-          shop_id: this.app.shopId
-        },
-        {
-          xfilter: {
-            shop_id: 'oid'
-          }
-        }
-      )
-      .subscribe(data => {
-        for (const v of data) {
-          this.typeDict[v._id] = v;
-        }
-      });
+  openTypes(): void {
+    this.drawer.create({
+      nzWidth: 960,
+      nzClosable: false,
+      nzContent: TypesComponent
+    });
+  }
+
+  submitSearch(): void {
+    this.ds.filter = {
+      shop_id: this.app.shopId,
+      type_id: this.typeId
+    };
+    if (this.searchText) {
+      this.ds.filter['$or'] = [
+        { name: { $regex: this.searchText } },
+        { sn: { $regex: this.searchText } },
+        { code: { $regex: this.searchText } }
+      ];
+    }
+    this.getData(true);
+  }
+
+  clearSearch(): void {
+    this.searchText = '';
+    this.getData(true);
   }
 
   form(doc?: AnyDto<Dish>): void {
@@ -77,6 +99,7 @@ export class DishesComponent implements OnInit {
       nzWidth: 800,
       nzData: {
         shopId: this.app.shopId!,
+        typeItems: Object.values(this.typeDict),
         doc
       },
       nzOnOk: () => {

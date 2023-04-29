@@ -58,4 +58,13 @@ $content-left: 60px;
 
 .nav {
   border-right: 1px solid #f0f0f0;
+  padding: 8px;
+
+  nz-divider {
+    margin: 8px 0;
+  }
+
+  ul[nz-menu] {
+    border: none;
+  }
 }

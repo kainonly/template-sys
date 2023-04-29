@@ -3,7 +3,6 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 
 import { Dish } from '@common/interfaces/dish';
 import { DishType } from '@common/interfaces/dish-type';
-import { DishTypesService } from '@common/services/dish-types.service';
 import { DishesService } from '@common/services/dishes.service';
 import { AnyDto, WpxService } from '@weplanx/ng';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -11,11 +10,12 @@ import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 
 export interface InputData {
   shopId: string;
+  typeItems: Array<AnyDto<DishType>>;
   doc?: AnyDto<Dish>;
 }
 
 @Component({
-  selector: 'app-menu-dishes-form',
+  selector: 'app-menu-form',
   templateUrl: './form.component.html'
 })
 export class FormComponent implements OnInit {
@@ -37,8 +37,7 @@ export class FormComponent implements OnInit {
     private modalRef: NzModalRef,
     private message: NzMessageService,
     private fb: FormBuilder,
-    private dishes: DishesService,
-    private types: DishTypesService
+    private dishes: DishesService
   ) {}
 
   ngOnInit(): void {
@@ -84,7 +83,6 @@ export class FormComponent implements OnInit {
       introduction: [''],
       status: [true, [Validators.required]]
     });
-    this.getTypes();
     if (this.data.doc) {
       this.form.patchValue(this.data.doc);
     }
@@ -108,24 +106,6 @@ export class FormComponent implements OnInit {
 
   get takeoutEnabled(): FormControl {
     return this.form.get('takeout')!.get('enabled') as FormControl;
-  }
-
-  getTypes(): void {
-    this.types
-      .find(
-        {
-          shop_id: this.data.shopId
-        },
-        {
-          pagesize: 1000,
-          xfilter: { shop_id: 'oid' },
-          sort: new Map([['sort', 1]])
-        }
-      )
-      .subscribe(data => {
-        console.log(data);
-        this.typeItems = [...data];
-      });
   }
 
   close(): void {

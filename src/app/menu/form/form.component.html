@@ -19,7 +19,7 @@
             <nz-form-label nzRequired i18n>分类</nz-form-label>
             <nz-form-control nzHasFeedback>
               <nz-select formControlName="type_id" nzPlaceHolder="请选择菜品分类" i18n-nzPlaceHolder>
-                <ng-container *ngFor="let item of typeItems">
+                <ng-container *ngFor="let item of data.typeItems">
                   <nz-option [nzLabel]="item.name" [nzValue]="item._id"></nz-option>
                 </ng-container>
               </nz-select>

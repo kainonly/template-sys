@@ -1,3 +1,5 @@
+import { AnyDto } from '@weplanx/ng';
+
 export interface DishType {
   /**
    * 所属餐厅
@@ -44,3 +46,5 @@ export interface DishTypePeriodRule {
    */
   value: Date[];
 }
+
+export type DishTypeDict = Record<string, AnyDto<DishType>>;
