@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { ShareModule } from '@common/share.module';
 
-import { AreaFormComponent } from './area-form/area-form.component';
 import { HomeComponent } from './home.component';
 
 const routes: Routes = [
@@ -48,13 +47,6 @@ const routes: Routes = [
           breadcrumb: $localize`点餐服务`
         }
       },
-      {
-        path: 'areas/:areaId',
-        loadChildren: () => import('./area/area.module').then(m => m.AreaModule),
-        data: {
-          breadcrumb: $localize`堂食导航`
-        }
-      },
       { path: '', redirectTo: 'overview', pathMatch: 'full' }
     ]
   }
@@ -62,6 +54,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [ShareModule, RouterModule.forChild(routes)],
-  declarations: [HomeComponent, AreaFormComponent]
+  declarations: [HomeComponent]
 })
 export class HomeModule {}

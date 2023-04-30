@@ -19,13 +19,6 @@ const routes: Routes = [
         }
       },
       {
-        path: 'areas',
-        loadChildren: () => import('./areas/areas.module').then(m => m.AreasModule),
-        data: {
-          breadcrumb: $localize`堂食区位`
-        }
-      },
-      {
         path: 'cards',
         loadChildren: () => import('./cards/cards.module').then(m => m.CardsModule),
         data: {

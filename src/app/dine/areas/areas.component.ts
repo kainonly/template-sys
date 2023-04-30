@@ -80,4 +80,30 @@ export class AreasComponent implements OnInit {
       }
     });
   }
+
+  bulkDelete(): void {
+    this.modal.confirm({
+      nzTitle: $localize`您确认要删除这些文件吗?`,
+      nzOkText: $localize`是的`,
+      nzOkType: 'primary',
+      nzOkDanger: true,
+      nzOnOk: () => {
+        this.areas
+          .bulkDelete(
+            { _id: { $in: [...this.ds.checkedIds.values()] } },
+            {
+              xfilter: { '_id.$in': 'oids' }
+            }
+          )
+          .subscribe(() => {
+            this.message.success($localize`数据删除成功`);
+            this.update();
+            this.ds.checkedIds.clear();
+            this.ds.updateCheckedStatus();
+            this.getData(true);
+          });
+      },
+      nzCancelText: $localize`否`
+    });
+  }
 }

@@ -120,3 +120,24 @@
 <ng-template #offRef>
   <nz-badge nzStatus="error" nzText="关闭"></nz-badge>
 </ng-template>
+
+<nz-alert
+  *ngIf="ds.checkedNumber !== 0"
+  nzType="info"
+  nzBanner
+  nzMessage="批量"
+  i18n-nzMessage
+  [nzDescription]="description"
+  [nzAction]="bulkRef"
+>
+  <ng-template #description>
+    <span i18n>
+      已选中 <nz-tag>{{ ds.checkedNumber }}</nz-tag> 项
+    </span>
+  </ng-template>
+  <ng-template #bulkRef>
+    <a nz-button nzType="link" nzSize="small" (click)="ds.clearChecked()" i18n>取消选择</a>
+    <br />
+    <a style="float: right" nz-button nzType="link" nzSize="small" nzDanger (click)="bulkDelete()" i18n> 删除 </a>
+  </ng-template>
+</nz-alert>
