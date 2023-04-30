@@ -181,3 +181,23 @@
 <ng-template #spaceSplitRef>
   <nz-divider nzType="vertical"></nz-divider>
 </ng-template>
+
+<nz-alert
+  *ngIf="ds.checkedNumber !== 0"
+  class="banner"
+  nzType="info"
+  nzBanner
+  nzMessage="批量"
+  i18n-nzMessage
+  [nzDescription]="descriptionRef"
+  [nzAction]="bulkRef"
+>
+  <ng-template #descriptionRef>
+    <span i18n> 已选中 {{ ds.checkedNumber }} 项 </span>
+  </ng-template>
+  <ng-template #bulkRef>
+    <a nz-button nzType="link" nzSize="small" (click)="ds.clearChecked()" i18n>取消选择</a>
+    <br />
+    <a style="float: right" nz-button nzType="link" nzSize="small" nzDanger (click)="bulkDelete()" i18n> 删除 </a>
+  </ng-template>
+</nz-alert>

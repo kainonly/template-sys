@@ -125,7 +125,7 @@ export class IndexComponent implements OnInit, OnDestroy {
 
   bulkDelete(): void {
     this.modal.confirm({
-      nzTitle: $localize`您确认要删除这些文件吗?`,
+      nzTitle: $localize`您确认要删除这些吗?`,
       nzOkText: $localize`是的`,
       nzOkType: 'primary',
       nzOkDanger: true,

@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ShareModule } from '@common/share.module';
 
 import { FormComponent } from './form/form.component';
-import { IndexComponent } from './index.component';
+import { IndexComponent } from './index/index.component';
 import { LevelFormComponent } from './level-form/level-form.component';
 import { LevelsComponent } from './levels/levels.component';
 import { MembershipComponent } from './membership.component';
