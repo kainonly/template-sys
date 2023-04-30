@@ -36,20 +36,16 @@ export class LevelsComponent implements OnInit {
   }
 
   getData(refresh = false): void {
-    this.levels.pages(this.ds, refresh).subscribe(() => {});
-  }
-
-  submitSearch(): void {
     this.ds.filter = {
       shop_id: this.app.shopId
     };
     if (this.searchText) {
       this.ds.filter.name = { $regex: this.searchText };
     }
-    this.getData(true);
+    this.levels.pages(this.ds, refresh).subscribe(() => {});
   }
 
-  clearSearch(): void {
+  clear(): void {
     this.searchText = '';
     this.getData(true);
   }

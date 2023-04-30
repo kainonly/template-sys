@@ -61,18 +61,6 @@ export class IndexComponent implements OnInit, OnDestroy {
   }
 
   getData(refresh = false): void {
-    this.dishes.pages(this.ds, refresh).subscribe(() => {});
-  }
-
-  openTypes(): void {
-    this.drawer.create({
-      nzWidth: 960,
-      nzClosable: false,
-      nzContent: TypesComponent
-    });
-  }
-
-  submitSearch(): void {
     this.ds.filter = {
       shop_id: this.app.shopId,
       type_id: this.typeId
@@ -84,12 +72,20 @@ export class IndexComponent implements OnInit, OnDestroy {
         { code: { $regex: this.searchText } }
       ];
     }
+    this.dishes.pages(this.ds, refresh).subscribe(() => {});
+  }
+
+  clear(): void {
+    this.searchText = '';
     this.getData(true);
   }
 
-  clearSearch(): void {
-    this.searchText = '';
-    this.getData(true);
+  openTypes(): void {
+    this.drawer.create({
+      nzWidth: 960,
+      nzClosable: false,
+      nzContent: TypesComponent
+    });
   }
 
   form(doc?: AnyDto<Dish>): void {

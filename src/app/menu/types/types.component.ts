@@ -28,12 +28,8 @@ export class TypesComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.ds.filter = {
-      shop_id: this.app.shopId
-    };
-    this.ds.xfilter = {
-      shop_id: 'oid'
-    };
+    this.ds.filter = { shop_id: this.app.shopId };
+    this.ds.xfilter = { shop_id: 'oid' };
     this.ds.sort = new Map([['sort', 1]]);
     this.getData(true);
     this.changesSubscription = this.app.changes.subscribe(data => {
@@ -48,20 +44,14 @@ export class TypesComponent implements OnInit, OnDestroy {
   }
 
   getData(refresh = false): void {
-    this.types.pages(this.ds, refresh).subscribe(() => {});
-  }
-
-  submitSearch(): void {
-    this.ds.filter = {
-      shop_id: this.app.shopId
-    };
+    this.ds.filter = { shop_id: this.app.shopId };
     if (this.searchText) {
       this.ds.filter.name = { $regex: this.searchText };
     }
-    this.getData(true);
+    this.types.pages(this.ds, refresh).subscribe(() => {});
   }
 
-  clearSearch(): void {
+  clear(): void {
     this.searchText = '';
     this.getData(true);
   }

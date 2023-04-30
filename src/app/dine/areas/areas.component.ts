@@ -40,7 +40,7 @@ export class AreasComponent implements OnInit {
     this.areas.pages(this.ds, refresh).subscribe(() => {});
   }
 
-  private update(): void {
+  private updateAreas(): void {
     this.app.emit({ areas: true });
   }
 
@@ -58,7 +58,7 @@ export class AreasComponent implements OnInit {
         doc
       },
       nzOnOk: () => {
-        this.update();
+        this.updateAreas();
         this.getData(true);
       }
     });
@@ -74,7 +74,7 @@ export class AreasComponent implements OnInit {
       nzOnOk: () => {
         this.areas.delete(doc._id).subscribe(() => {
           this.message.success($localize`数据删除成功`);
-          this.update();
+          this.updateAreas();
           this.getData(true);
         });
       }
@@ -97,7 +97,7 @@ export class AreasComponent implements OnInit {
           )
           .subscribe(() => {
             this.message.success($localize`数据删除成功`);
-            this.update();
+            this.updateAreas();
             this.ds.checkedIds.clear();
             this.ds.updateCheckedStatus();
             this.getData(true);

@@ -61,18 +61,6 @@ export class IndexComponent implements OnInit, OnDestroy {
   }
 
   getData(refresh = false): void {
-    this.members.pages(this.ds, refresh).subscribe(() => {});
-  }
-
-  openLevels(): void {
-    this.drawer.create({
-      nzWidth: 960,
-      nzClosable: false,
-      nzContent: LevelsComponent
-    });
-  }
-
-  submitSearch(): void {
     this.ds.filter = {
       shop_id: this.app.shopId,
       level_id: this.levelId
@@ -84,12 +72,20 @@ export class IndexComponent implements OnInit, OnDestroy {
         { 'profile.phone': { $regex: this.searchText } }
       ];
     }
+    this.members.pages(this.ds, refresh).subscribe(() => {});
+  }
+
+  clear(): void {
+    this.searchText = '';
     this.getData(true);
   }
 
-  clearSearch(): void {
-    this.searchText = '';
-    this.getData(true);
+  openLevels(): void {
+    this.drawer.create({
+      nzWidth: 960,
+      nzClosable: false,
+      nzContent: LevelsComponent
+    });
   }
 
   form(doc?: AnyDto<Member>): void {
