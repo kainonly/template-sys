@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ShareModule } from '@common/share.module';
 
 import { FormComponent } from './form/form.component';
-import { IndexComponent } from './index.component';
+import { IndexComponent } from './index/index.component';
 import { MenuComponent } from './menu.component';
 import { TypeFormComponent } from './type-form/type-form.component';
 import { TypesComponent } from './types/types.component';

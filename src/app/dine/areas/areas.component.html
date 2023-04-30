@@ -127,13 +127,11 @@
   nzBanner
   nzMessage="批量"
   i18n-nzMessage
-  [nzDescription]="description"
+  [nzDescription]="descriptionRef"
   [nzAction]="bulkRef"
 >
-  <ng-template #description>
-    <span i18n>
-      已选中 <nz-tag>{{ ds.checkedNumber }}</nz-tag> 项
-    </span>
+  <ng-template #descriptionRef>
+    <span i18n> 已选中{{ ds.checkedNumber }} 项 </span>
   </ng-template>
   <ng-template #bulkRef>
     <a nz-button nzType="link" nzSize="small" (click)="ds.clearChecked()" i18n>取消选择</a>

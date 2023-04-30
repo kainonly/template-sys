@@ -12,8 +12,8 @@ import { NzDrawerService } from 'ng-zorro-antd/drawer';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 
-import { FormComponent, InputData } from './form/form.component';
-import { TypesComponent } from './types/types.component';
+import { FormComponent, InputData } from '../form/form.component';
+import { TypesComponent } from '../types/types.component';
 
 @Component({
   selector: 'app-menu-index',
@@ -120,6 +120,31 @@ export class IndexComponent implements OnInit, OnDestroy {
           this.message.success($localize`数据删除成功`);
         });
       }
+    });
+  }
+
+  bulkDelete(): void {
+    this.modal.confirm({
+      nzTitle: $localize`您确认要删除这些文件吗?`,
+      nzOkText: $localize`是的`,
+      nzOkType: 'primary',
+      nzOkDanger: true,
+      nzOnOk: () => {
+        this.dishes
+          .bulkDelete(
+            { _id: { $in: [...this.ds.checkedIds.values()] } },
+            {
+              xfilter: { '_id.$in': 'oids' }
+            }
+          )
+          .subscribe(() => {
+            this.message.success($localize`数据删除成功`);
+            this.ds.checkedIds.clear();
+            this.ds.updateCheckedStatus();
+            this.getData(true);
+          });
+      },
+      nzCancelText: $localize`否`
     });
   }
 }
