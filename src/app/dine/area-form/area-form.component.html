@@ -1,0 +1,62 @@
+<form nz-form nzLayout="vertical" id="form" [formGroup]="form" (wpxSubmit)="submit($event)">
+  <nz-row [nzGutter]="16">
+    <nz-col [nzSpan]="12">
+      <nz-form-item>
+        <nz-form-label nzRequired i18n>名称</nz-form-label>
+        <nz-form-control nzHasFeedback [nzAutoTips]="tips.name">
+          <input style="width: 100%" nz-input formControlName="name" placeholder="请输入区位名称" i18n-placeholder />
+        </nz-form-control>
+      </nz-form-item>
+    </nz-col>
+
+    <ng-container formGroupName="tea">
+      <nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-label i18n>茶水费</nz-form-label>
+          <nz-form-control>
+            <nz-input-number-group style="width: 100%" nzAddOnAfter="CN¥ / 位" i18n-nzAddOnAfter>
+              <nz-input-number
+                formControlName="fee"
+                [nzMin]="0"
+                [nzStep]="1"
+                [nzPrecision]="2"
+                [nzPrecisionMode]="'cut'"
+              ></nz-input-number>
+            </nz-input-number-group>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+      <nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-label i18n>茶水服务率</nz-form-label>
+          <nz-form-control>
+            <nz-input-number-group style="width: 100%" nzAddOnAfterIcon="percentage">
+              <nz-input-number formControlName="service" [nzMin]="0" [nzStep]="1" [nzMax]="100"></nz-input-number>
+            </nz-input-number-group>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+      <nz-col [nzSpan]="12">
+        <nz-form-item>
+          <nz-form-label i18n>茶水税率</nz-form-label>
+          <nz-form-control>
+            <nz-input-number-group style="width: 100%" nzAddOnAfterIcon="percentage">
+              <nz-input-number formControlName="tax" [nzMin]="0" [nzStep]="1" [nzMax]="100"></nz-input-number>
+            </nz-input-number-group>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+    </ng-container>
+  </nz-row>
+  <nz-form-item>
+    <nz-form-label nzRequired i18n>状态</nz-form-label>
+    <nz-form-control>
+      <nz-switch formControlName="status"></nz-switch>
+    </nz-form-control>
+  </nz-form-item>
+</form>
+
+<div *nzModalFooter>
+  <button nz-button type="button" nzType="default" (click)="close()" i18n>取消</button>
+  <button nz-button nzType="primary" form="form" [disabled]="!form.valid" i18n>提交</button>
+</div>

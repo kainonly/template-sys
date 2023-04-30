@@ -1,0 +1,86 @@
+<form *ngIf="form" nz-form nzLayout="vertical" id="form" [formGroup]="form" (wpxSubmit)="submit($event)">
+  <nz-row [nzGutter]="16">
+    <nz-col [nzSpan]="12">
+      <nz-form-item>
+        <nz-form-label nzRequired i18n>桌号</nz-form-label>
+        <nz-form-control nzHasFeedback [nzAutoTips]="tips.sn">
+          <input nz-input formControlName="sn" placeholder="请输入餐桌号码" i18n-placeholder />
+        </nz-form-control>
+      </nz-form-item>
+    </nz-col>
+    <nz-col [nzSpan]="12">
+      <nz-form-item>
+        <nz-form-label i18n>别名</nz-form-label>
+        <nz-form-control nzHasFeedback>
+          <input nz-input formControlName="alias" placeholder="请输入餐桌别名" i18n-placeholder />
+        </nz-form-control>
+      </nz-form-item>
+    </nz-col>
+    <nz-col [nzSpan]="12">
+      <nz-form-item>
+        <nz-form-label nzRequired i18n>所属区位</nz-form-label>
+        <nz-form-control nzHasFeedback [nzAutoTips]="tips.area">
+          <nz-select formControlName="area_id" nzPlaceHolder="请选择所属区位" i18n-nzPlaceHolder>
+            <ng-container *ngFor="let item of areaItems">
+              <nz-option [nzValue]="item._id" [nzLabel]="item.name"></nz-option>
+            </ng-container>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+    </nz-col>
+    <nz-col [nzSpan]="12">
+      <nz-row [nzGutter]="16">
+        <nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label i18n nzRequired>餐位</nz-form-label>
+            <nz-form-control>
+              <nz-input-number-group style="width: 100%" nzAddOnAfter="个" i18n-nzAddOnAfter>
+                <nz-input-number
+                  formControlName="seats"
+                  [nzMin]="0"
+                  [nzStep]="1"
+                  [nzPrecision]="0"
+                  [nzPrecisionMode]="'cut'"
+                ></nz-input-number>
+              </nz-input-number-group>
+            </nz-form-control>
+          </nz-form-item>
+        </nz-col>
+        <nz-col [nzSpan]="12">
+          <nz-form-item>
+            <nz-form-label i18n nzRequired>最低消费</nz-form-label>
+            <nz-form-control>
+              <nz-input-number-group style="width: 100%" nzAddOnAfter="CN¥" i18n-nzAddOnAfter>
+                <nz-input-number
+                  formControlName="minimum"
+                  [nzMin]="0"
+                  [nzStep]="1"
+                  [nzPrecision]="2"
+                  [nzPrecisionMode]="'cut'"
+                ></nz-input-number>
+              </nz-input-number-group>
+            </nz-form-control>
+          </nz-form-item>
+        </nz-col>
+      </nz-row>
+    </nz-col>
+  </nz-row>
+
+  <nz-form-item>
+    <nz-form-label nzRequired i18n>运行状况</nz-form-label>
+    <nz-form-control>
+      <nz-radio-group formControlName="runtime">
+        <label nz-radio-button [nzValue]="-1">空闲</label>
+        <label nz-radio-button [nzValue]="1">就餐</label>
+        <label nz-radio-button [nzValue]="2">不清台</label>
+        <label nz-radio-button [nzValue]="3">预结账</label>
+        <label nz-radio-button [nzValue]="-2">停止</label>
+      </nz-radio-group>
+    </nz-form-control>
+  </nz-form-item>
+</form>
+
+<div *nzModalFooter>
+  <button nz-button type="button" nzType="default" (click)="close()" i18n>取消</button>
+  <button nz-button nzType="primary" form="form" [disabled]="!form.valid" i18n>提交</button>
+</div>

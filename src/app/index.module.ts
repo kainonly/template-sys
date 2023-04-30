@@ -18,6 +18,13 @@ const routes: Routes = [
         }
       },
       {
+        path: 'dine',
+        loadChildren: () => import('./dine/dine.module').then(m => m.DineModule),
+        data: {
+          breadcrumb: $localize`堂食`
+        }
+      },
+      {
         path: 'menu',
         loadChildren: () => import('./menu/menu.module').then(m => m.MenuModule),
         data: {

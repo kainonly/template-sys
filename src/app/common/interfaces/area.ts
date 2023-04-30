@@ -15,7 +15,7 @@ export interface Area {
   /**
    * 茶水设置
    */
-  tea?: {
+  tea: {
     /**
      * 费用
      */

@@ -1,13 +1,26 @@
 <nz-page-header [nzGhost]="false">
-  <nz-page-header-title i18n>
-    <ng-container *ngIf="levelId; else allRef">
-      <span *ngIf="levelDict[levelId]">{{ levelDict[levelId].name }}</span>
+  <nz-page-header-title>
+    <ng-container *ngIf="levelDict[levelId!] as level; else allRef">
+      <span>{{ level.name }}</span>
     </ng-container>
     <ng-template #allRef>
-      <span>全部会员</span>
+      <span i18n>全部会员</span>
     </ng-template>
   </nz-page-header-title>
-  <nz-page-header-tags> </nz-page-header-tags>
+  <nz-page-header-tags *ngIf="levelDict[levelId!] as level">
+    <nz-tag nzColor="blue">
+      初始积分 <code>{{ level.points.initial }}<span nz-icon nzType="thunderbolt"></span></code>
+    </nz-tag>
+    <nz-tag nzColor="blue">
+      等级积分 <code>{{ level.points.upgrade }}<span nz-icon nzType="thunderbolt"></span></code>
+    </nz-tag>
+    <nz-tag nzColor="blue">
+      消费积分 <code>{{ level.points.earn | currency }}/<span nz-icon nzType="thunderbolt"></span></code>
+    </nz-tag>
+    <nz-tag nzColor="blue">
+      默认折扣 <code>{{ level.discount }}%</code>
+    </nz-tag>
+  </nz-page-header-tags>
   <nz-page-header-extra>
     <nz-space>
       <ng-container *nzSpaceItem>

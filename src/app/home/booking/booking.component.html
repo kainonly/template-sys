@@ -1,5 +1,6 @@
-<nz-content style="padding: 6px">
-  <nz-card>
-    <nz-calendar [(ngModel)]="date" [(nzMode)]="mode" (nzPanelChange)="panelChange($event)"></nz-calendar>
-  </nz-card>
-</nz-content>
+<nz-page-header [nzGhost]="false">
+  <nz-page-header-title>餐台预订</nz-page-header-title>
+</nz-page-header>
+<nz-card [nzBordered]="false">
+  <nz-calendar [(ngModel)]="date" [(nzMode)]="mode" (nzPanelChange)="panelChange($event)"></nz-calendar>
+</nz-card>

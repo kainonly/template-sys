@@ -7,33 +7,33 @@
       <input
         type="text"
         nz-input
-        placeholder="等级搜索"
+        placeholder="区位搜索"
         i18n-placeholder
         [(ngModel)]="searchText"
-        (keyup.enter)="getLevels()"
+        (keyup.enter)="getAreas()"
       />
     </nz-input-group>
 
     <nz-divider style="margin: 8px 0"></nz-divider>
 
     <ul nz-menu>
-      <li nz-menu-item nzMatchRouter [routerLink]="['/', app.shopId, 'membership', 'all']">
+      <li nz-menu-item nzMatchRouter [routerLink]="['/', app.shopId, 'dine', 'all']">
         <span nz-icon nzType="folder-open"></span>
-        <span>全部会员</span>
+        <span>全部餐台</span>
       </li>
 
       <li nz-menu-group [nzTitle]="levelsTitle">
         <ng-template #levelsTitle>
-          等级导航
+          区位导航
           <span nz-icon nzType="info-circle" nz-tooltip="【右键】操作【拖拽】排序"></span>
         </ng-template>
         <ul cdkDropList (cdkDropListDropped)="sort($event)">
-          <ng-container *ngFor="let item of levelItems">
+          <ng-container *ngFor="let item of areaItems">
             <li
               cdkDrag
               nz-menu-item
               nzMatchRouter
-              [routerLink]="['/', app.shopId, 'membership', item._id]"
+              [routerLink]="['/', app.shopId, 'dine', item._id]"
               (contextmenu)="actions($event, menu, item._id)"
             >
               <div class="placeholder" *cdkDragPlaceholder>
@@ -55,7 +55,7 @@
 </nz-layout>
 
 <nz-dropdown-menu #menu="nzDropdownMenu">
-  <ul nz-menu *ngIf="levelDict[actionId!] as data">
+  <ul nz-menu *ngIf="areaDict[actionId!] as data">
     <li nz-menu-item [nzSelected]="false">
       <span>{{ data.name }}</span>
     </li>

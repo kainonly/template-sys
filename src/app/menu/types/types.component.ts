@@ -17,17 +17,12 @@ import { TypeFormComponent, TypeInputData } from '../type-form/type-form.compone
 export class TypesComponent implements OnInit, OnDestroy {
   ds: WpxData<AnyDto<DishType>> = new WpxData<AnyDto<DishType>>();
   searchText = '';
-  scopeDict: Record<number, string> = {
-    1: $localize`堂食`,
-    2: $localize`快餐`,
-    3: $localize`外卖`
-  };
 
   private changesSubscription!: Subscription;
 
   constructor(
     private app: AppService,
-    private types: DishTypesService,
+    public types: DishTypesService,
     private modal: NzModalService,
     private message: NzMessageService
   ) {}

@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { AppService } from '@app';
 import { DishType } from '@common/interfaces/dish-type';
 import { DishTypesService } from '@common/services/dish-types.service';
-import { AnyDto, Filter, XFilter } from '@weplanx/ng';
+import { AnyDto, Filter } from '@weplanx/ng';
 import { WpxQuickComponent } from '@weplanx/ng/quick';
 import { NzContextMenuService, NzDropdownMenuComponent } from 'ng-zorro-antd/dropdown';
 import { NzMessageService } from 'ng-zorro-antd/message';

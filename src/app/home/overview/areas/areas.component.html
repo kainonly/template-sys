@@ -75,9 +75,9 @@
           (nzCheckedChange)="ds.setChecked(data['_id'], $event)"
         ></td>
         <td>{{ data.name }}</td>
-        <td>{{ data.tea?.fee | nzSafeNull : '-' }} 元/位</td>
-        <td>{{ data.tea?.service | nzSafeNull : '-' }} %</td>
-        <td>{{ data.tea?.tax | nzSafeNull : '-' }} %</td>
+        <td>{{ data.tea.fee | nzSafeNull : '-' }} 元/位</td>
+        <td>{{ data.tea.service | nzSafeNull : '-' }} %</td>
+        <td>{{ data.tea.tax | nzSafeNull : '-' }} %</td>
         <td>
           <ng-container *ngIf="data.status; else offTpl">
             <nz-badge nzStatus="processing" nzText="启用"></nz-badge>

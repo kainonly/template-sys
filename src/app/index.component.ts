@@ -21,6 +21,16 @@ import { ShopsService } from '@common/services/shops.service';
         </li>
         <li
           nz-menu-item
+          nz-tooltip="堂食"
+          i18n-nz-tooltip
+          nzTooltipPlacement="right"
+          nzMatchRouter
+          [routerLink]="['/', app.shopId, 'dine']"
+        >
+          <span nz-icon nzType="partition"></span>
+        </li>
+        <li
+          nz-menu-item
           nz-tooltip="菜谱"
           i18n-nz-tooltip
           nzTooltipPlacement="right"

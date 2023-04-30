@@ -3,85 +3,85 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { AppService } from '@app';
-import { Member } from '@common/interfaces/member';
-import { MemberLevel } from '@common/interfaces/member-level';
-import { MemberLevelsService } from '@common/services/member-levels.service';
-import { MembersService } from '@common/services/members.service';
+import { Dish } from '@common/interfaces/dish';
+import { DishType } from '@common/interfaces/dish-type';
+import { DishTypesService } from '@common/services/dish-types.service';
+import { DishesService } from '@common/services/dishes.service';
 import { AnyDto, WpxData } from '@weplanx/ng';
 import { NzDrawerService } from 'ng-zorro-antd/drawer';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 
-import { FormComponent, InputData } from '../form/form.component';
-import { LevelsComponent } from '../levels/levels.component';
+import { FormComponent, InputData } from './form/form.component';
+import { TypesComponent } from './types/types.component';
 
 @Component({
-  selector: 'app-membership-members',
-  templateUrl: './members.component.html'
+  selector: 'app-menu-index',
+  templateUrl: './index.component.html'
 })
-export class MembersComponent implements OnInit, OnDestroy {
-  ds: WpxData<AnyDto<Member>> = new WpxData<AnyDto<Member>>();
+export class IndexComponent implements OnInit, OnDestroy {
+  ds: WpxData<AnyDto<Dish>> = new WpxData<AnyDto<Dish>>();
   searchText = '';
 
-  levelDict: Record<string, AnyDto<MemberLevel>> = {};
-  levelId?: string;
+  typeDict: Record<string, AnyDto<DishType>> = {};
+  typeId!: string | undefined;
 
-  private levelsSubscription!: Subscription;
+  private typesSubscription!: Subscription;
 
   constructor(
     public app: AppService,
+    private route: ActivatedRoute,
     private modal: NzModalService,
     private message: NzMessageService,
     private drawer: NzDrawerService,
-    private route: ActivatedRoute,
-    private members: MembersService,
-    private levels: MemberLevelsService
+    private dishes: DishesService,
+    public types: DishTypesService
   ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(data => {
-      this.levelId = data['id'];
+      this.typeId = data['id'];
       this.ds.filter = {
         shop_id: this.app.shopId,
-        level_id: this.levelId
+        type_id: this.typeId
       };
       this.ds.xfilter = {
         shop_id: 'oid',
-        level_id: 'oid'
+        type_id: 'oid'
       };
       this.getData(true);
     });
-    this.levelsSubscription = this.levels.dict.subscribe(data => {
-      this.levelDict = data;
+    this.typesSubscription = this.types.dict.subscribe(data => {
+      this.typeDict = data;
     });
   }
 
   ngOnDestroy(): void {
-    this.levelsSubscription.unsubscribe();
+    this.typesSubscription.unsubscribe();
   }
 
   getData(refresh = false): void {
-    this.members.pages(this.ds, refresh).subscribe(() => {});
+    this.dishes.pages(this.ds, refresh).subscribe(() => {});
   }
 
-  openLevels(): void {
+  openTypes(): void {
     this.drawer.create({
       nzWidth: 960,
       nzClosable: false,
-      nzContent: LevelsComponent
+      nzContent: TypesComponent
     });
   }
 
   submitSearch(): void {
     this.ds.filter = {
       shop_id: this.app.shopId,
-      level_id: this.levelId
+      type_id: this.typeId
     };
     if (this.searchText) {
       this.ds.filter['$or'] = [
-        { cardno: { $regex: this.searchText } },
-        { 'profile.name': { $regex: this.searchText } },
-        { 'profile.phone': { $regex: this.searchText } }
+        { name: { $regex: this.searchText } },
+        { sn: { $regex: this.searchText } },
+        { code: { $regex: this.searchText } }
       ];
     }
     this.getData(true);
@@ -92,12 +92,14 @@ export class MembersComponent implements OnInit, OnDestroy {
     this.getData(true);
   }
 
-  form(doc?: AnyDto<Member>): void {
+  form(doc?: AnyDto<Dish>): void {
     this.modal.create<FormComponent, InputData>({
-      nzTitle: !doc ? `创建` : `编辑【${doc.cardno}】`,
+      nzTitle: !doc ? `创建` : `编辑【${doc.name}】`,
       nzContent: FormComponent,
+      nzWidth: 800,
       nzData: {
         shopId: this.app.shopId!,
+        typeItems: Object.values(this.typeDict),
         doc
       },
       nzOnOk: () => {
@@ -106,15 +108,15 @@ export class MembersComponent implements OnInit, OnDestroy {
     });
   }
 
-  delete(doc: AnyDto<Member>): void {
+  delete(doc: AnyDto<Dish>): void {
     this.modal.confirm({
-      nzTitle: $localize`您确定要删除【${doc.cardno}】?`,
+      nzTitle: $localize`您确定要删除【${doc.name}】?`,
       nzOkText: $localize`是的`,
       nzOkType: 'primary',
       nzOkDanger: true,
       nzCancelText: $localize`再想想`,
       nzOnOk: () => {
-        this.members.delete(doc._id).subscribe(() => {
+        this.dishes.delete(doc._id).subscribe(() => {
           this.message.success($localize`数据删除成功`);
         });
       }

@@ -3,8 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { ShareModule } from '@common/share.module';
 
-import { DishesComponent } from './dishes/dishes.component';
 import { FormComponent } from './form/form.component';
+import { IndexComponent } from './index.component';
 import { MenuComponent } from './menu.component';
 import { TypeFormComponent } from './type-form/type-form.component';
 import { TypesComponent } from './types/types.component';
@@ -16,14 +16,14 @@ const routes: Routes = [
     children: [
       {
         path: 'all',
-        component: DishesComponent,
+        component: IndexComponent,
         data: {
           breadcrumb: $localize`全部菜品`
         }
       },
       {
         path: ':id',
-        component: DishesComponent,
+        component: IndexComponent,
         data: {
           breadcrumb: $localize`分类导航`
         }
@@ -35,6 +35,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [ShareModule, RouterModule.forChild(routes)],
-  declarations: [MenuComponent, DishesComponent, FormComponent, TypesComponent, TypeFormComponent]
+  declarations: [MenuComponent, IndexComponent, FormComponent, TypesComponent, TypeFormComponent]
 })
 export class MenuModule {}

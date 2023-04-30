@@ -1,13 +1,25 @@
 <nz-page-header [nzGhost]="false">
   <nz-page-header-title i18n>
-    <ng-container *ngIf="typeId; else allRef">
-      <span *ngIf="typeDict[typeId]">{{ typeDict[typeId].name }}</span>
-    </ng-container>
-    <ng-template #allRef>
-      <span>全部菜品</span>
-    </ng-template>
+    <span *ngIf="typeDict[typeId!] as type; else allRef">{{ type.name }}</span>
+    <ng-template #allRef><span>全部菜品</span></ng-template>
   </nz-page-header-title>
-  <nz-page-header-tags> </nz-page-header-tags>
+
+  <nz-page-header-tags *ngIf="typeDict[typeId!] as type">
+    <ng-container *ngFor="let x of type.scopes">
+      <nz-tag nzColor="blue">{{ types.scopeDict[x] }}</nz-tag>
+    </ng-container>
+    <ng-container *ngIf="type.period.enabled; else unlimitRef">
+      <ng-container *ngFor="let x of type.period.rules">
+        <nz-tag nzColor="blue">
+          {{ x.name }} {{ x.value[0] | date : 'HH:mm' }}~{{ x.value[1] | date : 'HH:mm' }}
+        </nz-tag>
+      </ng-container>
+    </ng-container>
+    <ng-template #unlimitRef>
+      <nz-tag nzColor="blue"> 全时段 </nz-tag>
+    </ng-template>
+  </nz-page-header-tags>
+
   <nz-page-header-extra>
     <nz-space>
       <ng-container *nzSpaceItem>
@@ -16,10 +28,17 @@
         </button>
       </ng-container>
       <ng-container *nzSpaceItem>
-        <button nz-button nzType="primary" nzShape="circle" nz-tooltip="新增" i18n-nz-tooltip (click)="form()">
+        <button nz-button nzType="primary" nzShape="circle" nz-dropdown [nzDropdownMenu]="addActionsMenu">
           <i nz-icon nzType="plus"></i>
         </button>
       </ng-container>
+
+      <nz-dropdown-menu #addActionsMenu="nzDropdownMenu">
+        <ul nz-menu>
+          <li nz-menu-item (click)="form()">菜品</li>
+          <li nz-menu-item>套餐</li>
+        </ul>
+      </nz-dropdown-menu>
     </nz-space>
   </nz-page-header-extra>
   <nz-page-header-content>
@@ -57,43 +76,6 @@
     </nz-row>
   </nz-page-header-content>
 </nz-page-header>
-
-<ng-template #searchRef>
-  <nz-row [nzGutter]="6">
-    <nz-col>
-      <nz-input-group style="width: 180px" nzSuffixIcon="search">
-        <input type="text" nz-input placeholder="搜索" i18n-placeholder />
-      </nz-input-group>
-    </nz-col>
-    <nz-col>
-      <nz-button-group>
-        <button nz-button nzType="text" nz-tooltip="刷新" i18n-nz-tooltip>
-          <i nz-icon nzType="reload"></i>
-        </button>
-        <button nz-button nzType="text" nz-tooltip="重置" i18n-nz-tooltip>
-          <i nz-icon nzType="clear"></i>
-        </button>
-      </nz-button-group>
-    </nz-col>
-  </nz-row>
-</ng-template>
-
-<ng-template #extraRef>
-  <nz-space>
-    <button *nzSpaceItem nz-button> 导出 </button>
-    <button *nzSpaceItem nz-button nzType="primary" nz-dropdown [nzDropdownMenu]="addActionsMenu">
-      新增
-      <span nz-icon nzType="down"></span>
-    </button>
-  </nz-space>
-</ng-template>
-
-<nz-dropdown-menu #addActionsMenu="nzDropdownMenu">
-  <ul nz-menu>
-    <li nz-menu-item (click)="form()">菜品</li>
-    <li nz-menu-item>套餐</li>
-  </ul>
-</nz-dropdown-menu>
 
 <nz-content style="padding: 6px">
   <nz-card>

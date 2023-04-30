@@ -8,7 +8,7 @@ import { AnyDto, WpxApi } from '@weplanx/ng';
 @Injectable({ providedIn: 'root' })
 export class AreasService extends WpxApi<Area> {
   protected override collection = 'areas';
-  private dict: BehaviorSubject<AreaDict> = new BehaviorSubject({});
+  dict: BehaviorSubject<AreaDict> = new BehaviorSubject({});
 
   set(v: AreaDict): void {
     this.dict.next(v);

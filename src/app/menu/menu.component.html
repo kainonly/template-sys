@@ -33,7 +33,7 @@
               nz-menu-item
               nzMatchRouter
               [routerLink]="['/', app.shopId, 'menu', item._id]"
-              (contextmenu)="actions($event, typeActionsMenu, item._id)"
+              (contextmenu)="actions($event, menu, item._id)"
             >
               <div class="placeholder" *cdkDragPlaceholder>
                 <span nz-icon nzType="holder"></span>
@@ -52,7 +52,7 @@
   </nz-layout>
 </nz-layout>
 
-<nz-dropdown-menu #typeActionsMenu="nzDropdownMenu">
+<nz-dropdown-menu #menu="nzDropdownMenu">
   <ul nz-menu *ngIf="typeDict[actionId!] as data">
     <li nz-menu-item [nzSelected]="false">
       <span>{{ data.name }}</span>

@@ -9,9 +9,12 @@
     </p>
   </nz-page-header-subtitle>
   <nz-page-header-tags>
-    <!--    <nz-tag [nzColor]="'blue'" *ngIf="restaurant.enabled.mini_wechatpay">小程序支付</nz-tag>-->
-    <!--    <nz-tag [nzColor]="'blue'" *ngIf="restaurant.enabled.minimum_spending">最低限额消费</nz-tag>-->
-    <!--    <nz-tag [nzColor]="'blue'" *ngIf="restaurant.enabled.tea">茶位费</nz-tag>-->
+    <ng-container *ngIf="shop?.status; else stopRef">
+      <nz-tag nzColor="blue">营业中</nz-tag>
+    </ng-container>
+    <ng-template #stopRef>
+      <nz-tag nzColor="red">已停业</nz-tag>
+    </ng-template>
   </nz-page-header-tags>
   <nz-page-header-extra>
     <button nz-button nzType="primary" nzShape="circle" (click)="form()" nz-tooltip="编辑" i18n-nz-tooltip>
@@ -23,7 +26,7 @@
       <nz-col>
         <nz-space>
           <wpx-upload-avatar *nzSpaceItem> </wpx-upload-avatar>
-          <nz-descriptions *nzSpaceItem nzSize="small" style="width: 640px">
+          <nz-descriptions *nzSpaceItem [nzColumn]="2" nzSize="small" style="width: 640px">
             <nz-descriptions-item nzTitle="负责人">
               <ng-container *ngIf="shop?.principal; else nothingRef">
                 {{ shop?.principal }}
@@ -34,20 +37,12 @@
                 {{ shop?.tel }}
               </ng-container>
             </nz-descriptions-item>
-            <nz-descriptions-item nzTitle="状态">
-              <ng-container *ngIf="shop?.status; else closedDownRef">
-                <nz-badge nzStatus="processing" nzText="营业"></nz-badge>
-              </ng-container>
-              <ng-template #closedDownRef>
-                <nz-badge nzStatus="error" nzText="停业"></nz-badge>
-              </ng-template>
-            </nz-descriptions-item>
-            <nz-descriptions-item nzTitle="地址" [nzSpan]="3">
+            <nz-descriptions-item nzTitle="地址" [nzSpan]="2">
               <ng-container *ngIf="shop?.address; else nothingRef">
                 {{ shop?.address }}
               </ng-container>
             </nz-descriptions-item>
-            <nz-descriptions-item nzTitle="公告" [nzSpan]="3">
+            <nz-descriptions-item nzTitle="公告" [nzSpan]="2">
               <ng-container *ngIf="shop?.bulletin; else nothingRef">
                 {{ shop?.bulletin }}
               </ng-container>

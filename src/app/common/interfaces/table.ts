@@ -25,7 +25,7 @@ export interface Table {
   /**
    * 最低消费
    */
-  minimum_spending: number;
+  minimum: number;
   /**
    * 运行情况 -2：停用 -1：空闲 1：就餐 2：不清台 3：预结账
    */
