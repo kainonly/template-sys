@@ -6,7 +6,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalRef } from 'ng-zorro-antd/modal';
 
 @Component({
-  selector: 'app-layout-profile-name',
+  selector: 'app-layout-name',
   templateUrl: './name.component.html'
 })
 export class NameComponent implements OnInit {

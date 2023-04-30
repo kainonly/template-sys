@@ -1,13 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-
-import { AppService } from '@app';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-settings',
   template: `
     <nz-layout class="common-layout" style="padding-left: 0">
       <nz-sider class="nav" nzWidth="180px" nzTheme="light">
-        <ul nz-menu nzMode="inline" style="border: none">
+        <ul nz-menu>
           <li nz-menu-group nzTitle="基础" i18n-nzTitle>
             <ul>
               <li nz-menu-item nzMatchRouter [routerLink]="['/', 'settings', 'basis', 'shops']">

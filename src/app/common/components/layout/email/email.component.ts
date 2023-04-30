@@ -8,7 +8,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalRef } from 'ng-zorro-antd/modal';
 
 @Component({
-  selector: 'app-profile-email',
+  selector: 'app-email',
   templateUrl: './email.component.html'
 })
 export class EmailComponent implements OnInit {

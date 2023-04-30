@@ -6,7 +6,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalRef } from 'ng-zorro-antd/modal';
 
 @Component({
-  selector: 'app-layout-profile-backup-email',
+  selector: 'app-layout-backup-email',
   templateUrl: './backup-email.component.html'
 })
 export class BackupEmailComponent implements OnInit {

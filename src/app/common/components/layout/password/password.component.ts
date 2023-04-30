@@ -7,7 +7,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalRef } from 'ng-zorro-antd/modal';
 
 @Component({
-  selector: 'app-layout-profile-password',
+  selector: 'app-layout-password',
   templateUrl: './password.component.html'
 })
 export class PasswordComponent implements OnInit {

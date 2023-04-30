@@ -6,7 +6,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalRef } from 'ng-zorro-antd/modal';
 
 @Component({
-  selector: 'app-layout-profile-avatar',
+  selector: 'app-layout-avatar',
   templateUrl: './avatar.component.html'
 })
 export class AvatarComponent implements OnInit {

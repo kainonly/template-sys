@@ -96,14 +96,13 @@ export class IndexComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.route.params.subscribe(data => {
       this.app.shopId = data['id'];
-      this.app.changes.next({
-        shopId: this.app.shopId
-      });
+      this.app.changes.next({ shopId: this.app.shopId });
       this.cd.detectChanges();
     });
   }
 
   ngOnDestroy(): void {
     this.app.shopId = undefined;
+    this.app.changes.next({ shopId: undefined });
   }
 }
