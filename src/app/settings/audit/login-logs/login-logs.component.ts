@@ -14,10 +14,13 @@ import { LoginLogsService } from './login-logs.service';
   templateUrl: './login-logs.component.html'
 })
 export class LoginLogsComponent implements OnInit {
+  ds: WpxData<AnyDto<LoginLog>> = new WpxData<AnyDto<LoginLog>>();
+  searchText = '';
+
   disabledDate = (current: Date): boolean => differenceInCalendarDays(current, new Date()) > 0;
   date: Date[] = [];
   expands = new Set<string>();
-  dataset: WpxData<AnyDto<LoginLog>> = new WpxData<AnyDto<LoginLog>>();
+
   userKV: Record<string, AnyDto<User>> = {};
   userDetailVisible = false;
   userDetail?: AnyDto<User>;
@@ -36,13 +39,13 @@ export class LoginLogsComponent implements OnInit {
         $lt: this.date[1].toUTCString()
       };
     }
-    this.dataset.filter = filter;
-    this.dataset.xfilter = {
+    this.ds.filter = filter;
+    this.ds.xfilter = {
       'timestamp.$gte': 'date',
       'timestamp.$lt': 'date'
     };
     this.login_logs
-      .pages(this.dataset, refresh)
+      .pages(this.ds, refresh)
       .pipe(
         switchMap(data => {
           const uids = new Set();
@@ -68,7 +71,7 @@ export class LoginLogsComponent implements OnInit {
       });
   }
 
-  clearSearch(): void {
+  clear(): void {
     this.date = [];
     this.getData(true);
   }

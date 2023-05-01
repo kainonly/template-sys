@@ -11,7 +11,7 @@ export interface IpListData {
 }
 
 @Component({
-  selector: 'app-settings-system-security-ip-list',
+  selector: 'app-settings-system-integrated-security-ip-list',
   templateUrl: './ip-list.component.html'
 })
 export class IpListComponent implements OnInit {

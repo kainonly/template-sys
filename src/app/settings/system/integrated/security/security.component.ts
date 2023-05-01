@@ -12,7 +12,7 @@ import { SessionComponent } from './session/session.component';
 import { UserLockComponent } from './user-lock/user-lock.component';
 
 @Component({
-  selector: 'app-settings-system-security',
+  selector: 'app-settings-system-integrated-security',
   templateUrl: './security.component.html'
 })
 export class SecurityComponent implements OnInit {

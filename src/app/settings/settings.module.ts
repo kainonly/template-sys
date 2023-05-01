@@ -18,13 +18,6 @@ const routes: Routes = [
         }
       },
       {
-        path: 'integrated',
-        loadChildren: () => import('./integrated/integrated.module').then(m => m.IntegratedModule),
-        data: {
-          breadcrumb: $localize`集成`
-        }
-      },
-      {
         path: 'system',
         loadChildren: () => import('./system/system.module').then(m => m.SystemModule),
         data: {

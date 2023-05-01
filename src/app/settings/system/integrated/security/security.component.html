@@ -1,12 +1,12 @@
 <nz-card>
   <nz-tabset
     style="height: 100%"
-    nzTabPosition="left"
+    nzTabPosition="right"
     [(nzSelectedIndex)]="tabIndex"
     (nzSelectedIndexChange)="saveTabIndex()"
   >
     <nz-tab nzTitle="基本设置" i18n-nzTitle>
-      <nz-card>
+      <nz-card nzBorderless>
         <nz-list nzSize="large" nzItemLayout="vertical">
           <nz-list-item>
             <nz-list-item-meta>
@@ -115,8 +115,8 @@
       </nz-card>
     </nz-tab>
     <nz-tab nzTitle="白名单" i18n-nzTitle>
-      <nz-card>
-        <nz-row [nzGutter]="[8, 8]">
+      <nz-card nzBorderless>
+        <nz-row [nzGutter]="[6, 6]">
           <nz-col nzFlex="800px">
             <nz-table
               nzSize="default"
@@ -153,8 +153,8 @@
       </nz-card>
     </nz-tab>
     <nz-tab nzTitle="黑名单" i18n-nzTitle>
-      <nz-card>
-        <nz-row [nzGutter]="[8, 8]">
+      <nz-card nzBorderless>
+        <nz-row [nzGutter]="[6, 6]">
           <nz-col nzFlex="800px">
             <nz-table
               nzSize="default"

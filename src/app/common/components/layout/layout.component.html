@@ -114,7 +114,7 @@
   <ng-container *nzDrawerContent>
     <nz-tabset style="height: 100%" nzTabPosition="left">
       <nz-tab nzTitle="基本信息" i18n-nzTitle>
-        <nz-card *ngIf="app.user as user">
+        <nz-card nzBorderless *ngIf="app.user as user">
           <nz-list nzSize="large" nzItemLayout="vertical">
             <nz-list-item>
               <nz-list-item-meta>
@@ -222,7 +222,7 @@
         </nz-card>
       </nz-tab>
       <nz-tab nzTitle="安全设置" i18n-nzTitle>
-        <nz-card *ngIf="app.user as user">
+        <nz-card nzBorderless *ngIf="app.user as user">
           <nz-list nzSize="large" nzItemLayout="vertical">
             <nz-list-item>
               <nz-list-item-meta>

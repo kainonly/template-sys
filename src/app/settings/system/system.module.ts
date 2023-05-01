@@ -8,10 +8,10 @@ const routes: Routes = [
     path: '',
     children: [
       {
-        path: 'security',
-        loadChildren: () => import('./security/security.module').then(m => m.SecurityModule),
+        path: 'integrated',
+        loadChildren: () => import('./integrated/integrated.module').then(m => m.IntegratedModule),
         data: {
-          breadcrumb: $localize`安全策略`
+          breadcrumb: $localize`集成功能`
         }
       },
       {
@@ -28,7 +28,7 @@ const routes: Routes = [
           breadcrumb: $localize`动态配置`
         }
       },
-      { path: '', redirectTo: 'security', pathMatch: 'full' }
+      { path: '', redirectTo: 'integrated', pathMatch: 'full' }
     ]
   }
 ];

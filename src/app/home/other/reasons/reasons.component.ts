@@ -29,38 +29,22 @@ export class ReasonsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.ds.filter = {
-      shop_id: this.app.shopId
-    };
-    this.ds.xfilter = {
-      shop_id: 'oid'
-    };
     this.getData(true);
   }
 
   getData(refresh = false): void {
-    this.reasons.pages(this.ds, refresh).subscribe(() => {});
-  }
-
-  submitSearch(): void {
-    this.ds.filter = {
-      shop_id: this.app.shopId
-    };
+    this.ds.filter = { shop_id: this.app.shopId };
     if (this.category) {
       this.ds.filter.category = this.category;
     }
     if (this.searchText) {
-      this.ds.filter['$or'] = [
-        {
-          sn: { $regex: this.searchText }
-        },
-        { content: { $regex: this.searchText } }
-      ];
+      this.ds.filter['$or'] = [{ sn: { $regex: this.searchText } }, { content: { $regex: this.searchText } }];
     }
-    this.getData(true);
+    this.ds.xfilter = { shop_id: 'oid' };
+    this.reasons.pages(this.ds, refresh).subscribe(() => {});
   }
 
-  clearSearch(): void {
+  clear(): void {
     this.category = 0;
     this.searchText = '';
     this.getData(true);

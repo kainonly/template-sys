@@ -50,12 +50,6 @@ $content-left: 60px;
   overflow: hidden;
 }
 
-.inner-layout {
-  padding: 6px;
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-
 .nav {
   border-right: 1px solid #f0f0f0;
   padding: 8px;
@@ -67,6 +61,13 @@ $content-left: 60px;
   ul[nz-menu] {
     border: none;
   }
+}
+
+.content {
+  padding: 6px;
+  height: calc(100% - 84px);
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .banner {

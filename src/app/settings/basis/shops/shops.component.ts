@@ -12,8 +12,8 @@ import { NzModalService } from 'ng-zorro-antd/modal';
   templateUrl: './shops.component.html'
 })
 export class ShopsComponent implements OnInit {
-  searchText = '';
   ds: WpxData<AnyDto<Shop>> = new WpxData<AnyDto<Shop>>();
+  searchText = '';
 
   constructor(private shops: ShopsService, private modal: NzModalService, private message: NzMessageService) {}
 
@@ -22,21 +22,16 @@ export class ShopsComponent implements OnInit {
   }
 
   getData(refresh = false): void {
-    this.shops.pages(this.ds, refresh).subscribe(() => {});
-  }
-
-  submitSearch(): void {
-    if (!this.searchText) {
-      this.ds.filter = {};
-    } else {
+    this.ds.filter = {};
+    if (this.searchText) {
       this.ds.filter = {
         name: { $regex: this.searchText }
       };
     }
-    this.getData(true);
+    this.shops.pages(this.ds, refresh).subscribe(() => {});
   }
 
-  clearSearch(): void {
+  clear(): void {
     this.searchText = '';
     this.getData(true);
   }

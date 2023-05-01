@@ -6,23 +6,26 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 
 @Component({
-  selector: 'app-settings-system-security-ip-lock',
-  templateUrl: './ip-lock.component.html'
+  selector: 'app-settings-system-integrated-cloud-tencent',
+  templateUrl: './tencent.component.html'
 })
-export class IpLockComponent implements OnInit {
+export class TencentComponent implements OnInit {
   form!: FormGroup;
-  tips: any = {
-    ip_login_failures: {
+  tips = {
+    tencent_secret_id: {
       default: {
-        required: $localize`IP 登录失败上限不能为空`
+        required: $localize`SecretId 不能为空`
+      }
+    },
+    tencent_secret_key: {
+      default: {
+        required: $localize`SecretKey 不能为空`
       }
     }
   };
-  formatterTimes = (value: number): string => $localize`${value} 次`;
 
   constructor(
-    @Inject(NZ_MODAL_DATA)
-    public values: Record<string, any>,
+    @Inject(NZ_MODAL_DATA) public values: Record<string, any>,
     public wpx: WpxService,
     private modalRef: NzModalRef,
     private message: NzMessageService,
@@ -31,9 +34,13 @@ export class IpLockComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      ip_login_failures: [0, [Validators.required]]
+      tencent_secret_id: [null, [Validators.required]],
+      tencent_secret_key: [null, [Validators.required]]
     });
-    this.form.patchValue(this.values);
+
+    this.form.patchValue({
+      tencent_secret_id: this.values['tencent_secret_id']
+    });
   }
 
   close(): void {

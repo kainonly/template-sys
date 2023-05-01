@@ -1,117 +1,151 @@
-<ng-template #searchRef>
-  <nz-space>
+<nz-page-header [nzGhost]="false">
+  <nz-page-header-title>
+    <span i18n>访问日志</span>
+  </nz-page-header-title>
+  <nz-page-header-tags>
     <nz-range-picker
-      *nzSpaceItem
-      [nzShowTime]="{ nzFormat: 'HH:mm' }"
+      nzBorderless
       nzFormat="yyyy-MM-dd HH:mm"
+      [nzShowTime]="{ nzFormat: 'HH:mm' }"
       [nzDisabledDate]="disabledDate"
       [(ngModel)]="date"
       (ngModelChange)="getData(true)"
     ></nz-range-picker>
-    <nz-button-group *nzSpaceItem>
-      <button nz-button nzType="text" nz-tooltip="刷新" i18n-nz-tooltip (click)="getData(true)">
-        <i nz-icon nzType="reload"></i>
-      </button>
-      <button nz-button nzType="text" nz-tooltip="重置" i18n-nz-tooltip (click)="clearSearch()">
-        <i nz-icon nzType="clear"></i>
-      </button>
-    </nz-button-group>
-  </nz-space>
-</ng-template>
+  </nz-page-header-tags>
+  <nz-page-header-extra>
+    <nz-space>
+      <ng-container *nzSpaceItem>
+        <button nzShape="circle" nz-button i18n disabled>
+          <span nz-icon nzType="export"></span>
+        </button>
+      </ng-container>
+    </nz-space>
+  </nz-page-header-extra>
+  <nz-page-header-content>
+    <nz-row nzJustify="space-between" nzAlign="bottom">
+      <nz-col>
+        <nz-space>
+          <ng-container *nzSpaceItem>
+            <nz-input-group style="width: 180px" nzSuffixIcon="search">
+              <input
+                (keyup.enter)="getData(true)"
+                [(ngModel)]="searchText"
+                type="text"
+                nz-input
+                placeholder="搜索"
+                i18n-placeholder
+              />
+            </nz-input-group>
+          </ng-container>
+          <ng-container *nzSpaceItem>
+            <nz-button-group>
+              <button nz-button nzType="text" nz-tooltip="刷新" i18n-nz-tooltip (click)="getData(true)">
+                <i nz-icon nzType="reload"></i>
+              </button>
+              <button nz-button nzType="text" nz-tooltip="重置" i18n-nz-tooltip (click)="clear()">
+                <i nz-icon nzType="clear"></i>
+              </button>
+            </nz-button-group>
+          </ng-container>
+        </nz-space>
+      </nz-col>
+      <nz-col></nz-col>
+      <nz-col>
+        <span>共计 {{ ds.total }} 条记录</span>
+      </nz-col>
+    </nz-row>
+  </nz-page-header-content>
+</nz-page-header>
 
-<ng-template #actions>
-  <nz-space>
-    <button *nzSpaceItem nz-button i18n disabled> 导出 </button>
-  </nz-space>
-</ng-template>
-
-<nz-card [nzTitle]="searchRef" [nzExtra]="actions">
-  <nz-table
-    #basicTable
-    [nzFrontPagination]="false"
-    [nzShowSizeChanger]="true"
-    [nzHideOnSinglePage]="true"
-    [nzLoading]="dataset.loading"
-    [nzData]="dataset.values"
-    [nzTotal]="dataset.total"
-    [(nzPageSize)]="dataset.pagesize"
-    [(nzPageIndex)]="dataset.page"
-    (nzPageIndexChange)="getData(false)"
-    (nzPageSizeChange)="getData(true)"
-  >
-    <thead>
-      <tr>
-        <th
-          nzWidth="60px"
-          nzLeft
-          nzAlign="center"
-          [nzChecked]="dataset.checked"
-          [nzIndeterminate]="dataset.indeterminate"
-          (nzCheckedChange)="dataset.setNChecked($event)"
-        >
-        </th>
-        <th nzWidth="240px"><b i18n>时间戳</b></th>
-        <th><b i18n>操作人</b></th>
-        <th><b i18n>资源</b></th>
-        <th nzWidth="60px" nzRight nzAlign="center">
-          <button nz-button nzType="text" nzBlock disabled>
-            <i nz-icon nzType="setting"></i>
-          </button>
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <ng-container *ngFor="let data of basicTable.data">
+<div class="content">
+  <nz-card>
+    <nz-table
+      #basicTable
+      [nzFrontPagination]="false"
+      [nzShowSizeChanger]="true"
+      [nzHideOnSinglePage]="true"
+      [nzLoading]="ds.loading"
+      [nzData]="ds.values"
+      [nzTotal]="ds.total"
+      [(nzPageSize)]="ds.pagesize"
+      [(nzPageIndex)]="ds.page"
+      (nzPageIndexChange)="getData(false)"
+      (nzPageSizeChange)="getData(true)"
+    >
+      <thead>
         <tr>
-          <td
+          <th
+            nzWidth="60px"
             nzLeft
             nzAlign="center"
-            [nzDisabled]="data['disabled']"
-            [nzChecked]="dataset.checkedIds.has(data['_id'])"
-            (nzCheckedChange)="dataset.setChecked(data['_id'], $event)"
+            [nzChecked]="ds.checked"
+            [nzIndeterminate]="ds.indeterminate"
+            (nzCheckedChange)="ds.setNChecked($event)"
           >
-          </td>
-          <td [nzExpand]="expands.has(data._id)" (nzExpandChange)="expandsChange(data._id, $event)">
-            {{ data['timestamp'] | date : 'yyyy-MM-dd HH:mm:ss' }}
-          </td>
-          <td>
-            <a *ngIf="userKV[data.metadata.user_id] as user; else isSystem" (click)="openUserDetail(user)">
-              <ng-container *ngIf="user.name; else showEmail">
-                {{ user.name }}
-              </ng-container>
-              <ng-template #showEmail> {{ user.email }} </ng-template>
-            </a>
-            <ng-template #isSystem>
-              <span i18n>系统</span>
-            </ng-template>
-          </td>
-          <td>
-            <nz-space>
-              <code *nzSpaceItem>{{ data.status }}</code>
-              <code *nzSpaceItem>{{ data.metadata.method }}</code>
-              <code *nzSpaceItem>{{ data.metadata.path }}</code>
-            </nz-space>
-          </td>
-          <td nzRight nzAlign="center">
-            <button nz-button nzType="text" nz-dropdown [nzDropdownMenu]="menu">
-              <i nz-icon nzType="ellipsis"></i>
+          </th>
+          <th nzWidth="240px"><b i18n>时间戳</b></th>
+          <th><b i18n>操作人</b></th>
+          <th><b i18n>资源</b></th>
+          <th nzWidth="60px" nzRight nzAlign="center">
+            <button nz-button nzType="text" nzBlock disabled>
+              <i nz-icon nzType="setting"></i>
             </button>
-            <nz-dropdown-menu #menu="nzDropdownMenu">
-              <ul nz-menu>
-                <li nz-menu-item i18n>标记</li>
-              </ul>
-            </nz-dropdown-menu>
-          </td>
+          </th>
         </tr>
-        <tr [nzExpand]="expands.has(data._id)">
-          <div style="padding: 3.5px 4px">
-            <code>{{ data.user_agent }}</code>
-          </div>
-        </tr>
-      </ng-container>
-    </tbody>
-  </nz-table>
-</nz-card>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let data of basicTable.data">
+          <tr>
+            <td
+              nzLeft
+              nzAlign="center"
+              [nzDisabled]="data['disabled']"
+              [nzChecked]="ds.checkedIds.has(data['_id'])"
+              (nzCheckedChange)="ds.setChecked(data['_id'], $event)"
+            >
+            </td>
+            <td [nzExpand]="expands.has(data._id)" (nzExpandChange)="expandsChange(data._id, $event)">
+              {{ data['timestamp'] | date : 'yyyy-MM-dd HH:mm:ss' }}
+            </td>
+            <td>
+              <a *ngIf="userKV[data.metadata.user_id] as user; else isSystem" (click)="openUserDetail(user)">
+                <ng-container *ngIf="user.name; else showEmail">
+                  {{ user.name }}
+                </ng-container>
+                <ng-template #showEmail> {{ user.email }} </ng-template>
+              </a>
+              <ng-template #isSystem>
+                <span i18n>系统</span>
+              </ng-template>
+            </td>
+            <td>
+              <nz-space>
+                <code *nzSpaceItem>{{ data.status }}</code>
+                <code *nzSpaceItem>{{ data.metadata.method }}</code>
+                <code *nzSpaceItem>{{ data.metadata.path }}</code>
+              </nz-space>
+            </td>
+            <td nzRight nzAlign="center">
+              <button nz-button nzType="text" nz-dropdown [nzDropdownMenu]="menu">
+                <i nz-icon nzType="ellipsis"></i>
+              </button>
+              <nz-dropdown-menu #menu="nzDropdownMenu">
+                <ul nz-menu>
+                  <li nz-menu-item i18n>标记</li>
+                </ul>
+              </nz-dropdown-menu>
+            </td>
+          </tr>
+          <tr [nzExpand]="expands.has(data._id)">
+            <div style="padding: 3.5px 4px">
+              <code>{{ data.user_agent }}</code>
+            </div>
+          </tr>
+        </ng-container>
+      </tbody>
+    </nz-table>
+  </nz-card>
+</div>
 
 <nz-drawer
   [nzClosable]="false"

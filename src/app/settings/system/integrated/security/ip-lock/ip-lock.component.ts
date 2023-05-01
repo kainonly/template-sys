@@ -6,19 +6,19 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 
 @Component({
-  selector: 'app-settings-system-security-pwd-ttl',
-  templateUrl: './pwd-ttl.component.html'
+  selector: 'app-settings-system-integrated-security-ip-lock',
+  templateUrl: './ip-lock.component.html'
 })
-export class PwdTtlComponent implements OnInit {
+export class IpLockComponent implements OnInit {
   form!: FormGroup;
   tips: any = {
-    pwd_ttl: {
+    ip_login_failures: {
       default: {
-        required: $localize`密码有效期不能为空`
+        required: $localize`IP 登录失败上限不能为空`
       }
     }
   };
-  formatterTimes = (value: number): string => $localize`${value} 天`;
+  formatterTimes = (value: number): string => $localize`${value} 次`;
 
   constructor(
     @Inject(NZ_MODAL_DATA)
@@ -31,12 +31,9 @@ export class PwdTtlComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      pwd_ttl: [0, [Validators.required]]
+      ip_login_failures: [0, [Validators.required]]
     });
-    const data = {
-      pwd_ttl: this.values['pwd_ttl'] / 86400e9
-    };
-    this.form.patchValue(data);
+    this.form.patchValue(this.values);
   }
 
   close(): void {
@@ -44,7 +41,6 @@ export class PwdTtlComponent implements OnInit {
   }
 
   submit(data: any): void {
-    data.pwd_ttl = data.pwd_ttl * 86400e9;
     this.wpx.setValues(data).subscribe(() => {
       this.message.success($localize`数据更新成功`);
       this.modalRef.triggerOk();

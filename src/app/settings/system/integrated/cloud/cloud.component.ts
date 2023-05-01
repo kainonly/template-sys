@@ -9,7 +9,7 @@ import { CosComponent } from './cos/cos.component';
 import { TencentComponent } from './tencent/tencent.component';
 
 @Component({
-  selector: 'app-settings-integrated-cloud',
+  selector: 'app-settings-system-integrated-cloud',
   templateUrl: './cloud.component.html'
 })
 export class CloudComponent implements OnInit {

@@ -13,8 +13,8 @@ import { FormComponent, InputData } from './form/form.component';
   templateUrl: './users.component.html'
 })
 export class UsersComponent implements OnInit {
-  searchText = '';
   ds: WpxData<AnyDto<User>> = new WpxData<AnyDto<User>>();
+  searchText = '';
 
   constructor(
     public users: UsersService,
@@ -28,21 +28,16 @@ export class UsersComponent implements OnInit {
   }
 
   getData(refresh = false): void {
-    this.users.pages(this.ds, refresh).subscribe(() => {});
-  }
-
-  submitSearch(): void {
-    if (!this.searchText) {
-      this.ds.filter = {};
-    } else {
+    this.ds.filter = {};
+    if (this.searchText) {
       this.ds.filter = {
         name: { $regex: this.searchText }
       };
     }
-    this.getData(true);
+    this.users.pages(this.ds, refresh).subscribe(() => {});
   }
 
-  clearSearch(): void {
+  clear(): void {
     this.searchText = '';
     this.getData(true);
   }

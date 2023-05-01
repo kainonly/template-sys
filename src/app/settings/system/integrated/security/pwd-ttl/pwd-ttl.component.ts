@@ -6,33 +6,19 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 
 @Component({
-  selector: 'app-settings-integrated-cloud-cos',
-  templateUrl: './cos.component.html'
+  selector: 'app-settings-system-integrated-security-pwd-ttl',
+  templateUrl: './pwd-ttl.component.html'
 })
-export class CosComponent implements OnInit {
+export class PwdTtlComponent implements OnInit {
   form!: FormGroup;
   tips: any = {
-    tencent_cos_bucket: {
+    pwd_ttl: {
       default: {
-        required: $localize`Bucket 名称不能为空`
-      }
-    },
-    tencent_cos_region: {
-      default: {
-        required: $localize`地区不能为空`
-      }
-    },
-    tencent_cos_expired: {
-      default: {
-        required: $localize`预签名有效期不能为空`
-      }
-    },
-    tencent_cos_limit: {
-      default: {
-        required: $localize`上传大小限制不能为空`
+        required: $localize`密码有效期不能为空`
       }
     }
   };
+  formatterTimes = (value: number): string => $localize`${value} 天`;
 
   constructor(
     @Inject(NZ_MODAL_DATA)
@@ -45,13 +31,12 @@ export class CosComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      tencent_cos_bucket: [null, [Validators.required]],
-      tencent_cos_region: [null, [Validators.required]],
-      tencent_cos_expired: [null, [Validators.required]],
-      tencent_cos_limit: [null, [Validators.required]]
+      pwd_ttl: [0, [Validators.required]]
     });
-    const values = { ...this.values };
-    this.form.patchValue(values);
+    const data = {
+      pwd_ttl: this.values['pwd_ttl'] / 86400e9
+    };
+    this.form.patchValue(data);
   }
 
   close(): void {
@@ -59,6 +44,7 @@ export class CosComponent implements OnInit {
   }
 
   submit(data: any): void {
+    data.pwd_ttl = data.pwd_ttl * 86400e9;
     this.wpx.setValues(data).subscribe(() => {
       this.message.success($localize`数据更新成功`);
       this.modalRef.triggerOk();

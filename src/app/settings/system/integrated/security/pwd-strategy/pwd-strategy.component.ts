@@ -6,25 +6,12 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 
 @Component({
-  selector: 'app-settings-system-security-user-lock',
-  templateUrl: './user-lock.component.html'
+  selector: 'app-settings-system-integrated-security-pwd-strategy',
+  templateUrl: './pwd-strategy.component.html',
+  styleUrls: ['./pwd-strategy.component.scss']
 })
-export class UserLockComponent implements OnInit {
+export class PwdStrategyComponent implements OnInit {
   form!: FormGroup;
-  tips: any = {
-    login_failures: {
-      default: {
-        required: $localize`连续登录失败上限不能为空`
-      }
-    },
-    login_ttl: {
-      default: {
-        required: $localize`锁定时间不能为空`
-      }
-    }
-  };
-  formatterTimes = (value: number): string => $localize`${value} 次`;
-  formatterSec = (value: number): string => `${value} s`;
 
   constructor(
     @Inject(NZ_MODAL_DATA)
@@ -37,14 +24,9 @@ export class UserLockComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      login_failures: [0, [Validators.required]],
-      login_ttl: [0, [Validators.required]]
+      pwd_strategy: [0, [Validators.required]]
     });
-    const data = {
-      login_failures: this.values['login_failures'],
-      login_ttl: this.values['login_ttl'] / 1e9
-    };
-    this.form.patchValue(data);
+    this.form.patchValue(this.values);
   }
 
   close(): void {
@@ -52,7 +34,6 @@ export class UserLockComponent implements OnInit {
   }
 
   submit(data: any): void {
-    data['login_ttl'] = data['login_ttl'] * 1e9;
     this.wpx.setValues(data).subscribe(() => {
       this.message.success($localize`数据更新成功`);
       this.modalRef.triggerOk();

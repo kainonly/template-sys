@@ -1,99 +1,117 @@
-<ng-template #searchRef>
-  <nz-row [nzGutter]="6">
-    <nz-col>
-      <nz-input-group style="width: 180px" nzSuffixIcon="search">
-        <input
-          (keyup.enter)="submitSearch()"
-          [(ngModel)]="searchText"
-          type="text"
-          nz-input
-          placeholder="搜索"
-          i18n-placeholder
-        />
-      </nz-input-group>
-    </nz-col>
-    <nz-col>
-      <nz-button-group>
-        <button nz-button nzType="text" nz-tooltip="刷新" i18n-nz-tooltip (click)="getData(true)">
-          <i nz-icon nzType="reload"></i>
+<nz-page-header [nzGhost]="false">
+  <nz-page-header-title><span i18n>店长管理</span></nz-page-header-title>
+  <nz-page-header-extra>
+    <nz-space>
+      <ng-container *nzSpaceItem>
+        <button nz-button nzType="primary" nzShape="circle" nz-tooltip="新增" i18n-nz-tooltip (click)="form()">
+          <i nz-icon nzType="plus"></i>
         </button>
-        <button nz-button nzType="text" nz-tooltip="重置" i18n-nz-tooltip (click)="clearSearch()">
-          <i nz-icon nzType="clear"></i>
-        </button>
-      </nz-button-group>
-    </nz-col>
-  </nz-row>
-</ng-template>
-
-<ng-template #extraRef>
-  <button nz-button nzType="primary" (click)="form()"> 新增 </button>
-</ng-template>
-
-<nz-card nzSize="default" [nzTitle]="searchRef" [nzExtra]="extraRef">
-  <nz-table
-    #basicTable
-    [nzFrontPagination]="false"
-    [nzShowSizeChanger]="true"
-    [nzHideOnSinglePage]="true"
-    [nzLoading]="false"
-    [nzData]="ds.values"
-    [nzTotal]="ds.total"
-    [(nzPageSize)]="ds.pagesize"
-    [(nzPageIndex)]="ds.page"
-    (nzPageIndexChange)="getData(false)"
-    (nzPageSizeChange)="getData(true)"
-  >
-    <thead>
-      <tr>
-        <th
-          nzWidth="60px"
-          nzLeft
-          nzAlign="center"
-          [nzChecked]="ds.checked"
-          [nzIndeterminate]="ds.indeterminate"
-          (nzCheckedChange)="ds.setNChecked($event)"
-        ></th>
-        <th nzWidth="240px"><b>电子邮件</b></th>
-        <th><b>称呼</b></th>
-        <th nzWidth="120px"><b>状态</b></th>
-        <th nzWidth="60px" nzRight nzAlign="center">
-          <button nz-button nzType="text" nzBlock disabled>
-            <i nz-icon nzType="setting"></i>
-          </button>
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let data of basicTable.data">
-        <td
-          nzLeft
-          nzAlign="center"
-          [nzDisabled]="data['disabled']"
-          [nzChecked]="ds.checkedIds.has(data['_id'])"
-          (nzCheckedChange)="ds.setChecked(data['_id'], $event)"
-        ></td>
-        <td>{{ data.email }}</td>
-        <td>{{ data.name }}</td>
-        <td>
-          <ng-container *ngIf="data.status; else offRef">
-            <nz-badge nzStatus="processing" nzText="正常"></nz-badge>
+      </ng-container>
+    </nz-space>
+  </nz-page-header-extra>
+  <nz-page-header-content>
+    <nz-row nzJustify="space-between" nzAlign="bottom">
+      <nz-col>
+        <nz-space>
+          <ng-container *nzSpaceItem>
+            <nz-input-group style="width: 180px" nzSuffixIcon="search">
+              <input
+                (keyup.enter)="getData(true)"
+                [(ngModel)]="searchText"
+                type="text"
+                nz-input
+                placeholder="搜索"
+                i18n-placeholder
+              />
+            </nz-input-group>
           </ng-container>
-          <ng-template #offRef>
-            <nz-badge nzStatus="error" nzText="关闭"></nz-badge>
-          </ng-template>
-        </td>
-        <td nzRight nzAlign="center">
-          <button nz-button nzType="text" nz-dropdown [nzDropdownMenu]="menu">
-            <i nz-icon nzType="ellipsis"></i>
-          </button>
-          <nz-dropdown-menu #menu="nzDropdownMenu">
-            <ul nz-menu>
-              <li nz-menu-item i18n (click)="form(data)">编辑</li>
-              <li nz-menu-item nzDanger i18n (click)="delete(data)">删除</li>
-            </ul>
-          </nz-dropdown-menu>
-        </td>
-      </tr>
-    </tbody>
-  </nz-table>
-</nz-card>
+          <ng-container *nzSpaceItem>
+            <nz-button-group>
+              <button nz-button nzType="text" nz-tooltip="刷新" i18n-nz-tooltip (click)="getData(true)">
+                <i nz-icon nzType="reload"></i>
+              </button>
+              <button nz-button nzType="text" nz-tooltip="重置" i18n-nz-tooltip (click)="clear()">
+                <i nz-icon nzType="clear"></i>
+              </button>
+            </nz-button-group>
+          </ng-container>
+        </nz-space>
+      </nz-col>
+      <nz-col></nz-col>
+      <nz-col>
+        <span>共计 {{ ds.total }} 条记录</span>
+      </nz-col>
+    </nz-row>
+  </nz-page-header-content>
+</nz-page-header>
+
+<nz-content style="padding: 6px">
+  <nz-card>
+    <nz-table
+      #basicTable
+      [nzFrontPagination]="false"
+      [nzShowSizeChanger]="true"
+      [nzHideOnSinglePage]="true"
+      [nzLoading]="false"
+      [nzData]="ds.values"
+      [nzTotal]="ds.total"
+      [(nzPageSize)]="ds.pagesize"
+      [(nzPageIndex)]="ds.page"
+      (nzPageIndexChange)="getData(false)"
+      (nzPageSizeChange)="getData(true)"
+    >
+      <thead>
+        <tr>
+          <th
+            nzWidth="60px"
+            nzLeft
+            nzAlign="center"
+            [nzChecked]="ds.checked"
+            [nzIndeterminate]="ds.indeterminate"
+            (nzCheckedChange)="ds.setNChecked($event)"
+          ></th>
+          <th nzWidth="240px"><b>电子邮件</b></th>
+          <th><b>称呼</b></th>
+          <th nzWidth="120px"><b>状态</b></th>
+          <th nzWidth="60px" nzRight nzAlign="center">
+            <button nz-button nzType="text" nzBlock disabled>
+              <i nz-icon nzType="setting"></i>
+            </button>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of basicTable.data">
+          <td
+            nzLeft
+            nzAlign="center"
+            [nzDisabled]="data['disabled']"
+            [nzChecked]="ds.checkedIds.has(data['_id'])"
+            (nzCheckedChange)="ds.setChecked(data['_id'], $event)"
+          ></td>
+          <td>{{ data.email }}</td>
+          <td>{{ data.name }}</td>
+          <td>
+            <ng-container *ngIf="data.status; else offRef">
+              <nz-badge nzStatus="processing" nzText="正常"></nz-badge>
+            </ng-container>
+            <ng-template #offRef>
+              <nz-badge nzStatus="error" nzText="关闭"></nz-badge>
+            </ng-template>
+          </td>
+          <td nzRight nzAlign="center">
+            <button nz-button nzType="text" nz-dropdown [nzDropdownMenu]="menu">
+              <i nz-icon nzType="ellipsis"></i>
+            </button>
+            <nz-dropdown-menu #menu="nzDropdownMenu">
+              <ul nz-menu>
+                <li nz-menu-item i18n (click)="form(data)">编辑</li>
+                <li nz-menu-item nzDanger i18n (click)="delete(data)">删除</li>
+              </ul>
+            </nz-dropdown-menu>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </nz-card>
+</nz-content>

@@ -6,23 +6,19 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 
 @Component({
-  selector: 'app-settings-integrated-cloud-tencent',
-  templateUrl: './tencent.component.html'
+  selector: 'app-settings-system-integrated-security-session',
+  templateUrl: './session.component.html'
 })
-export class TencentComponent implements OnInit {
+export class SessionComponent implements OnInit {
   form!: FormGroup;
   tips: any = {
-    tencent_secret_id: {
+    session_ttl: {
       default: {
-        required: $localize`SecretId 不能为空`
-      }
-    },
-    tencent_secret_key: {
-      default: {
-        required: $localize`SecretKey 不能为空`
+        required: $localize`会话超时不能为空`
       }
     }
   };
+  formatterSec = (value: number): string => $localize`${value} s`;
 
   constructor(
     @Inject(NZ_MODAL_DATA)
@@ -35,13 +31,12 @@ export class TencentComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      tencent_secret_id: [null, [Validators.required]],
-      tencent_secret_key: [null, [Validators.required]]
+      session_ttl: [0, [Validators.required]]
     });
-
-    this.form.patchValue({
-      tencent_secret_id: this.values['tencent_secret_id']
-    });
+    const data = {
+      session_ttl: this.values['session_ttl'] / 1e9
+    };
+    this.form.patchValue(data);
   }
 
   close(): void {
@@ -49,6 +44,7 @@ export class TencentComponent implements OnInit {
   }
 
   submit(data: any): void {
+    data['session_ttl'] = data['session_ttl'] * 1e9;
     this.wpx.setValues(data).subscribe(() => {
       this.message.success($localize`数据更新成功`);
       this.modalRef.triggerOk();

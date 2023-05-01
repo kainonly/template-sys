@@ -14,9 +14,8 @@ import { FormComponent, InputData } from './form/form.component';
   templateUrl: './recharge.component.html'
 })
 export class RechargeComponent implements OnInit {
-  searchText = '';
-
   ds: WpxData<AnyDto<Recharge>> = new WpxData<AnyDto<Recharge>>();
+  searchText = '';
 
   constructor(
     public app: AppService,
@@ -26,37 +25,19 @@ export class RechargeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.ds.filter = {
-      shop_id: this.app.shopId
-    };
-    this.ds.xfilter = {
-      shop_id: 'oid'
-    };
     this.getData(true);
   }
 
   getData(refresh = false): void {
+    this.ds.filter = { shop_id: this.app.shopId };
+    this.ds.xfilter = { shop_id: 'oid' };
+    if (this.searchText) {
+      this.ds.filter['$or'] = [{ sn: { $regex: this.searchText } }, { content: { $regex: this.searchText } }];
+    }
     this.recharges.pages(this.ds, refresh).subscribe(() => {});
   }
 
-  submitSearch(): void {
-    this.ds.filter = {
-      shop_id: this.app.shopId
-    };
-    if (this.searchText) {
-      this.ds.filter['$or'] = [
-        {
-          sn: { $regex: this.searchText }
-        },
-        {
-          content: { $regex: this.searchText }
-        }
-      ];
-    }
-    this.getData(true);
-  }
-
-  clearSearch(): void {
+  clear(): void {
     this.searchText = '';
     this.getData(true);
   }

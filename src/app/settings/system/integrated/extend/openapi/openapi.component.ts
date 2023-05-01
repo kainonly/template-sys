@@ -6,12 +6,28 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 
 @Component({
-  selector: 'app-settings-system-security-pwd-strategy',
-  templateUrl: './pwd-strategy.component.html',
-  styleUrls: ['./pwd-strategy.component.scss']
+  selector: 'app-settings-system-integrated-extend-openapi',
+  templateUrl: './openapi.component.html'
 })
-export class PwdStrategyComponent implements OnInit {
+export class OpenapiComponent implements OnInit {
   form!: FormGroup;
+  tips: any = {
+    openapi_url: {
+      default: {
+        required: $localize`地址不能为空`
+      }
+    },
+    openapi_key: {
+      default: {
+        required: $localize`应用 Key 不能为空`
+      }
+    },
+    openapi_secret: {
+      default: {
+        required: $localize`应用密钥不能为空`
+      }
+    }
+  };
 
   constructor(
     @Inject(NZ_MODAL_DATA)
@@ -24,9 +40,14 @@ export class PwdStrategyComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      pwd_strategy: [0, [Validators.required]]
+      openapi_url: [null, [Validators.required]],
+      openapi_key: [null, [Validators.required]],
+      openapi_secret: [null, [Validators.required]]
     });
-    this.form.patchValue(this.values);
+    this.form.patchValue({
+      openapi_url: this.values['openapi_url'],
+      openapi_key: this.values['openapi_key']
+    });
   }
 
   close(): void {

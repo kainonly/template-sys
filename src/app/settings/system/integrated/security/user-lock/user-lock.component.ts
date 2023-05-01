@@ -6,19 +6,25 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 
 @Component({
-  selector: 'app-settings-system-security-session',
-  templateUrl: './session.component.html'
+  selector: 'app-settings-system-integrated-security-user-lock',
+  templateUrl: './user-lock.component.html'
 })
-export class SessionComponent implements OnInit {
+export class UserLockComponent implements OnInit {
   form!: FormGroup;
   tips: any = {
-    session_ttl: {
+    login_failures: {
       default: {
-        required: $localize`会话超时不能为空`
+        required: $localize`连续登录失败上限不能为空`
+      }
+    },
+    login_ttl: {
+      default: {
+        required: $localize`锁定时间不能为空`
       }
     }
   };
-  formatterSec = (value: number): string => $localize`${value} s`;
+  formatterTimes = (value: number): string => $localize`${value} 次`;
+  formatterSec = (value: number): string => `${value} s`;
 
   constructor(
     @Inject(NZ_MODAL_DATA)
@@ -31,10 +37,12 @@ export class SessionComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      session_ttl: [0, [Validators.required]]
+      login_failures: [0, [Validators.required]],
+      login_ttl: [0, [Validators.required]]
     });
     const data = {
-      session_ttl: this.values['session_ttl'] / 1e9
+      login_failures: this.values['login_failures'],
+      login_ttl: this.values['login_ttl'] / 1e9
     };
     this.form.patchValue(data);
   }
@@ -44,7 +52,7 @@ export class SessionComponent implements OnInit {
   }
 
   submit(data: any): void {
-    data['session_ttl'] = data['session_ttl'] * 1e9;
+    data['login_ttl'] = data['login_ttl'] * 1e9;
     this.wpx.setValues(data).subscribe(() => {
       this.message.success($localize`数据更新成功`);
       this.modalRef.triggerOk();

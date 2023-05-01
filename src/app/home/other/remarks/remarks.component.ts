@@ -14,9 +14,8 @@ import { FormComponent, InputData } from './form/form.component';
   templateUrl: './remarks.component.html'
 })
 export class RemarksComponent implements OnInit {
-  searchText = '';
-
   ds: WpxData<AnyDto<Remark>> = new WpxData<AnyDto<Remark>>();
+  searchText = '';
 
   constructor(
     public app: AppService,
@@ -26,37 +25,19 @@ export class RemarksComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.ds.filter = {
-      shop_id: this.app.shopId
-    };
-    this.ds.xfilter = {
-      shop_id: 'oid'
-    };
     this.getData(true);
   }
 
   getData(refresh = false): void {
+    this.ds.filter = { shop_id: this.app.shopId };
+    this.ds.xfilter = { shop_id: 'oid' };
+    if (this.searchText) {
+      this.ds.filter['$or'] = [{ sn: { $regex: this.searchText } }, { content: { $regex: this.searchText } }];
+    }
     this.remarks.pages(this.ds, refresh).subscribe(() => {});
   }
 
-  submitSearch(): void {
-    this.ds.filter = {
-      shop_id: this.app.shopId
-    };
-    if (this.searchText) {
-      this.ds.filter['$or'] = [
-        {
-          sn: { $regex: this.searchText }
-        },
-        {
-          content: { $regex: this.searchText }
-        }
-      ];
-    }
-    this.getData(true);
-  }
-
-  clearSearch(): void {
+  clear(): void {
     this.searchText = '';
     this.getData(true);
   }

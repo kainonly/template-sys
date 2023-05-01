@@ -18,23 +18,11 @@ import { Component } from '@angular/core';
               </li>
             </ul>
           </li>
-          <li nz-menu-group nzTitle="集成" i18n-nzTitle>
-            <ul>
-              <li nz-menu-item nzMatchRouter [routerLink]="['/', 'settings', 'integrated', 'cloud']">
-                <span nz-icon nzType="cloud"></span>
-                <span i18n>公有云</span>
-              </li>
-              <li nz-menu-item nzMatchRouter [routerLink]="['/', 'settings', 'integrated', 'extend']">
-                <span nz-icon nzType="appstore-add"></span>
-                <span i18n>扩展服务</span>
-              </li>
-            </ul>
-          </li>
           <li nz-menu-group nzTitle="系统" i18n-nzTitle>
             <ul>
-              <li nz-menu-item nzMatchRouter [routerLink]="['/', 'settings', 'system', 'security']">
-                <span nz-icon nzType="safety"></span>
-                <span i18n>安全策略</span>
+              <li nz-menu-item nzMatchRouter [routerLink]="['/', 'settings', 'system', 'integrated']">
+                <span nz-icon nzType="appstore-add"></span>
+                <span i18n>集成功能</span>
               </li>
               <li nz-menu-item nzMatchRouter [routerLink]="['/', 'settings', 'system', 'sessions']">
                 <span nz-icon nzType="rocket"></span>
@@ -61,7 +49,7 @@ import { Component } from '@angular/core';
         </ul>
       </nz-sider>
 
-      <nz-layout class="inner-layout">
+      <nz-layout>
         <nz-content>
           <router-outlet></router-outlet>
         </nz-content>
