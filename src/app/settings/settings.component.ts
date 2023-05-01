@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-settings',
   template: `
     <nz-layout class="common-layout" style="padding-left: 0">
-      <nz-sider class="nav" nzWidth="180px" nzTheme="light">
+      <nz-sider class="nav" nzWidth="240px" nzTheme="light">
         <ul nz-menu>
           <li nz-menu-group nzTitle="基础" i18n-nzTitle>
             <ul>

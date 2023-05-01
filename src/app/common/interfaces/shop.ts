@@ -1,6 +1,3 @@
-import { Area } from '@common/interfaces/area';
-import { AnyDto } from '@weplanx/ng';
-
 /**
  * 门店
  */

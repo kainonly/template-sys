@@ -18,6 +18,13 @@ const routes: Routes = [
         }
       },
       {
+        path: 'booking',
+        loadChildren: () => import('./booking/booking.module').then(m => m.BookingModule),
+        data: {
+          breadcrumb: $localize`预定`
+        }
+      },
+      {
         path: 'dine',
         loadChildren: () => import('./dine/dine.module').then(m => m.DineModule),
         data: {
@@ -50,13 +57,6 @@ const routes: Routes = [
         loadChildren: () => import('./resources/resources.module').then(m => m.ResourcesModule),
         data: {
           breadcrumb: $localize`资源`
-        }
-      },
-      {
-        path: 'statistics',
-        loadChildren: () => import('./statistics/statistics.module').then(m => m.StatisticsModule),
-        data: {
-          breadcrumb: $localize`统计`
         }
       },
       { path: '', redirectTo: 'home', pathMatch: 'full' }

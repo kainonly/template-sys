@@ -21,6 +21,16 @@ import { ShopsService } from '@common/services/shops.service';
         </li>
         <li
           nz-menu-item
+          nz-tooltip="预定"
+          i18n-nz-tooltip
+          nzTooltipPlacement="right"
+          nzMatchRouter
+          [routerLink]="['/', app.shopId, 'booking']"
+        >
+          <span nz-icon nzType="carry-out"></span>
+        </li>
+        <li
+          nz-menu-item
           nz-tooltip="堂食"
           i18n-nz-tooltip
           nzTooltipPlacement="right"
@@ -47,11 +57,11 @@ import { ShopsService } from '@common/services/shops.service';
           nzMatchRouter
           [routerLink]="['/', app.shopId, 'membership']"
         >
-          <span nz-icon nzType="contacts"></span>
+          <span nz-icon nzType="user"></span>
         </li>
         <li
           nz-menu-item
-          nz-tooltip="营销"
+          nz-tooltip="方案"
           i18n-nz-tooltip
           nzTooltipPlacement="right"
           nzMatchRouter
@@ -68,16 +78,6 @@ import { ShopsService } from '@common/services/shops.service';
           [routerLink]="['/', app.shopId, 'resources']"
         >
           <span nz-icon nzType="inbox"></span>
-        </li>
-        <li
-          nz-menu-item
-          nz-tooltip="统计"
-          i18n-nz-tooltip
-          nzTooltipPlacement="right"
-          nzMatchRouter
-          [routerLink]="['/', app.shopId, 'statistics']"
-        >
-          <span nz-icon nzType="line-chart"></span>
         </li>
       </ul>
     </nav>

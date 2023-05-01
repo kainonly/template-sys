@@ -4,29 +4,22 @@
       <ng-template #searchRef>
         <span nz-icon nzType="search"></span>
       </ng-template>
-      <input type="text" nz-input placeholder="折扣搜索" [(ngModel)]="searchText" />
+      <input type="text" nz-input placeholder="方案搜索" [(ngModel)]="searchText" />
     </nz-input-group>
 
     <nz-divider style="margin: 8px 0"></nz-divider>
 
     <ul style="border: none" nz-menu>
-      <li nz-menu-item nzMatchRouter [routerLink]="['/', app.shopId, 'marketing', 'remarks']">
-        <span nz-icon nzType="book"></span>
-        <span i18n>备注要求</span>
+      <li nz-menu-item nzMatchRouter [routerLink]="['/', app.shopId, 'marketing', 'all']">
+        <span nz-icon nzType="folder-open"></span>
+        <span>全部方案</span>
       </li>
-      <li nz-menu-item nzMatchRouter [routerLink]="['/', app.shopId, 'marketing', 'reasons']">
-        <span nz-icon nzType="unordered-list"></span>
-        <span i18n>理由预设</span>
-      </li>
-      <li nz-menu-item nzMatchRouter [routerLink]="['/', app.shopId, 'marketing', 'recharge']">
-        <span nz-icon nzType="pay-circle"></span>
-        <span i18n>优惠充值</span>
-      </li>
+
       <li nz-menu-group nzTitle="折扣方案" i18n-nzTitle> <ul></ul> </li>
     </ul>
   </nz-sider>
 
-  <nz-layout class="inner-layout">
+  <nz-layout>
     <nz-content>
       <router-outlet></router-outlet>
     </nz-content>

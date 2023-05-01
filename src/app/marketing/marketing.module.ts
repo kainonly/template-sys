@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { ShareModule } from '@common/share.module';
 
+import { IndexComponent } from './index/index.component';
 import { MarketingComponent } from './marketing.component';
 
 const routes: Routes = [
@@ -11,40 +12,26 @@ const routes: Routes = [
     component: MarketingComponent,
     children: [
       {
-        path: 'remarks',
-        loadChildren: () => import('./remarks/remarks.module').then(m => m.RemarksModule),
+        path: 'all',
+        component: IndexComponent,
         data: {
-          breadcrumb: $localize`备注要求`
+          breadcrumb: $localize`全部方案`
         }
       },
       {
-        path: 'reasons',
-        loadChildren: () => import('./reasons/reasons.module').then(m => m.ReasonsModule),
-        data: {
-          breadcrumb: $localize`理由预设`
-        }
-      },
-      {
-        path: 'recharge',
-        loadChildren: () => import('./recharge/recharge.module').then(m => m.RechargeModule),
-        data: {
-          breadcrumb: $localize`优惠充值`
-        }
-      },
-      {
-        path: 'plans/:id',
-        loadChildren: () => import('./plans/plans.module').then(m => m.PlansModule),
+        path: ':id',
+        component: IndexComponent,
         data: {
           breadcrumb: $localize`折扣方案`
         }
       },
-      { path: '', redirectTo: 'remarks', pathMatch: 'full' }
+      { path: '', redirectTo: 'all', pathMatch: 'full' }
     ]
   }
 ];
 
 @NgModule({
   imports: [ShareModule, RouterModule.forChild(routes)],
-  declarations: [MarketingComponent]
+  declarations: [MarketingComponent, IndexComponent]
 })
 export class MarketingModule {}

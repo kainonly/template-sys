@@ -14,37 +14,21 @@ const routes: Routes = [
         path: 'overview',
         loadChildren: () => import('./overview/overview.module').then(m => m.OverviewModule),
         data: {
-          breadcrumb: $localize`门店概况`
+          breadcrumb: $localize`概况`
         }
       },
       {
-        path: 'booking',
-        loadChildren: () => import('./booking/booking.module').then(m => m.BookingModule),
+        path: 'service',
+        loadChildren: () => import('./service/service.module').then(m => m.ServiceModule),
         data: {
-          breadcrumb: $localize`预定餐台`
+          breadcrumb: $localize`服务`
         }
       },
       {
-        path: 'ordering',
-        children: [
-          {
-            path: 'snack',
-            loadChildren: () => import('./snack/snack.module').then(m => m.SnackModule),
-            data: {
-              breadcrumb: $localize`快餐订单`
-            }
-          },
-          {
-            path: 'takeout',
-            loadChildren: () => import('./takeout/takeout.module').then(m => m.TakeoutModule),
-            data: {
-              breadcrumb: $localize`外卖服务`
-            }
-          },
-          { path: '', redirectTo: 'snack', pathMatch: 'full' }
-        ],
+        path: 'other',
+        loadChildren: () => import('./other/other.module').then(m => m.OtherModule),
         data: {
-          breadcrumb: $localize`点餐服务`
+          breadcrumb: $localize`其他`
         }
       },
       { path: '', redirectTo: 'overview', pathMatch: 'full' }

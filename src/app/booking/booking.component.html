@@ -1,0 +1,22 @@
+<nz-layout class="common-layout">
+  <nz-sider class="nav" style="padding: 8px" nzWidth="240px" nzTheme="light">
+    <nz-input-group [nzPrefix]="searchRef" style="width: 100%">
+      <ng-template #searchRef>
+        <span nz-icon nzType="search"></span>
+      </ng-template>
+      <input type="text" nz-input placeholder="联系人搜索" [(ngModel)]="searchText" />
+    </nz-input-group>
+
+    <nz-calendar [nzFullscreen]="false"></nz-calendar>
+
+    <nz-divider style="margin: 8px 0"></nz-divider>
+
+    <nz-list-empty></nz-list-empty>
+  </nz-sider>
+
+  <nz-layout>
+    <nz-content>
+      <router-outlet></router-outlet>
+    </nz-content>
+  </nz-layout>
+</nz-layout>

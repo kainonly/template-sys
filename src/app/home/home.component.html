@@ -1,30 +1,44 @@
 <nz-layout class="common-layout">
-  <nz-sider class="nav" style="padding: 8px" nzWidth="240px" nzTheme="light">
-    <nz-input-group [nzPrefix]="searchRef" style="width: 100%">
-      <ng-template #searchRef>
-        <span nz-icon nzType="search"></span>
-      </ng-template>
-      <input type="text" nz-input placeholder="搜索" [(ngModel)]="searchText" />
-    </nz-input-group>
-
-    <nz-divider style="margin: 8px 0"></nz-divider>
-
+  <nz-sider class="nav" nzWidth="240px" nzTheme="light">
     <ul style="border: none" nz-menu>
-      <li nz-menu-item nzMatchRouter [routerLink]="['/', app.shopId, 'home', 'overview']">
-        <span nz-icon nzType="shop"></span>
-        <span>门店概况</span>
-      </li>
-      <li nz-menu-item nzMatchRouter [routerLink]="['/', app.shopId, 'home', 'booking']">
-        <span nz-icon nzType="carry-out"></span>
-        <span>预定餐台</span>
-      </li>
-      <li nz-menu-group nzTitle="点餐服务">
+      <li nz-menu-group nzTitle="概况">
         <ul>
-          <li nz-menu-item nzMatchRouter [routerLink]="['/', app.shopId, 'home', 'ordering', 'snack']">
+          <li nz-menu-item nzMatchRouter [routerLink]="['/', app.shopId, 'home', 'overview', 'dashboard']">
+            <span>实时看板</span>
+          </li>
+          <li nz-menu-item nzMatchRouter [routerLink]="['/', app.shopId, 'home', 'overview', 'journal']">
+            <span>收银报表</span>
+          </li>
+          <li nz-menu-item nzMatchRouter [routerLink]="['/', app.shopId, 'home', 'overview', 'summary']">
+            <span>营业汇总</span>
+          </li>
+        </ul>
+      </li>
+
+      <li nz-menu-group nzTitle="服务">
+        <ul>
+          <li nz-menu-item nzMatchRouter [routerLink]="['/', app.shopId, 'home', 'service', 'snack']">
             <span>快餐订单</span>
           </li>
-          <li nz-menu-item nzMatchRouter [routerLink]="['/', app.shopId, 'home', 'ordering', 'takeout']">
+          <li nz-menu-item nzMatchRouter [routerLink]="['/', app.shopId, 'home', 'service', 'takeout']">
             <span>外卖订单</span>
+          </li>
+          <li nz-menu-item nzMatchRouter [routerLink]="['/', app.shopId, 'home', 'service', 'dine']">
+            <span>堂食订单</span>
+          </li>
+        </ul>
+      </li>
+
+      <li nz-menu-group nzTitle="其他">
+        <ul>
+          <li nz-menu-item nzMatchRouter [routerLink]="['/', app.shopId, 'home', 'other', 'remarks']">
+            <span i18n>备注要求</span>
+          </li>
+          <li nz-menu-item nzMatchRouter [routerLink]="['/', app.shopId, 'home', 'other', 'reasons']">
+            <span i18n>理由预设</span>
+          </li>
+          <li nz-menu-item nzMatchRouter [routerLink]="['/', app.shopId, 'home', 'other', 'recharge']">
+            <span i18n>优惠充值</span>
           </li>
         </ul>
       </li>

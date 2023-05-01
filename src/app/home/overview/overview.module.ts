@@ -4,12 +4,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { ShopFormModule } from '@common/components/shop-form/shop-form.module';
 import { ShareModule } from '@common/share.module';
 
-import { OverviewComponent } from './overview.component';
-
 const routes: Routes = [
   {
     path: '',
-    component: OverviewComponent,
     children: [
       {
         path: 'dashboard',
@@ -19,24 +16,17 @@ const routes: Routes = [
         }
       },
       {
-        path: 'cards',
-        loadChildren: () => import('./cards/cards.module').then(m => m.CardsModule),
+        path: 'journal',
+        loadChildren: () => import('./journal/journal.module').then(m => m.JournalModule),
         data: {
-          breadcrumb: $localize`快餐牌号`
+          breadcrumb: $localize`收银表报`
         }
       },
       {
-        path: 'periods',
-        loadChildren: () => import('./periods/periods.module').then(m => m.PeriodsModule),
+        path: 'summary',
+        loadChildren: () => import('./summary/summary.module').then(m => m.SummaryModule),
         data: {
-          breadcrumb: $localize`营业时段`
-        }
-      },
-      {
-        path: 'pay',
-        loadChildren: () => import('./pay/pay.module').then(m => m.PayModule),
-        data: {
-          breadcrumb: $localize`收银设置`
+          breadcrumb: $localize`营业汇总`
         }
       },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
@@ -45,7 +35,6 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [ShareModule, ShopFormModule, RouterModule.forChild(routes)],
-  declarations: [OverviewComponent]
+  imports: [ShareModule, ShopFormModule, RouterModule.forChild(routes)]
 })
 export class OverviewModule {}

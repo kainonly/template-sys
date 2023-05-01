@@ -1,1 +1,75 @@
-<nz-layout class="common-layout"> </nz-layout>
+<nz-page-header style="border-bottom: 1px solid #f0f0f0" [nzGhost]="false">
+  <nz-page-header-title> 实时看板 </nz-page-header-title>
+  <nz-page-header-tags>
+    <nz-range-picker nzBorderless></nz-range-picker>
+  </nz-page-header-tags>
+  <nz-page-header-extra>
+    <button nz-button nzType="primary" nzShape="circle" nz-tooltip="刷新" i18n-nz-tooltip>
+      <span nz-icon nzType="sync"></span>
+    </button>
+  </nz-page-header-extra>
+  <nz-page-header-footer>
+    <nz-tabset [nzSelectedIndex]="1">
+      <nz-tab nzTitle="昨天"></nz-tab>
+      <nz-tab nzTitle="今天"></nz-tab>
+      <nz-tab nzTitle="7天内"></nz-tab>
+      <nz-tab nzTitle="30天内"></nz-tab>
+      <nz-tab nzTitle="180天内"></nz-tab>
+    </nz-tabset>
+  </nz-page-header-footer>
+</nz-page-header>
+
+<div style="padding: 6px; overflow: auto; height: calc(100% - 80px)">
+  <nz-row [nzGutter]="[6, 6]">
+    <nz-col [nzSpan]="6">
+      <nz-card style="height: 157px">
+        <ng-template #orderTotalRef>
+          <b style="color: #000">订单总数</b>
+        </ng-template>
+        <ng-template #orderPrefixRef>
+          <span nz-icon nzType="shopping"></span>
+        </ng-template>
+        <nz-statistic [nzValue]="(0 | number)!" [nzTitle]="orderTotalRef" [nzPrefix]="orderPrefixRef"></nz-statistic>
+      </nz-card>
+      <nz-card style="height: 157px; margin-top: 6px">
+        <ng-template #memberTotalRef>
+          <b style="color: #000">客户总数</b>
+        </ng-template>
+        <ng-template #memberPrefixRef>
+          <span nz-icon nzType="user-add"></span>
+        </ng-template>
+        <nz-statistic [nzValue]="(0 | number)!" [nzTitle]="memberTotalRef" [nzPrefix]="memberPrefixRef"></nz-statistic>
+      </nz-card>
+    </nz-col>
+    <nz-col [nzSpan]="12">
+      <ng-template #salesTitle>
+        <b>销量</b>
+      </ng-template>
+      <nz-card style="height: 320px" [nzTitle]="salesTitle"> </nz-card>
+    </nz-col>
+    <nz-col [nzSpan]="6">
+      <ng-template #incomeTitle>
+        <b>总收入</b>
+      </ng-template>
+      <nz-card style="height: 320px" [nzTitle]="incomeTitle"> </nz-card>
+    </nz-col>
+
+    <nz-col [nzSpan]="6">
+      <ng-template #allegianceTitle>
+        <b>忠诚客户</b>
+      </ng-template>
+      <nz-card style="height: 640px" [nzTitle]="allegianceTitle"> </nz-card>
+    </nz-col>
+
+    <nz-col [nzSpan]="18">
+      <ng-template #trendingTitle>
+        <b>最受欢迎的菜品</b>
+      </ng-template>
+      <nz-card style="height: 320px" [nzTitle]="trendingTitle"> </nz-card>
+      <ng-template #timeTitle>
+        <b>消费时段分布</b>
+      </ng-template>
+      <nz-card style="height: 320px; margin-top: 6px" [nzTitle]="timeTitle"> </nz-card>
+    </nz-col>
+  </nz-row>
+</div>
