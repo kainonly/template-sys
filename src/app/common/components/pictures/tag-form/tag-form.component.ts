@@ -1,13 +1,16 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { WpxQuickInputData } from '@weplanx/ng/quick';
+import { PictureTag } from '@common/interfaces/picture';
+import { PictureTagsService } from '@common/services/picture-tags.service';
+import { AnyDto } from '@weplanx/ng';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NZ_MODAL_DATA, NzModalRef } from 'ng-zorro-antd/modal';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 
-export interface TagInputData extends WpxQuickInputData {
+export interface TagInputData {
   shopId: string;
+  doc?: AnyDto<PictureTag>;
 }
 
 @Component({
@@ -29,7 +32,8 @@ export class TagFormComponent implements OnInit {
     private modalRef: NzModalRef,
     private message: NzMessageService,
     private notification: NzNotificationService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private tags: PictureTagsService
   ) {}
 
   ngOnInit(): void {
@@ -48,7 +52,8 @@ export class TagFormComponent implements OnInit {
 
   submit(data: any): void {
     if (!this.data.doc) {
-      this.data.api
+      data.shop_id = this.data.shopId;
+      this.tags
         .create(data, {
           xdata: { shop_id: 'oid' }
         })
@@ -57,7 +62,7 @@ export class TagFormComponent implements OnInit {
           this.modalRef.triggerOk();
         });
     } else {
-      this.data.api
+      this.tags
         .updateById(
           this.data.doc._id,
           {

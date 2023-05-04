@@ -72,8 +72,7 @@
             [nzIndeterminate]="ds.indeterminate"
             (nzCheckedChange)="ds.setNChecked($event)"
           ></th>
-          <th nzWidth="150px"><b>编号</b></th>
-          <th nzWidth="150px"><b>类别</b></th>
+          <th nzWidth="200px"><b>类别</b></th>
           <th><b>内容</b></th>
           <th nzWidth="120px"><b>状态</b></th>
           <th nzWidth="60px" nzRight nzAlign="center">
@@ -92,9 +91,11 @@
             [nzChecked]="ds.checkedIds.has(data['_id'])"
             (nzCheckedChange)="ds.setChecked(data['_id'], $event)"
           ></td>
-          <td>{{ data['sn'] }}</td>
           <td>{{ categoryMap | wpxMap : data['category'] }}</td>
-          <td>{{ data['content'] }}</td>
+          <td>
+            <nz-tag>{{ data['sn'] }}</nz-tag>
+            {{ data['content'] }}
+          </td>
           <td>
             <ng-container *ngIf="data['status']; else offRef">
               <nz-badge nzStatus="processing" nzText="启用"></nz-badge>

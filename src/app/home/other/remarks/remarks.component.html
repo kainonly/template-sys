@@ -72,7 +72,6 @@
             [nzIndeterminate]="ds.indeterminate"
             (nzCheckedChange)="ds.setNChecked($event)"
           ></th>
-          <th nzWidth="150px"><b>编号</b></th>
           <th><b>内容</b></th>
           <th nzWidth="120px"><b>影响价格</b></th>
           <th nzWidth="120px"><b>状态</b></th>
@@ -92,8 +91,10 @@
             [nzChecked]="ds.checkedIds.has(data['_id'])"
             (nzCheckedChange)="ds.setChecked(data['_id'], $event)"
           ></td>
-          <td>{{ data.sn }}</td>
-          <td>{{ data.content }}</td>
+          <td>
+            <nz-tag>{{ data.sn }}</nz-tag>
+            {{ data.content }}
+          </td>
           <td>
             <code *ngIf="data.offset !== 0; else noRef">
               <ng-container *ngIf="data.offset > 0">+</ng-container>{{ data.offset | currency }}

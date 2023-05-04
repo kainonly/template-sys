@@ -1,16 +1,17 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 
 import { AppService } from '@app';
+import { TagsComponent } from '@common/components/videos/tags/tags.component';
 import { Video, VideoTag } from '@common/interfaces/video';
 import { VideoTagsService } from '@common/services/video-tags.service';
-import { AnyDto, WpxData, XFilter } from '@weplanx/ng';
+import { AnyDto } from '@weplanx/ng';
 import { VideosService, WpxMediaComponent, WpxMediaDataSource } from '@weplanx/ng/media';
 import { WpxQuickComponent } from '@weplanx/ng/quick';
 import { Transport } from '@weplanx/ng/upload';
+import { NzDrawerService } from 'ng-zorro-antd/drawer';
 import { NzModalService } from 'ng-zorro-antd/modal';
 
 import { FormComponent, InputData } from './form/form.component';
-import { TagFormComponent, TagInputData } from './tag-form/tag-form.component';
 
 @Component({
   selector: 'app-videos',
@@ -21,7 +22,6 @@ export class VideosComponent implements OnInit {
   @ViewChild('tagSearchRef', { static: true }) tagSearchRef!: TemplateRef<any>;
   @ViewChild('searchRef', { static: true }) searchRef!: TemplateRef<any>;
   @ViewChild(WpxMediaComponent, { static: true }) mediaRef!: WpxMediaComponent;
-  @ViewChild(WpxQuickComponent, { static: true }) tagsRef!: WpxQuickComponent;
 
   ds?: WpxMediaDataSource;
   searchText = '';
@@ -33,14 +33,13 @@ export class VideosComponent implements OnInit {
     public app: AppService,
     private videos: VideosService,
     public tags: VideoTagsService,
-    private modal: NzModalService
+    private modal: NzModalService,
+    private drawer: NzDrawerService
   ) {}
 
   ngOnInit(): void {
-    this.getTags();
     this.ds = new WpxMediaDataSource(this.videos);
-    this.ds.filter = { shop_id: this.app.shopId };
-    this.ds.xfilter = { 'tags.$in': 'oids', shop_id: 'oid' };
+    this.getTags();
   }
 
   getData(refresh = false): void {
@@ -48,6 +47,7 @@ export class VideosComponent implements OnInit {
       return;
     }
     this.ds.filter = { shop_id: this.app.shopId };
+    this.ds.xfilter = { 'tags.$in': 'oids', shop_id: 'oid' };
     if (this.searchText) {
       this.ds.filter['name'] = { $regex: this.searchText };
     }
@@ -57,20 +57,27 @@ export class VideosComponent implements OnInit {
     this.ds.fetch(refresh);
   }
 
+  clear(): void {
+    this.searchText = '';
+    this.getData(true);
+  }
+
   getTags(name?: string): void {
     const filter: Record<string, any> = { shop_id: this.app.shopId };
-    const xfilter: Record<string, XFilter> = { shop_id: 'oid' };
     if (name) {
       filter['name'] = { $regex: name };
     }
-    this.tags.find(filter, { pagesize: 1000, xfilter }).subscribe(data => {
+    this.tags.find(filter, { pagesize: 1000, xfilter: { shop_id: 'oid' } }).subscribe(data => {
       this.tagItems = [...data];
     });
   }
 
-  clear(): void {
-    this.searchText = '';
-    this.getData(true);
+  openTags(): void {
+    this.drawer.create({
+      nzWidth: 600,
+      nzClosable: false,
+      nzContent: TagsComponent
+    });
   }
 
   upload(data: Transport[]): void {
@@ -87,27 +94,6 @@ export class VideosComponent implements OnInit {
         this.getData(true);
       });
   }
-
-  tagFilter = (ds: WpxData<AnyDto<VideoTag>>): void => {
-    ds.xfilter = { shop_id: 'oid' };
-    ds.filter.shop_id = this.app.shopId;
-  };
-
-  tagForm = (doc?: AnyDto<VideoTag>): void => {
-    this.modal.create<TagFormComponent, TagInputData>({
-      nzTitle: !doc ? $localize`新增` : $localize`编辑`,
-      nzContent: TagFormComponent,
-      nzData: {
-        shopId: this.app.shopId!,
-        doc: doc,
-        api: this.tags
-      },
-      nzOnOk: () => {
-        this.tagsRef.getData(true);
-        this.getTags();
-      }
-    });
-  };
 
   form = (doc: AnyDto<Video>): void => {
     this.modal.create<FormComponent, InputData>({
