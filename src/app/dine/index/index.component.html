@@ -22,12 +22,12 @@
     <nz-space>
       <ng-container *nzSpaceItem>
         <button nz-button nzType="primary" nzShape="circle" nz-tooltip="区位设置" i18n-nz-tooltip (click)="openAreas()">
-          <i nz-icon nzType="setting"></i>
+          <span nz-icon nzType="setting" nzTheme="outline"></span>
         </button>
       </ng-container>
       <ng-container *nzSpaceItem>
         <button nz-button nzType="primary" nzShape="circle" nz-tooltip="新增餐桌" i18n-nz-tooltip (click)="form()">
-          <span nz-icon nzType="plus"></span>
+          <span nz-icon nzType="plus" nzTheme="outline"></span>
         </button>
       </ng-container>
     </nz-space>
@@ -54,10 +54,10 @@
           </nz-input-group>
           <nz-button-group *nzSpaceItem>
             <button nz-button nzType="text" nz-tooltip="刷新" i18n-nz-tooltip (click)="getData()">
-              <i nz-icon nzType="reload"></i>
+              <span nz-icon nzType="reload"></span>
             </button>
             <button nz-button nzType="text" nz-tooltip="重置" i18n-nz-tooltip (click)="clear()">
-              <i nz-icon nzType="clear"></i>
+              <span nz-icon nzType="clear"></span>
             </button>
           </nz-button-group>
         </nz-space>

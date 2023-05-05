@@ -19,8 +19,7 @@ import { TableFormComponent, TableInputData } from '../table-form/table-form.com
 
 @Component({
   selector: 'app-dine-index',
-  templateUrl: './index.component.html',
-  styleUrls: ['./index.component.scss']
+  templateUrl: './index.component.html'
 })
 export class IndexComponent implements OnInit, OnDestroy {
   items: Array<AnyDto<Table>> = [];

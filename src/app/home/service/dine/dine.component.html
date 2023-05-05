@@ -7,7 +7,7 @@
     <nz-space>
       <ng-container *nzSpaceItem>
         <button nz-button nzType="primary" nzShape="circle" nz-tooltip="新增" i18n-nz-tooltip>
-          <i nz-icon nzType="plus"></i>
+          <span nz-icon nzType="plus"></span>
         </button>
       </ng-container>
     </nz-space>
@@ -31,10 +31,10 @@
           <ng-container *nzSpaceItem>
             <nz-button-group>
               <button nz-button nzType="text" nz-tooltip="刷新" i18n-nz-tooltip (click)="getData(true)">
-                <i nz-icon nzType="reload"></i>
+                <span nz-icon nzType="reload"></span>
               </button>
               <button nz-button nzType="text" nz-tooltip="重置" i18n-nz-tooltip (click)="clear()">
-                <i nz-icon nzType="clear"></i>
+                <span nz-icon nzType="clear"></span>
               </button>
             </nz-button-group>
           </ng-container>
@@ -78,7 +78,7 @@
           <th nzWidth="120px"><b>状态</b></th>
           <th nzWidth="60px" nzRight nzAlign="center">
             <button nz-button nzType="text" nzBlock disabled>
-              <i nz-icon nzType="setting"></i>
+              <span nz-icon nzType="setting"></span>
             </button>
           </th>
         </tr>
@@ -101,7 +101,7 @@
           </td>
           <td nzRight nzAlign="center">
             <button nz-button nzType="text" nz-dropdown [nzDropdownMenu]="menu">
-              <i nz-icon nzType="ellipsis"></i>
+              <span nz-icon nzType="ellipsis"></span>
             </button>
             <nz-dropdown-menu #menu="nzDropdownMenu">
               <ul nz-menu>

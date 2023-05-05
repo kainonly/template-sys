@@ -2,7 +2,7 @@
   <nz-page-header-title>动态配置</nz-page-header-title>
   <nz-page-header-extra>
     <button nzShape="circle" nz-button nzType="primary" (click)="form()" i18n>
-      <i nz-icon nzType="plus"></i>
+      <span nz-icon nzType="plus"></span>
     </button>
   </nz-page-header-extra>
   <nz-page-header-content>
@@ -19,10 +19,10 @@
       </nz-input-group>
       <nz-button-group *nzSpaceItem>
         <button nz-button nzType="text" nz-tooltip="刷新" i18n-nz-tooltip (click)="getData()">
-          <i nz-icon nzType="reload"></i>
+          <span nz-icon nzType="reload"></span>
         </button>
         <button nz-button nzType="text" nz-tooltip="重置" i18n-nz-tooltip (click)="clearSearch()">
-          <i nz-icon nzType="clear"></i>
+          <span nz-icon nzType="clear"></span>
         </button>
       </nz-button-group>
     </nz-space>
@@ -47,7 +47,7 @@
           <th><b i18n>键值</b></th>
           <th nzWidth="60px" nzRight nzAlign="center">
             <button nz-button nzType="text" nzBlock disabled>
-              <i nz-icon nzType="setting"></i>
+              <span nz-icon nzType="setting"></span>
             </button>
           </th>
         </tr>
@@ -65,7 +65,7 @@
           </td>
           <td nzRight nzAlign="center">
             <button nz-button nzType="text" nz-dropdown [nzDropdownMenu]="actions">
-              <i nz-icon nzType="ellipsis"></i>
+              <span nz-icon nzType="ellipsis"></span>
             </button>
             <nz-dropdown-menu #actions="nzDropdownMenu">
               <ul nz-menu>

@@ -1,5 +1,4 @@
 import { WpxPicture } from '@weplanx/ng/media';
-import { WpxQuick } from '@weplanx/ng/quick';
 
 export interface Picture extends WpxPicture {
   /**
@@ -12,9 +11,10 @@ export interface Picture extends WpxPicture {
   tags?: string[];
 }
 
-export interface PictureTag extends WpxQuick {
+export interface PictureTag {
   /**
    * 所属门店
    */
   shop_id: string;
+  name: string;
 }

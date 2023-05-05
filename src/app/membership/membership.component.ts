@@ -1,12 +1,11 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { AppService } from '@app';
 import { MemberLevel, MemberLevelDict } from '@common/interfaces/member-level';
 import { MemberLevelsService } from '@common/services/member-levels.service';
 import { AnyDto, Filter } from '@weplanx/ng';
-import { WpxQuickComponent } from '@weplanx/ng/quick';
 import { NzContextMenuService, NzDropdownMenuComponent } from 'ng-zorro-antd/dropdown';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
@@ -19,7 +18,6 @@ import { LevelFormComponent, LevelInputData } from './level-form/level-form.comp
   styleUrls: ['./membership.component.scss']
 })
 export class MembershipComponent implements OnInit, OnDestroy {
-  @ViewChild(WpxQuickComponent, { static: true }) levelsRef!: WpxQuickComponent;
   searchText = '';
   actionId?: string;
 

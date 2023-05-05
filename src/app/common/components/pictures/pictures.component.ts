@@ -5,9 +5,8 @@ import { FormComponent, InputData } from '@common/components/pictures/form/form.
 import { TagsComponent } from '@common/components/pictures/tags/tags.component';
 import { Picture, PictureTag } from '@common/interfaces/picture';
 import { PictureTagsService } from '@common/services/picture-tags.service';
-import { AnyDto, Filter, XFilter } from '@weplanx/ng';
+import { AnyDto, Filter } from '@weplanx/ng';
 import { PicturesService, WpxMediaComponent, WpxMediaDataSource } from '@weplanx/ng/media';
-import { WpxQuickComponent } from '@weplanx/ng/quick';
 import { Transport } from '@weplanx/ng/upload';
 import { NzDrawerService } from 'ng-zorro-antd/drawer';
 import { NzModalService } from 'ng-zorro-antd/modal';
@@ -22,7 +21,7 @@ export class PicturesComponent implements OnInit {
   @ViewChild('searchRef', { static: true }) searchRef!: TemplateRef<any>;
   @ViewChild(WpxMediaComponent, { static: true }) mediaRef!: WpxMediaComponent;
 
-  ds?: WpxMediaDataSource;
+  ds!: WpxMediaDataSource;
   searchText = '';
 
   tagItems: Array<AnyDto<PictureTag>> = [];
@@ -38,15 +37,12 @@ export class PicturesComponent implements OnInit {
 
   ngOnInit(): void {
     this.ds = new WpxMediaDataSource(this.pictures);
+    this.ds.xfilter = { 'tags.$in': 'oids' };
     this.getTags();
   }
 
   getData(refresh = false): void {
-    if (!this.ds) {
-      return;
-    }
-    this.ds.filter = { shop_id: this.app.shopId };
-    this.ds.xfilter = { 'tags.$in': 'oids', shop_id: 'oid' };
+    this.ds.filter = {};
     if (this.searchText) {
       this.ds.filter['name'] = { $regex: this.searchText };
     }

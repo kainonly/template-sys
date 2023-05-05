@@ -6,7 +6,6 @@ import { Video, VideoTag } from '@common/interfaces/video';
 import { VideoTagsService } from '@common/services/video-tags.service';
 import { AnyDto } from '@weplanx/ng';
 import { VideosService, WpxMediaComponent, WpxMediaDataSource } from '@weplanx/ng/media';
-import { WpxQuickComponent } from '@weplanx/ng/quick';
 import { Transport } from '@weplanx/ng/upload';
 import { NzDrawerService } from 'ng-zorro-antd/drawer';
 import { NzModalService } from 'ng-zorro-antd/modal';
@@ -23,7 +22,7 @@ export class VideosComponent implements OnInit {
   @ViewChild('searchRef', { static: true }) searchRef!: TemplateRef<any>;
   @ViewChild(WpxMediaComponent, { static: true }) mediaRef!: WpxMediaComponent;
 
-  ds?: WpxMediaDataSource;
+  ds!: WpxMediaDataSource;
   searchText = '';
 
   tagItems: Array<AnyDto<VideoTag>> = [];
@@ -43,9 +42,6 @@ export class VideosComponent implements OnInit {
   }
 
   getData(refresh = false): void {
-    if (!this.ds) {
-      return;
-    }
     this.ds.filter = { shop_id: this.app.shopId };
     this.ds.xfilter = { 'tags.$in': 'oids', shop_id: 'oid' };
     if (this.searchText) {

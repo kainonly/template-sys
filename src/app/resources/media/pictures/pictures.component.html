@@ -17,7 +17,7 @@
           i18n-nz-tooltip
           (click)="view.openTags()"
         >
-          <i nz-icon nzType="setting"></i>
+          <span nz-icon nzType="setting"></span>
         </button>
       </ng-container>
     </nz-space>
@@ -29,7 +29,7 @@
       </nz-col>
       <nz-col></nz-col>
       <nz-col>
-        <span *ngIf="view">共计 {{ view.ds?.total }} 个元素</span>
+        <span *ngIf="view">共计 {{ view.ds.total }} 个元素</span>
       </nz-col>
     </nz-row>
   </nz-page-header-content>

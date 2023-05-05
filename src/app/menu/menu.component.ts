@@ -6,7 +6,6 @@ import { AppService } from '@app';
 import { DishType } from '@common/interfaces/dish-type';
 import { DishTypesService } from '@common/services/dish-types.service';
 import { AnyDto, Filter } from '@weplanx/ng';
-import { WpxQuickComponent } from '@weplanx/ng/quick';
 import { NzContextMenuService, NzDropdownMenuComponent } from 'ng-zorro-antd/dropdown';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
@@ -19,7 +18,6 @@ import { TypeFormComponent, TypeInputData } from './type-form/type-form.componen
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent implements OnInit, OnDestroy {
-  @ViewChild(WpxQuickComponent, { static: true }) typesRef!: WpxQuickComponent;
   searchText = '';
 
   typeItems: Array<AnyDto<DishType>> = [];
