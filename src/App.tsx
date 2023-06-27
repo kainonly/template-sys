@@ -1,42 +1,14 @@
-import {
-  Breadcrumb,
-  Button,
-  Card,
-  Col,
-  ConfigProvider,
-  Divider,
-  Input,
-  Layout,
-  Menu,
-  MenuProps,
-  Row,
-  Space,
-  Table,
-  Tag,
-  theme
-} from 'antd';
-import {
-  AppstoreOutlined,
-  ClearOutlined,
-  FilterOutlined,
-  LaptopOutlined,
-  NotificationOutlined,
-  ReloadOutlined,
-  UserOutlined
-} from '@ant-design/icons';
-import React, { ReactNode } from 'react';
-import { ColumnsType } from 'antd/es/table';
-
-const { Header, Content, Sider } = Layout;
+import { Breadcrumb, Button, Col, ConfigProvider, Divider, Layout, Menu, MenuProps, Row, Space, theme } from 'antd';
+import { AppstoreOutlined, LaptopOutlined, NotificationOutlined, UserOutlined } from '@ant-design/icons';
+import { createElement, FC } from 'react';
+import { Outlet } from 'react-router-dom';
 
 const items2: MenuProps['items'] = [UserOutlined, LaptopOutlined, NotificationOutlined].map((icon, index) => {
   const key = String(index + 1);
-
   return {
     key: `sub${key}`,
-    icon: React.createElement(icon),
+    icon: createElement(icon),
     label: `subnav ${key}`,
-
     children: new Array(4).fill(null).map((_, j) => {
       const subKey = index * 4 + j + 1;
       return {
@@ -47,105 +19,7 @@ const items2: MenuProps['items'] = [UserOutlined, LaptopOutlined, NotificationOu
   };
 });
 
-const title: ReactNode = (
-  <Space>
-    <Input placeholder="搜索关键词" style={{ width: 180 }} bordered={false} />
-    <Button.Group>
-      <Button type="text">
-        <ReloadOutlined />
-      </Button>
-      <Button type="text">
-        <ClearOutlined />
-      </Button>
-      <Button type="text">
-        <FilterOutlined />
-      </Button>
-    </Button.Group>
-  </Space>
-);
-
-interface DataType {
-  key: string;
-  name: string;
-  age: number;
-  address: string;
-  tags: string[];
-}
-
-const columns: ColumnsType<DataType> = [
-  {
-    title: 'Name',
-    dataIndex: 'name',
-    key: 'name',
-    render: text => <a>{text}</a>
-  },
-  {
-    title: 'Age',
-    dataIndex: 'age',
-    key: 'age'
-  },
-  {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address'
-  },
-  {
-    title: 'Tags',
-    key: 'tags',
-    dataIndex: 'tags',
-    render: (_, { tags }) => (
-      <>
-        {tags.map(tag => {
-          let color = tag.length > 5 ? 'geekblue' : 'green';
-          if (tag === 'loser') {
-            color = 'volcano';
-          }
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          );
-        })}
-      </>
-    )
-  },
-  {
-    title: 'Action',
-    key: 'action',
-    render: (_, record) => (
-      <Space size="middle">
-        <a>Invite {record.name}</a>
-        <a>Delete</a>
-      </Space>
-    )
-  }
-];
-
-const data: DataType[] = [
-  {
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer']
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    tags: ['loser']
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sydney No. 1 Lake Park',
-    tags: ['cool', 'teacher']
-  }
-];
-
-const App: React.FC = () => {
+const App: FC = () => {
   const {
     token: { colorBgContainer }
   } = theme.useToken();
@@ -153,26 +27,27 @@ const App: React.FC = () => {
   return (
     <ConfigProvider>
       <Layout style={{ height: '100%' }}>
-        <Header className={'header'}>
+        <Layout.Header className={'header'}>
           <Row style={{ width: '100%' }} justify={'space-between'}>
             <Col>
               <Space split={<Divider type="vertical" />}>
-                <Button type="text">
+                <Button
+                  type="text"
+                  onClick={() => {
+                    console.log('ok');
+                  }}
+                >
                   <AppstoreOutlined />
                 </Button>
-                <Breadcrumb>
-                  <Breadcrumb.Item>首页</Breadcrumb.Item>
-                  <Breadcrumb.Item>List</Breadcrumb.Item>
-                  <Breadcrumb.Item>App</Breadcrumb.Item>
-                </Breadcrumb>
+                <Breadcrumb items={[{ title: '首页' }, { title: 'List' }, { title: 'App' }]}></Breadcrumb>
               </Space>
             </Col>
             <Col></Col>
             <Col>C</Col>
           </Row>
-        </Header>
+        </Layout.Header>
         <Layout>
-          <Sider width={200} style={{ background: colorBgContainer }}>
+          <Layout.Sider width={200} style={{ background: colorBgContainer }}>
             <Menu
               mode="inline"
               defaultSelectedKeys={['1']}
@@ -180,13 +55,11 @@ const App: React.FC = () => {
               style={{ height: '100%', borderRight: 0 }}
               items={items2}
             />
-          </Sider>
+          </Layout.Sider>
           <Layout style={{ padding: '6px 8px 0' }}>
-            <Content>
-              <Card title={title} extra={<Button type="primary">新增</Button>}>
-                <Table size={'middle'} columns={columns} dataSource={data} />
-              </Card>
-            </Content>
+            <Layout.Content>
+              <Outlet />
+            </Layout.Content>
           </Layout>
         </Layout>
       </Layout>
