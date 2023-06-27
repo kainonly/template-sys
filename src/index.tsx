@@ -1,25 +1,10 @@
-import { Breadcrumb, Button, Col, ConfigProvider, Divider, Layout, Menu, MenuProps, Row, Space, theme } from 'antd';
-import { AppstoreOutlined, LaptopOutlined, NotificationOutlined, UserOutlined } from '@ant-design/icons';
-import { createElement, FC } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Breadcrumb, Button, Col, ConfigProvider, Divider, Layout, Menu, Row, Space, theme } from 'antd';
+import { AppstoreOutlined, CoffeeOutlined, DesktopOutlined, HomeOutlined } from '@ant-design/icons';
+import { FC } from 'react';
+import { Link, Outlet } from 'react-router-dom';
+import './index.scss';
 
-const items2: MenuProps['items'] = [UserOutlined, LaptopOutlined, NotificationOutlined].map((icon, index) => {
-  const key = String(index + 1);
-  return {
-    key: `sub${key}`,
-    icon: createElement(icon),
-    label: `subnav ${key}`,
-    children: new Array(4).fill(null).map((_, j) => {
-      const subKey = index * 4 + j + 1;
-      return {
-        key: subKey,
-        label: `option${subKey}`
-      };
-    })
-  };
-});
-
-const App: FC = () => {
+const Index: FC = () => {
   const {
     token: { colorBgContainer }
   } = theme.useToken();
@@ -50,11 +35,13 @@ const App: FC = () => {
           <Layout.Sider width={200} style={{ background: colorBgContainer }}>
             <Menu
               mode="inline"
-              defaultSelectedKeys={['1']}
-              defaultOpenKeys={['sub1']}
               style={{ height: '100%', borderRight: 0 }}
-              items={items2}
-            />
+              items={[
+                { key: 'index', icon: <HomeOutlined />, label: <Link to={'/'}>首页</Link> },
+                { key: 'example1', icon: <DesktopOutlined />, label: <Link to={'/example1'}>案例 1</Link> },
+                { key: 'example2', icon: <CoffeeOutlined />, label: <Link to={'/example2'}>案例 2</Link> }
+              ]}
+            ></Menu>
           </Layout.Sider>
           <Layout style={{ padding: '6px 8px 0' }}>
             <Layout.Content>
@@ -67,4 +54,4 @@ const App: FC = () => {
   );
 };
 
-export default App;
+export default Index;

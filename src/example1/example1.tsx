@@ -1,6 +1,6 @@
 import { FC, ReactNode, useState } from 'react';
 import { Button, Card, Input, Space, Table, Tag } from 'antd';
-import { ClearOutlined, FilterOutlined, ReloadOutlined } from '@ant-design/icons';
+import { ClearOutlined, EllipsisOutlined, FilterOutlined, ReloadOutlined } from '@ant-design/icons';
 import { ColumnsType } from 'antd/es/table';
 
 const title: ReactNode = (
@@ -66,12 +66,14 @@ const columns: ColumnsType<DataType> = [
     )
   },
   {
-    title: 'Action',
+    title: '操作',
     key: 'action',
-    render: (_, record) => (
+    align: 'center',
+    render: () => (
       <Space size="middle">
-        <a>Invite {record.name}</a>
-        <a>Delete</a>
+        <Button type={'text'}>
+          <EllipsisOutlined />
+        </Button>
       </Space>
     )
   }
