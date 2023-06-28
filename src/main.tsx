@@ -5,6 +5,9 @@ import Index from './index.tsx';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Example1 } from './example1/example1.tsx';
 import { Example2 } from './example2/example2.tsx';
+import { ConfigProvider } from 'antd';
+
+import './global.less';
 
 const router = createBrowserRouter([
   {
@@ -25,6 +28,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <ConfigProvider>
+      <RouterProvider router={router} />
+    </ConfigProvider>
   </React.StrictMode>
 );
