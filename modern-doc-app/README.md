@@ -1,11 +1,11 @@
-# Modern.js App
+# Modern.js Website
 
 ## Setup
 
 Install the dependencies:
 
 ```bash
-npm install
+pnpm install
 ```
 
 ## Get Started
@@ -13,25 +13,19 @@ npm install
 Start the dev server:
 
 ```
-npm dev
+pnpm dev
 ```
 
-Enable optional features or add a new entry:
+Build the document site for production:
 
 ```
-npm new
-```
-
-Build the app for production:
-
-```
-npm build
+pnpm build
 ```
 
 Preview the production build locally:
 
 ```
-npm serve
+pnpm serve
 ```
 
-For more information, see the [Modern.js documentation](https://modernjs.dev/en).
+For more information, see the [Modern.js Doc documentation](https://modernjs.dev/doc-tools).
