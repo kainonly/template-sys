@@ -1,5 +1,5 @@
 {
-  "name": "ant-design-case",
+  "name": "antd-vite",
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",

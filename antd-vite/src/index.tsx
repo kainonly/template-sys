@@ -4,8 +4,8 @@ import { FC } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 
 const breadcrumbNameMap: Record<string, string> = {
-  '/example1': 'Example 1',
-  '/example2': 'Example 2'
+  '/example1': '案例 1',
+  '/example2': '案例 2'
 };
 
 const Index: FC = () => {
@@ -25,7 +25,7 @@ const Index: FC = () => {
 
   const breadcrumbItems = [
     {
-      title: <Link to="/">Home</Link>,
+      title: <Link to="/">首页</Link>,
       key: 'home'
     }
   ].concat(extraBreadcrumbItems);
